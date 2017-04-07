@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using LandLordRating.Models;
+using Microsoft.AspNet.Identity;
 
 namespace LandLordRating.Controllers
 {
@@ -124,5 +125,31 @@ namespace LandLordRating.Controllers
             }
             base.Dispose(disposing);
         }
+        //Create a Rating on a LandLord 
+
+        public ActionResult CreateRating()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateRating([Bind(Include = "RatingId,RatingName,RatingDescription,PropertyRating,LandLordRating,SafetyRating,CommunicationRating,RateAnonymously,User_Id")] Rating rating)
+        {
+            var userid = User.Identity.GetUserId();
+            rating.User = db.Users.FirstOrDefault(u => u.Id == userid);
+            if (ModelState.IsValid)
+            {
+                db.Ratings.Add(rating);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Index", "LandLords");
+        }
+
     }
+
+    
 }

@@ -293,6 +293,7 @@
     <Content Include="Views\LandLords\Details.cshtml" />
     <Content Include="Views\LandLords\Edit.cshtml" />
     <Content Include="Views\LandLords\Index.cshtml" />
+    <Content Include="Views\LandLords\CreateRating.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
