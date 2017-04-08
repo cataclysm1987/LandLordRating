@@ -18,7 +18,10 @@ namespace LandLordRating.Models
         public int SafetyRating { get; set; }
         public int CommunicationRating { get; set; }
         public YesNo RateAnonymously { get; set; }
+        
+        public int LandLordId { get; set; }
 
         public virtual ApplicationUser User { get; set; }
+        public virtual LandLord LandLord { get; set; }
     }
 }

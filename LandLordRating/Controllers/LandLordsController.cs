@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using LandLordRating.Models;
 using Microsoft.AspNet.Identity;
+using PagedList;
 
 namespace LandLordRating.Controllers
 {
@@ -125,10 +126,38 @@ namespace LandLordRating.Controllers
             }
             base.Dispose(disposing);
         }
+        //View a LandLord
+        public async Task<ActionResult> ViewLandLord(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            LandLord landLord = await db.LandLords.FindAsync(id);
+            if (landLord == null)
+            {
+                return HttpNotFound();
+            }
+            LandLordViewModel vm = new LandLordViewModel();
+            vm.LandLord = landLord;
+            vm.Ratings = db.Ratings.ToPagedList(1, 10);
+            return View(vm);
+        }
+
+
         //Create a Rating on a LandLord 
 
-        public ActionResult CreateRating()
+        public async Task<ActionResult> CreateRating(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            LandLord landLord = await db.LandLords.FindAsync(id);
+            if (landLord == null)
+            {
+                return HttpNotFound();
+            }
             return View();
         }
 
