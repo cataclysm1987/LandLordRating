@@ -61,7 +61,18 @@ namespace LandLordRating.Controllers
                     break;
             }
 
-            int pageSize = 3;
+            foreach (var landlord in db.LandLords)
+            {
+                var listofratings = db.Ratings.Where(u => u.LandLordId == landlord.LandLordId).Select(u=>u.LandLordRating).ToList();
+                if (listofratings.Count() != 0)
+                {
+                    double result = listofratings.Average();
+                    landlord.OverallRating = result;
+                }
+                
+            }
+
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
             return View(landlords.ToPagedList(pageNumber, pageSize));
         }
@@ -194,6 +205,13 @@ namespace LandLordRating.Controllers
                 return HttpNotFound();
             }
             ViewBag.Message = landLord.FullName;
+
+            var userid = User.Identity.GetUserId();
+            var ratings = db.Ratings.Where(u => u.User.Id == userid).Count(u => u.LandLordId == id);
+            if (ratings != 0)
+            {
+                return RedirectToAction("AlreadyCreated", "LandLords");
+            }
             Rating r = new Rating();
             r.LandLordId = (int) id;
             return View(r);
@@ -233,6 +251,26 @@ namespace LandLordRating.Controllers
             return View(ratinglist);
         }
 
+        public ActionResult ViewRating(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Rating rating = db.Ratings.Find(id);
+
+            if (rating == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(rating);
+        }
+
+        public ActionResult AlreadyCreated()
+        {
+            return View();
+        }
     }
 
     
