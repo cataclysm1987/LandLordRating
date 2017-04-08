@@ -1,0 +1,56 @@
+﻿@model LandLordRating.Models.Rating
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h2>Viewing Reviews For @Model.LandLord.FullName</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <h4>@Html.DisplayNameFor(model => model.RatingName)</h4>
+            <p>
+                @Html.DisplayFor(model => model.RatingName)
+            </p>
+        </div>
+        <div class="col-md-6">
+            <h4>@Html.DisplayNameFor(model => model.RatingDescription)</h4>
+            <p>
+                @Html.DisplayFor(model => model.RatingDescription)
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <h4>
+                @Html.DisplayNameFor(model => model.LandLordRating)
+            </h4>
+            <p>
+                @Html.DisplayFor(model => model.LandLordRating)
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h4>
+                @Html.DisplayNameFor(model => model.PropertyRating)
+            </h4>
+            <p>
+                @Html.DisplayFor(model => model.PropertyRating)
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h4>
+                @Html.DisplayNameFor(model => model.SafetyRating)
+            </h4>
+            <p>
+                @Html.DisplayFor(model => model.SafetyRating)
+            </p>
+        </div>
+    </div>
+   
+</div>
+<p>
+    @Html.ActionLink("Back to LandLord Details", "Details", "LandLords", new { id = Model.LandLordId }, new { @class = "btn btn-primary" })
+</p>

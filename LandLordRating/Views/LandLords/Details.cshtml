@@ -41,18 +41,52 @@
                 @Html.ActionLink("leave a review", "CreateRating", new {id = Model.LandLord.LandLordId})
                 @Html.Raw(".</h4>")
             }
-            @foreach (var rating in Model.LandLord.Ratings)
-            {
-                @Html.Raw("<div class=\"panel panel-default\">")
-                @Html.Raw("<div class=\"panel-body\">")
-                @Html.Raw("</div>")
-                @Html.Raw("</div>")
-            }
+            
+            <table class="table table-striped" id="landlordratingstable">
+                <thead>
+                    <tr>
+                        <th>
+                            Rating Name
+                        </th>
+                        <th>
+                            LandLord Rating
+                        </th>
+                        <th>
+                            Property Rating
+                        </th>
+                        <th>
+                            Safety Rating
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Ratings)
+                    {
+                        <tr>
+                            <td>
+                                @Html.ActionLink(@Html.DisplayFor(modelItem => item.RatingName).ToString(), "Details", new { id = item.LandLordId }, null)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LandLordRating)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PropertyRating)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SafetyRating)
+                            </td>
+                            <td>
+                                @Html.ActionLink("View Rating", "ViewRating", new { id = item.RatingId }, new { @class = "btn btn-primary" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            
         </div>
     </div>
 </div>
 <p>
-    @*No Need to let users edit land lord info
-    @Html.ActionLink("Edit", "Edit", new { id = Model.LandLordId }) |*@
-    @Html.ActionLink("Back to List", "Index", "LandLords", new { @class = "btn btn-primary" })
+    @Html.ActionLink("Back to LandLord Details", "Details", "LandLords", new { @class = "btn btn-primary", id = Model.LandLord.LandLordId })
 </p>

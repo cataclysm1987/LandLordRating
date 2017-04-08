@@ -233,6 +233,22 @@ namespace LandLordRating.Controllers
             return View(ratinglist);
         }
 
+        public ActionResult ViewRating(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Rating rating = db.Ratings.Find(id);
+
+            if (rating == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(rating);
+        }
+
     }
 
     
