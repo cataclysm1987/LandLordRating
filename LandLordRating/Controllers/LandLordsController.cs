@@ -80,7 +80,7 @@ namespace LandLordRating.Controllers
             }
             LandLordViewModel vm = new LandLordViewModel();
             vm.LandLord = landLord;
-            vm.Ratings = db.Ratings.Where(u => u.LandLordId == id).ToPagedList(1, 10);
+            vm.Ratings = db.Ratings.Where(u => u.LandLordId == id).OrderBy(u => u.LandLordRating).ToPagedList(1, 10);
             return View(vm);
         }
 
@@ -188,18 +188,21 @@ namespace LandLordRating.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             LandLord landLord = await db.LandLords.FindAsync(id);
-            ViewBag.LandLord = landLord;
+            
             if (landLord == null)
             {
                 return HttpNotFound();
             }
-            return View();
+            ViewBag.Message = landLord.FullName;
+            Rating r = new Rating();
+            r.LandLordId = (int) id;
+            return View(r);
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateRating([Bind(Include = "RatingId,RatingName,RatingDescription,PropertyRating,LandLordRating,SafetyRating,CommunicationRating,RateAnonymously,User_Id")] Rating rating)
+        public async Task<ActionResult> CreateRating([Bind(Include = "RatingId,RatingName,RatingDescription,PropertyRating,LandLordRating,SafetyRating,CommunicationRating,RateAnonymously,User_Id,LandLordId")] Rating rating)
         {
             var userid = User.Identity.GetUserId();
             rating.User = db.Users.FirstOrDefault(u => u.Id == userid);
@@ -211,6 +214,23 @@ namespace LandLordRating.Controllers
             }
 
             return RedirectToAction("Index", "LandLords");
+        }
+
+        public async Task<ActionResult> ViewRatingsForLandLord(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            LandLord landLord = await db.LandLords.FindAsync(id);
+
+            if (landLord == null)
+            {
+                return HttpNotFound();
+            }
+            var ratinglist = db.Ratings.Where(u => u.LandLordId == id).OrderBy(u=>u.LandLordRating).ToPagedList(1, 10);
+            ViewBag.Message = "Viewing Ratings for " + landLord.FullName;
+            return View(ratinglist);
         }
 
     }
