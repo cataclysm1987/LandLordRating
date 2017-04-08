@@ -61,7 +61,18 @@ namespace LandLordRating.Controllers
                     break;
             }
 
-            int pageSize = 3;
+            foreach (var landlord in db.LandLords)
+            {
+                var listofratings = db.Ratings.Where(u => u.LandLordId == landlord.LandLordId).Select(u=>u.LandLordRating).ToList();
+                if (listofratings.Count() != 0)
+                {
+                    double result = listofratings.Average();
+                    landlord.OverallRating = result;
+                }
+                
+            }
+
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
             return View(landlords.ToPagedList(pageNumber, pageSize));
         }
