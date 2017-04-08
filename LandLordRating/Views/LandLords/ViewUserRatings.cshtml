@@ -1,61 +1,56 @@
-﻿@model IEnumerable<LandLordRating.Models.LandLord>
+﻿@model PagedList.IPagedList<LandLordRating.Models.Rating>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "LandLords";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@section scripts{
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.13/af-2.1.3/b-1.2.4/datatables.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#landlordsTable').DataTable({
-                "bLengthChange": false,
-                "pageLength": 50
-            });
-        });
-    </script>
-}
-
-<h2>View Your Ratings</h2>
+<h2>Search for Land Lord</h2>
 <br />
-<p>Below is a list of all the properties you have left reviews for, if you wish to write a new review you can @Html.ActionLink("search for your landlord", "Index", "LandLords").</p>
+<p>Below is a list of your ratings</p>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Find by LandLord Name: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" class="btn btn-primary"/>
+    </p>
+}
 <table class="table table-striped" id="landlordsTable">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FullName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PhoneNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.City)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.State)
-            </th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>
+            Rating Name
+        </th>
+        <th>
+            LandLord
+        </th>
+        <th>
+            Rating
+        </th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
-        @*@foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.ActionLink(@Html.DisplayFor(modelItem => item.FullName).ToString(), "Details", new { id = item.LandLordId }, null)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PhoneNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.City)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.State)
-                </td>
-                <td>
-                    @Html.ActionLink("Write Review", "CreateRating", new { id = item.LandLordId }, new { @class = "btn btn-primary" })
-                </td>
-            </tr>
-            }*@
-        </tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.ActionLink(@Html.DisplayFor(modelItem => item.RatingName).ToString(), "ViewRating", new { id = item.RatingId }, null)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LandLord.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LandLordRating)
+            </td>
+        </tr>
+    }
+    </tbody>
 </table>
+
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

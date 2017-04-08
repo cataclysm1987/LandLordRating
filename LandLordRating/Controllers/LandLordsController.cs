@@ -103,7 +103,9 @@ namespace LandLordRating.Controllers
 
         public ActionResult ViewUserRatings()
         {
-            return View();
+            var userid = User.Identity.GetUserId();
+            var ratings = db.Ratings.Where(u => u.User.Id == userid).OrderBy(u=>u.RatingName).ToPagedList(1, 10);
+            return View(ratings);
         }
 
         // POST: LandLords/Create
