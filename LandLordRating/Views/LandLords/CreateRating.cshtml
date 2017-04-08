@@ -115,7 +115,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.AdditionalComments, htmlAttributes: new { @class = "control-label" })<br />
-                @Html.TextAreaFor(model => model.AdditionalComments, new { htmlAttributes = new { @class = "form-control"} })
+                @Html.TextAreaFor(model => model.AdditionalComments, new { htmlAttributes = new { @class = "form-control", rows="6"} })
                 @Html.ValidationMessageFor(model => model.AdditionalComments, "", new { @class = "text-danger" })
         </div>
 
