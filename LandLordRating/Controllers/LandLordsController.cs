@@ -78,7 +78,10 @@ namespace LandLordRating.Controllers
             {
                 return HttpNotFound();
             }
-            return View(landLord);
+            LandLordViewModel vm = new LandLordViewModel();
+            vm.LandLord = landLord;
+            vm.Ratings = db.Ratings.Where(u => u.LandLordId == id).ToPagedList(1, 10);
+            return View(vm);
         }
 
         // GET: LandLords/Create
@@ -173,23 +176,6 @@ namespace LandLordRating.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-        //View a LandLord
-        public async Task<ActionResult> ViewLandLord(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            LandLord landLord = await db.LandLords.FindAsync(id);
-            if (landLord == null)
-            {
-                return HttpNotFound();
-            }
-            LandLordViewModel vm = new LandLordViewModel();
-            vm.LandLord = landLord;
-            vm.Ratings = db.Ratings.ToPagedList(1, 10);
-            return View(vm);
         }
 
 
