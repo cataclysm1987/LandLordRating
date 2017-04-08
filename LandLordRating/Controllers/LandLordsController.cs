@@ -202,7 +202,6 @@ namespace LandLordRating.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             LandLord landLord = await db.LandLords.FindAsync(id);
-            ViewBag.LandLord = landLord;
             if (landLord == null)
             {
                 return HttpNotFound();
