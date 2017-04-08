@@ -202,7 +202,7 @@ namespace LandLordRating.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateRating([Bind(Include = "RatingId,RatingName,RatingDescription,PropertyRating,LandLordRating,SafetyRating,CommunicationRating,RateAnonymously,User_Id,LandLordId")] Rating rating)
+        public async Task<ActionResult> CreateRating([Bind(Include = "RatingId,RatingName,VoucherUser,Safty,FireExtinguisher,SmokeDetectors,CarbonMonoxcide,LateFees,LandLordNotice,LandLordResponse,ContactPhoneNumer,RecommendLandLord,RentIncrease,WrittenLease,Eviction,EndLease,TimesHaveMoved,AdditionalComments,LandLordRating,RateAnonymously,User_Id,LandLordId")] Rating rating)
         {
             var userid = User.Identity.GetUserId();
             rating.User = db.Users.FirstOrDefault(u => u.Id == userid);
