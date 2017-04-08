@@ -8,44 +8,45 @@
 <h2>Details</h2>
 
 <div>
-    <h4>LandLord</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.FullName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FullName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.City)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.State)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.State)
-        </dd>
-
-    </dl>
+    <h2>Viewing Reviews For @Model.FullName</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <h4>@Html.DisplayNameFor(model => model.PhoneNumber)</h4>
+            <p>
+                @Html.DisplayFor(model => model.PhoneNumber)
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h4>@Html.DisplayNameFor(model => model.City)</h4>
+            <p>
+                @Html.DisplayFor(model => model.City)
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h4>
+                @Html.DisplayNameFor(model => model.State)
+            </h4>
+            <p>
+                @Html.DisplayFor(model => model.State)
+            </p>
+        </div>
+    </div>
+    @if (Model.Ratings.Count == 0)
+    {
+        @Html.Raw("<h4>There are no reviews for this landlord yet, be the first to ")
+        @Html.ActionLink("leave a review", "CreateRating", new { id = Model.LandLordId })
+        @Html.Raw(".</h4>")
+    }
+    @foreach (var rating in Model.Ratings)
+    {
+        @Html.Raw("<div class=\"panel panel-default\">")
+        @Html.Raw("<div class=\"panel-body\">")
+        @Html.Raw("</div>")
+        @Html.Raw("</div>")
+    }
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.LandLordId }) |
-    @Html.ActionLink("Back to List", "Index")
+    @*No Need to let users edit land lord info
+    @Html.ActionLink("Edit", "Edit", new { id = Model.LandLordId }) |*@
+    @Html.ActionLink("Back to List", "Index", "LandLords", new { @class = "btn btn-primary" })
 </p>

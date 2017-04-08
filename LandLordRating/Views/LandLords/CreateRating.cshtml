@@ -10,10 +10,10 @@
 
 @using (Html.BeginForm()) 
 {
-    //@Html.AntiForgeryToken()
+    @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>LandLord</h4>
+        <h4>Leaving Review of @ViewBag.LandLord.FullName</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">

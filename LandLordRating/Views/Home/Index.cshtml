@@ -8,14 +8,13 @@
     <div class="row">
         <div class="col-sm-6">
             <p class="lead">
-                @Html.ActionLink("Search", "Search", "Home", null, new {role="button", @class = "btn btn-primary btn-lg" })
+                @Html.ActionLink("Search for Landlords", "Index", "LandLords", null, new {role="button", @class = "btn btn-primary btn-lg" })
             </p>
         </div>
         <div class="col-sm-6">
             <p class="lead">
                 @if (Request.IsAuthenticated)
                 {
-                    @Html.ActionLink("Review Landlord", "Create", "Landlords", new object { }, new {@class = "btn btn-primary btn-lg" })
                 }
                 else
                 {

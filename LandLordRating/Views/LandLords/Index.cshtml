@@ -8,17 +8,17 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.13/af-2.1.3/b-1.2.4/datatables.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('#landlordsTable').DataTable();
+            $('#landlordsTable').DataTable({
+                "bLengthChange": false,
+                "pageLength": 50
+            });
         });
     </script>
 }
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table" id="landlordsTable">
+<h2>Search for Land Lord</h2>
+<p>Below is a list of all landlords we have information on.  Search the list to see if your property or landlord is on our list.  If you cannot find your landlord you are free to @Html.ActionLink("Create New", "Create") a new landlord.</p>
+<table class="table table-striped" id="landlordsTable">
     <thead>
         <tr>
             <th>
@@ -40,7 +40,7 @@
         @foreach (var item in Model) {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FullName)
+                    @Html.ActionLink(@Html.DisplayFor(modelItem => item.FullName).ToString(), "Details", new { id = item.LandLordId }, null)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.PhoneNumber)
@@ -52,9 +52,7 @@
                     @Html.DisplayFor(modelItem => item.State)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.LandLordId }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.LandLordId }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.LandLordId })
+                    @Html.ActionLink("Write Review", "CreateRating", new { id = item.LandLordId }, new { @class = "btn btn-primary" })
                 </td>
             </tr>
             }
