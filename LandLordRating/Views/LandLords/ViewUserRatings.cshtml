@@ -16,9 +16,9 @@
     </script>
 }
 
-<h2>Search for Land Lord</h2>
+<h2>View Your Ratings</h2>
 <br />
-<p>Below is a list of all landlords we have information on.  Search the list to see if your property or landlord is on our list.  If you cannot find your landlord you are free to @Html.ActionLink("Create New", "Create") a new landlord.</p>
+<p>Below is a list of all the properties you have left reviews for, if you wish to write a new review you can @Html.ActionLink("search for your landlord", "Index", "LandLords").</p>
 <table class="table table-striped" id="landlordsTable">
     <thead>
         <tr>
@@ -38,7 +38,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model) {
+        @*@foreach (var item in Model) {
             <tr>
                 <td>
                     @Html.ActionLink(@Html.DisplayFor(modelItem => item.FullName).ToString(), "Details", new { id = item.LandLordId }, null)
@@ -56,6 +56,6 @@
                     @Html.ActionLink("Write Review", "CreateRating", new { id = item.LandLordId }, new { @class = "btn btn-primary" })
                 </td>
             </tr>
-            }
+            }*@
         </tbody>
 </table>

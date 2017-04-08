@@ -31,6 +31,7 @@
             </p>
         </div>
     </div>
+    <hr />
     @if (Model.Ratings.Count == 0)
     {
         @Html.Raw("<h4>There are no reviews for this landlord yet, be the first to ")
@@ -45,6 +46,7 @@
         @Html.Raw("</div>")
     }
 </div>
+<hr />
 <p>
     @*No Need to let users edit land lord info
     @Html.ActionLink("Edit", "Edit", new { id = Model.LandLordId }) |*@
