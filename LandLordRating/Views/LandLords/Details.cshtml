@@ -56,12 +56,6 @@
                         <th>
                             LandLord Rating
                         </th>
-                        <th>
-                            Property Rating
-                        </th>
-                        <th>
-                            Safety Rating
-                        </th>
                         <th></th>
                     </tr>
                 </thead>
@@ -74,12 +68,6 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.LandLordRating)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.PropertyRating)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.SafetyRating)
                             </td>
                             <td>
                                 @Html.ActionLink("View Rating", "ViewRating", new { id = item.RatingId }, new { @class = "btn btn-primary" })

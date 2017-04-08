@@ -10,21 +10,149 @@
 <div>
     <h2>Viewing Reviews For @Model.LandLord.FullName</h2>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <h4>@Html.DisplayNameFor(model => model.RatingName)</h4>
             <p>
                 @Html.DisplayFor(model => model.RatingName)
             </p>
         </div>
+    </div>
+    <div class="row">
         <div class="col-md-6">
-            <h4>@Html.DisplayNameFor(model => model.RatingDescription)</h4>
+            <h4>
+                @Html.DisplayNameFor(model => model.Safty)
+            </h4>
             <p>
-                @Html.DisplayFor(model => model.RatingDescription)
+                @Html.DisplayFor(model => model.Safty)
+            </p>
+        </div>
+        <div class="col-md-6">
+            <h4>
+                @Html.DisplayNameFor(model => model.VoucherUser)
+            </h4>
+            <p>
+                @Html.DisplayFor(model => model.VoucherUser)
             </p>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
+            <h4>
+                @Html.DisplayNameFor(model => model.FireExtinguisher)
+            </h4>
+            <p>
+                @Html.DisplayFor(model => model.FireExtinguisher)
+            </p>
+        </div>
+        <div class="col-md-6">
+            <h4>
+                @Html.DisplayNameFor(model => model.SmokeDetectors)
+            </h4>
+            <p>
+                @Html.DisplayFor(model => model.SmokeDetectors)
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <h4>
+                @Html.DisplayNameFor(model => model.CarbonMonoxcide)
+            </h4>
+            <p>
+                @Html.DisplayFor(model => model.CarbonMonoxcide)
+            </p>
+        </div>
+        <div class="col-md-6">
+            <h4>
+                @Html.DisplayNameFor(model => model.LateFees)
+            </h4>
+            <p>
+                @Html.DisplayFor(model => model.LateFees)
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <h4>
+                @Html.DisplayNameFor(model => model.LandLordNotice)
+            </h4>
+            <p>
+                @Html.DisplayFor(model => model.LandLordNotice)
+            </p>
+        </div>
+        <div class="col-md-6">
+            <h4>
+                @Html.DisplayNameFor(model => model.LandLordResponse)
+            </h4>
+            <p>
+                @Html.DisplayFor(model => model.LandLordResponse)
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <h4>
+                @Html.DisplayNameFor(model => model.ContactPhoneNumer)
+            </h4>
+            <p>
+                @Html.DisplayFor(model => model.ContactPhoneNumer)
+            </p>
+        </div>
+        <div class="col-md-6">
+            <h4>
+                @Html.DisplayNameFor(model => model.RecommendLandLord)
+            </h4>
+            <p>
+                @Html.DisplayFor(model => model.RecommendLandLord)
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <h4>
+                @Html.DisplayNameFor(model => model.RentIncrease)
+            </h4>
+            <p>
+                @Html.DisplayFor(model => model.RentIncrease)
+            </p>
+        </div>
+        <div class="col-md-6">
+            <h4>
+                @Html.DisplayNameFor(model => model.WrittenLease)
+            </h4>
+            <p>
+                @Html.DisplayFor(model => model.WrittenLease)
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <h4>
+                @Html.DisplayNameFor(model => model.Eviction)
+            </h4>
+            <p>
+                @Html.DisplayFor(model => model.Eviction)
+            </p>
+        </div>
+        <div class="col-md-6">
+            <h4>
+                @Html.DisplayNameFor(model => model.EndLease)
+            </h4>
+            <p>
+                @Html.DisplayFor(model => model.EndLease)
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <h4>
+                @Html.DisplayNameFor(model => model.TimesHaveMoved)
+            </h4>
+            <p>
+                @Html.DisplayFor(model => model.TimesHaveMoved)
+            </p>
+        </div>
+        <div class="col-md-12">
             <h4>
                 @Html.DisplayNameFor(model => model.LandLordRating)
             </h4>
@@ -32,24 +160,17 @@
                 @Html.DisplayFor(model => model.LandLordRating)
             </p>
         </div>
-        <div class="col-md-4">
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <h4>
-                @Html.DisplayNameFor(model => model.PropertyRating)
+                @Html.DisplayNameFor(model => model.AdditionalComments)
             </h4>
             <p>
-                @Html.DisplayFor(model => model.PropertyRating)
-            </p>
-        </div>
-        <div class="col-md-4">
-            <h4>
-                @Html.DisplayNameFor(model => model.SafetyRating)
-            </h4>
-            <p>
-                @Html.DisplayFor(model => model.SafetyRating)
+                @Html.DisplayFor(model => model.AdditionalComments)
             </p>
         </div>
     </div>
-   
 </div>
 <p>
     @Html.ActionLink("Back to LandLord Details", "Details", "LandLords", new { id = Model.LandLordId }, new { @class = "btn btn-primary" })
