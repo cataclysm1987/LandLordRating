@@ -18,9 +18,52 @@ namespace LandLordRating.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: LandLords
-        public async Task<ActionResult> Index()
+        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            return View(await db.LandLords.ToListAsync());
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+
+            var landlords = from s in db.LandLords
+                           select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                landlords = landlords.Where(s => s.FullName.Contains(searchString)
+                                                 || s.City.Contains(searchString)
+                                                 || s.State.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    landlords = landlords.OrderByDescending(s => s.FullName);
+                    break;
+                case "Date":
+                    landlords = landlords.OrderBy(s => s.OverallRating);
+                    break;
+                case "date_desc":
+                    landlords = landlords.OrderByDescending(s => s.OverallRating);
+                    break;
+                default:  // Name ascending 
+                    landlords = landlords.OrderBy(s => s.FullName);
+                    break;
+            }
+
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            return View(landlords.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: LandLords/Details/5
