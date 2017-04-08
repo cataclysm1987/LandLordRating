@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "AlreadyCreated";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (ViewBag.Message != null)
+{
+    <h2>Error. You Have Already Created a Rating for @ViewBag.Message</h2>
+}
+else
+{
+    <h2>Error. You Have Already Created a Rating for this LandLord</h2>
+}
+
+<p>Users are only allowed to submit one rating per landlord. Please submit a review for another landlord.</p>
+

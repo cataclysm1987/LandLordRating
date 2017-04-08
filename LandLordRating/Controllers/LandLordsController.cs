@@ -194,6 +194,13 @@ namespace LandLordRating.Controllers
                 return HttpNotFound();
             }
             ViewBag.Message = landLord.FullName;
+
+            var userid = User.Identity.GetUserId();
+            var ratings = db.Ratings.Where(u => u.User.Id == userid).Count(u => u.LandLordId == id);
+            if (ratings != 0)
+            {
+                return RedirectToAction("AlreadyCreated", "LandLords");
+            }
             Rating r = new Rating();
             r.LandLordId = (int) id;
             return View(r);
@@ -249,6 +256,10 @@ namespace LandLordRating.Controllers
             return View(rating);
         }
 
+        public ActionResult AlreadyCreated()
+        {
+            return View();
+        }
     }
 
     
