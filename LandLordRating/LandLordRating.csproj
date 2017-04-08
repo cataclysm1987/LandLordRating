@@ -250,6 +250,18 @@
     <Content Include="Content\bootstrap-lumen.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\datatables\buttons.bootstrap.css" />
+    <Content Include="Content\datatables\buttons.bootstrap.min.css" />
+    <Content Include="Content\datatables\buttons.bootstrap4.css" />
+    <Content Include="Content\datatables\buttons.bootstrap4.min.css" />
+    <Content Include="Content\datatables\buttons.dataTables.css" />
+    <Content Include="Content\datatables\buttons.dataTables.min.css" />
+    <Content Include="Content\datatables\buttons.foundation.css" />
+    <Content Include="Content\datatables\buttons.foundation.min.css" />
+    <Content Include="Content\datatables\buttons.jqueryui.css" />
+    <Content Include="Content\datatables\buttons.jqueryui.min.css" />
+    <Content Include="Content\datatables\buttons.semanticui.css" />
+    <Content Include="Content\datatables\buttons.semanticui.min.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -260,6 +272,8 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\datatables\common.scss" />
+    <Content Include="Content\datatables\mixins.scss" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -268,6 +282,26 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\datatables\buttons.bootstrap.js" />
+    <Content Include="Scripts\datatables\buttons.bootstrap.min.js" />
+    <Content Include="Scripts\datatables\buttons.bootstrap4.js" />
+    <Content Include="Scripts\datatables\buttons.bootstrap4.min.js" />
+    <Content Include="Scripts\datatables\buttons.colVis.js" />
+    <Content Include="Scripts\datatables\buttons.colVis.min.js" />
+    <Content Include="Scripts\datatables\buttons.flash.js" />
+    <Content Include="Scripts\datatables\buttons.flash.min.js" />
+    <Content Include="Scripts\datatables\buttons.foundation.js" />
+    <Content Include="Scripts\datatables\buttons.foundation.min.js" />
+    <Content Include="Scripts\datatables\buttons.html5.js" />
+    <Content Include="Scripts\datatables\buttons.html5.min.js" />
+    <Content Include="Scripts\datatables\buttons.jqueryui.js" />
+    <Content Include="Scripts\datatables\buttons.jqueryui.min.js" />
+    <Content Include="Scripts\datatables\buttons.print.js" />
+    <Content Include="Scripts\datatables\buttons.print.min.js" />
+    <Content Include="Scripts\datatables\buttons.semanticui.js" />
+    <Content Include="Scripts\datatables\buttons.semanticui.min.js" />
+    <Content Include="Scripts\datatables\dataTables.buttons.js" />
+    <Content Include="Scripts\datatables\dataTables.buttons.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -312,6 +346,7 @@
     <Content Include="Views\LandLords\Edit.cshtml" />
     <Content Include="Views\LandLords\Index.cshtml" />
     <Content Include="Views\LandLords\CreateRating.cshtml" />
+    <Content Include="Views\Home\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
