@@ -87,6 +87,11 @@ namespace LandLordRating.Controllers
             return View();
         }
 
+        public ActionResult ViewUserRatings()
+        {
+            return View();
+        }
+
         // POST: LandLords/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
