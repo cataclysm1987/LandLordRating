@@ -32,7 +32,7 @@
         </div>
     </div>
     <div class="row">
-        <h1>Overall LandLord Rating: @Html.DisplayFor(model => model.LandLord.OverallRating)</h1>
+        <h1>Reviews For This LandLord</h1>
         <div class="col-md-12">
 
             @if (Model.LandLord.Ratings.Count == 0)
@@ -41,8 +41,12 @@
                 @Html.ActionLink("leave a review", "CreateRating", new {id = Model.LandLord.LandLordId})
                 @Html.Raw(".</h4>")
             }
+            else
+            {
+                @Html.ActionLink("Leave a Rating", "CreateRating", new { id = Model.LandLord.LandLordId })
+            }
+
             
-            @Html.ActionLink("Leave a Rating", "CreateRating", new { id = Model.LandLord.LandLordId })
             <table class="table table-striped" id="landlordratingstable">
                 <thead>
                     <tr>
