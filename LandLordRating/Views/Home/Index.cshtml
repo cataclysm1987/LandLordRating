@@ -1,10 +1,19 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+
+@section scripts{
+    <script>
+        $('.carousel').carousel({
+            interval: false
+        }); 
+    </script>
+}
+
 <div id="myCarousel" class="carousel slide">
     <div class="carousel-inner">
         <div class="item active">
-            <img src='@Url.Content("~/Content/img/slider1.jpg")' class="img-responsive" style="min-width: 100%">
+            <img src='@Url.Content("~/Content/img/slider1.jpg")' class="img-responsive" style="min-width: 100%; max-hei>
             <div class="container">
                 <div class="carousel-caption" style="background: rgba(0,0,0,0.7);">
                     <p class="lead">Landlord Watch helps renters keep their landlord accountable and lets new tennats look up renters past experiences before signing a lease.</p>
@@ -45,10 +54,9 @@
 
 <div class="row">
     <div class="col-sm-12">
-        <h2>About Landlord Watch</h2>
+        <h2>Welcome to CMHA Landlord Watch</h2>
         <p>
-            Some fluffy mumbo jumbo<br />
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+            CMHA Landlord Watch recognizes landlords who care about their community.  CMHA LabdLord Wath gives landlords feedback to help them identify concerns of residents who have previously live in rental property owned by the landlord.
         </p>
     </div>
 </div>
