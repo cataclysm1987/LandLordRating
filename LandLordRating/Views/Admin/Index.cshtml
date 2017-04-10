@@ -1,0 +1,80 @@
+﻿@using System.Collections
+@using PagedList.Mvc
+@model LandLordRating.Models.AdminPanelViewModel
+
+@{
+    ViewBag.Title = "Admin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Admin</h2>
+
+<h3>Welcome to the Admin Area</h3>
+
+<div class="container">
+    <div class="row" style ="min-height: 200px;">
+        <div id="col-md-4">
+            Current User Count: @Model.Users
+        </div>
+        <div id="col-md-4">
+            Current LandLord Count: @Model.LandLords
+        </div>
+        <div id="col-md-4">
+            Current Ratings Count: @Model.Ratings
+        </div>
+    </div>
+    <div class="row" style="min-height: 200px;">
+        <div id="col-md-12, col-sm-12">
+            <table class="table table-striped" id="landlordsawaitingapprovaltable">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.ActionLink("Full Name", "Index", new { sortOrder = ViewBag.NameSortParm })
+                        </th>
+                        <th>
+                            LandLord Rating
+                        </th>
+                        <th>
+                            City
+                        </th>
+                        <th>
+                            State
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in (IEnumerable) Model.AwaitingApprovalList)
+                    {
+                        <tr>
+                            <td>
+                                @Html.ActionLink(@Html.DisplayFor(modelItem => item.).ToString(), "Details", new { id = item.LandLordId }, null)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OverallRating)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.City)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.State)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Write Rating", "CreateRating", new { id = item.LandLordId }, new { @class = "btn btn-primary" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <br />
+            Page @(Model.AwaitingApprovalList.PageCount < Model.AwaitingApprovalList.PageNumber ? 0 : Model.AwaitingApprovalList.PageNumber) of @Model.AwaitingApprovalList.PageCount
+
+            @Html.PagedListPager(Model.AwaitingApprovalList, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+        </div>
+    </div>
+    <div class="row" style="min-height: 200px;">
+
+    </div>
+</div>

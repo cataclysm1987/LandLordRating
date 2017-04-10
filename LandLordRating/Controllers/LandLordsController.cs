@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using LandLordRating.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using PagedList;
 
 namespace LandLordRating.Controllers
@@ -115,6 +116,14 @@ namespace LandLordRating.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "LandLordId,FullName,PhoneNumber,City,State")] LandLord landLord)
         {
+            if (IsAdminUser())
+            {
+                landLord.IsApproved = true;
+            }
+            else
+            {
+                landLord.IsApproved = false;
+            }
             if (ModelState.IsValid)
             {
                 db.LandLords.Add(landLord);
@@ -145,8 +154,9 @@ namespace LandLordRating.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "LandLordId,FullName,PhoneNumber,City,State")] LandLord landLord)
+        public async Task<ActionResult> Edit([Bind(Include = "LandLordId,FullName,PhoneNumber,City,State,IsApproved")] LandLord landLord)
         {
+            if (IsAdminUser())
             if (ModelState.IsValid)
             {
                 db.Entry(landLord).State = EntityState.Modified;
@@ -222,7 +232,7 @@ namespace LandLordRating.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateRating([Bind(Include = "RatingId,RatingName,VoucherUser,Safty,FireExtinguisher,SmokeDetectors,CarbonMonoxcide,LateFees,LandLordNotice,LandLordResponse,ContactPhoneNumer,RecommendLandLord,RentIncrease,WrittenLease,Eviction,EndLease,TimesHaveMoved,AdditionalComments,LandLordRating,RateAnonymously,User_Id,LandLordId")] Rating rating)
+        public async Task<ActionResult> CreateRating([Bind(Include = "RatingId,RatingName,LateFees,LandLordNotice,LandLordResponse,ContactPhoneNumer,RecommendLandLord,RentIncrease,WrittenLease,LandLordRating,RateAnonymously,User_Id,LandLordId,RatingDescription")] Rating rating)
         {
             var userid = User.Identity.GetUserId();
             rating.User = db.Users.FirstOrDefault(u => u.Id == userid);
@@ -272,6 +282,26 @@ namespace LandLordRating.Controllers
         public ActionResult AlreadyCreated()
         {
             return View();
+        }
+
+        public bool IsAdminUser()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = User.Identity;
+                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+                var s = UserManager.GetRoles(user.GetUserId());
+                for (int i = 0; i < s.Count; i++)
+                {
+                    if (s[i] == "Admin")
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+            return false;
         }
     }
 

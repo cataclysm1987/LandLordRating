@@ -6,17 +6,6 @@
     ViewBag.Title = "LandLords";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@section scripts{
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.13/af-2.1.3/b-1.2.4/datatables.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#landlordsTable').DataTable({
-                "bLengthChange": false,
-                "pageLength": 50
-            });
-        });
-    </script>
-}
 
 <h2>Search for Land Lord</h2>
 <br />

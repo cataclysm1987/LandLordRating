@@ -26,6 +26,8 @@ namespace LandLordRating.Models
         [Display(Name ="Overall Rating")]
         public double OverallRating { get; set; }
 
+        public bool IsApproved { get; set; }
+
 
         public LandLord()
         {

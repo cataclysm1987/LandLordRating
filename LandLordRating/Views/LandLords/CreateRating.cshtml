@@ -17,34 +17,17 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(u => u.LandLordId)
+
         <div class="form-group">
             @Html.LabelFor(model => model.RatingName, htmlAttributes: new { @class = "control-label" })<br />
-                @Html.EditorFor(model => model.RatingName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.RatingName, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.RatingName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.RatingName, "", new { @class = "text-danger" })
         </div>
-
+       
         <div class="form-group">
-            @Html.LabelFor(model => model.VoucherUser, htmlAttributes: new { @class = "control-label" })<br />
-                @Html.EnumDropDownListFor(model => model.VoucherUser, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.VoucherUser, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.FireExtinguisher, htmlAttributes: new { @class = "control-label" })<br />
-                @Html.EnumDropDownListFor(model => model.FireExtinguisher, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FireExtinguisher, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.SmokeDetectors, htmlAttributes: new { @class = "control-label" })<br />
-                @Html.EnumDropDownListFor(model => model.SmokeDetectors, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.SmokeDetectors, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CarbonMonoxcide, htmlAttributes: new { @class = "control-label" })<br />
-                @Html.EnumDropDownListFor(model => model.CarbonMonoxcide, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CarbonMonoxcide, "", new { @class = "text-danger" })
+            @Html.LabelFor(model => model.RatingDescription, htmlAttributes: new { @class = "control-label" })<br />
+            @Html.TextAreaFor(model => model.RatingDescription, new { htmlAttributes = new { @class = "form-control", @style="width: 100%;" } })
+            @Html.ValidationMessageFor(model => model.RatingDescription, "", new { @class = "text-danger" })
         </div>
 
         <div class="form-group">
@@ -66,42 +49,6 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.RecommendLandLord, htmlAttributes: new { @class = "control-label" })<br />
-                @Html.EnumDropDownListFor(model => model.RecommendLandLord, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.RecommendLandLord, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.RecommendLandLord, htmlAttributes: new { @class = "control-label" })<br />
-                @Html.EnumDropDownListFor(model => model.RentIncrease, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.RentIncrease, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.WrittenLease, htmlAttributes: new { @class = "control-label" })<br />
-                @Html.EnumDropDownListFor(model => model.WrittenLease, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.WrittenLease, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Eviction, htmlAttributes: new { @class = "control-label" })<br />
-                @Html.EnumDropDownListFor(model => model.Eviction, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Eviction, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.EndLease, htmlAttributes: new { @class = "control-label" })<br />
-                @Html.EnumDropDownListFor(model => model.EndLease, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EndLease, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.TimesHaveMoved, htmlAttributes: new { @class = "control-label" })<br />
-                @Html.EditorFor(model => model.TimesHaveMoved, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @max = "10" } })
-                @Html.ValidationMessageFor(model => model.TimesHaveMoved, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group">
             @Html.LabelFor(model => model.RateAnonymously, htmlAttributes: new { @class = "control-label" })<br />
                 @Html.EnumDropDownListFor(model => model.RateAnonymously, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.RateAnonymously, "", new { @class = "text-danger" })
@@ -111,12 +58,6 @@
             @Html.LabelFor(model => model.LandLordRating, htmlAttributes: new { @class = "control-label" })<br />
                 @Html.EditorFor(model => model.LandLordRating, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @max = "10" } })
                 @Html.ValidationMessageFor(model => model.LandLordRating, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.AdditionalComments, htmlAttributes: new { @class = "control-label" })<br />
-                @Html.TextAreaFor(model => model.AdditionalComments, new { htmlAttributes = new { @class = "form-control", rows="6"} })
-                @Html.ValidationMessageFor(model => model.AdditionalComments, "", new { @class = "text-danger" })
         </div>
 
         <div class="form-group">

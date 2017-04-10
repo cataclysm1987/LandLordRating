@@ -204,6 +204,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LandLordsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -242,8 +243,17 @@
     <Compile Include="Migrations\201704081539271_redoRating.Designer.cs">
       <DependentUpon>201704081539271_redoRating.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704101805590_removeunwantedprops.cs" />
+    <Compile Include="Migrations\201704101805590_removeunwantedprops.Designer.cs">
+      <DependentUpon>201704101805590_removeunwantedprops.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704101846506_landlordapproval.cs" />
+    <Compile Include="Migrations\201704101846506_landlordapproval.Designer.cs">
+      <DependentUpon>201704101846506_landlordapproval.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AdminPanelViewModel.cs" />
     <Compile Include="Models\Complaint.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LandLord.cs" />
@@ -359,6 +369,7 @@
     <Content Include="Views\LandLords\ViewRating.cshtml" />
     <Content Include="Views\LandLords\AlreadyCreated.cshtml" />
     <Content Include="Views\LandLords\ViewUserRatings.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -395,6 +406,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704081539271_redoRating.resx">
       <DependentUpon>201704081539271_redoRating.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704101805590_removeunwantedprops.resx">
+      <DependentUpon>201704101805590_removeunwantedprops.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704101846506_landlordapproval.resx">
+      <DependentUpon>201704101846506_landlordapproval.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
