@@ -56,13 +56,32 @@
         
         <div class="form-group">
             @Html.LabelFor(model => model.LandLordRating, htmlAttributes: new { @class = "control-label" })<br />
-                @Html.EditorFor(model => model.LandLordRating, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "1", @max = "10" } })
-                @Html.ValidationMessageFor(model => model.LandLordRating, "", new { @class = "text-danger" })
+            <label>One</label>
+            @Html.RadioButtonFor(model => model.LandLordRating, 1, new { htmlAttributes = new { @class = "form-control", @value=1 } })  
+            <label>Two</label>
+            @Html.RadioButtonFor(model => model.LandLordRating, 2, new { htmlAttributes = new { @class = "form-control", @value = 2 } })
+            <label>Three</label>
+            @Html.RadioButtonFor(model => model.LandLordRating, 3, new { htmlAttributes = new { @class = "form-control", @value = 3 } })
+            <label>Four</label>
+            @Html.RadioButtonFor(model => model.LandLordRating, 4, new { htmlAttributes = new { @class = "form-control", @value = 4 } })
+            <label>Five</label>
+            @Html.RadioButtonFor(model => model.LandLordRating, 5, new { htmlAttributes = new { @class = "form-control", @value = 5 } })
+            <label>Six</label>
+            @Html.RadioButtonFor(model => model.LandLordRating, 6, new { htmlAttributes = new { @class = "form-control", @value = 6 } })
+            <label>Seven</label>
+            @Html.RadioButtonFor(model => model.LandLordRating, 7, new { htmlAttributes = new { @class = "form-control", @value = 7 } })
+            <label>Eight</label>
+            @Html.RadioButtonFor(model => model.LandLordRating, 8, new { htmlAttributes = new { @class = "form-control", @value = 8 } })
+            <label>Nine</label>
+            @Html.RadioButtonFor(model => model.LandLordRating, 9, new { htmlAttributes = new { @class = "form-control", @value = 9 } })
+            <label>Ten</label>
+            @Html.RadioButtonFor(model => model.LandLordRating, 10, new { htmlAttributes = new { @class = "form-control", @value = 10 } })
+            @Html.ValidationMessageFor(model => model.LandLordRating, "", new { @class = "text-danger" })
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </div>
     </div>

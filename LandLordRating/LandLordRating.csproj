@@ -211,54 +211,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201704072035474_initialmodel.cs" />
-    <Compile Include="Migrations\201704072035474_initialmodel.Designer.cs">
-      <DependentUpon>201704072035474_initialmodel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704072056069_fourmodelsplusratingtouser.cs" />
-    <Compile Include="Migrations\201704072056069_fourmodelsplusratingtouser.Designer.cs">
-      <DependentUpon>201704072056069_fourmodelsplusratingtouser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704072059308_complaintstousers.cs" />
-    <Compile Include="Migrations\201704072059308_complaintstousers.Designer.cs">
-      <DependentUpon>201704072059308_complaintstousers.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704072103024_landlordtoreportspropscomplaints.cs" />
-    <Compile Include="Migrations\201704072103024_landlordtoreportspropscomplaints.Designer.cs">
-      <DependentUpon>201704072103024_landlordtoreportspropscomplaints.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704072355251_landlordvirtual.cs" />
-    <Compile Include="Migrations\201704072355251_landlordvirtual.Designer.cs">
-      <DependentUpon>201704072355251_landlordvirtual.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704072358296_addlandlordid.cs" />
-    <Compile Include="Migrations\201704072358296_addlandlordid.Designer.cs">
-      <DependentUpon>201704072358296_addlandlordid.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704081244177_overallrating.cs" />
-    <Compile Include="Migrations\201704081244177_overallrating.Designer.cs">
-      <DependentUpon>201704081244177_overallrating.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704081539271_redoRating.cs" />
-    <Compile Include="Migrations\201704081539271_redoRating.Designer.cs">
-      <DependentUpon>201704081539271_redoRating.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704101805590_removeunwantedprops.cs" />
-    <Compile Include="Migrations\201704101805590_removeunwantedprops.Designer.cs">
-      <DependentUpon>201704101805590_removeunwantedprops.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704101846506_landlordapproval.cs" />
-    <Compile Include="Migrations\201704101846506_landlordapproval.Designer.cs">
-      <DependentUpon>201704101846506_landlordapproval.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704111336003_isdeclined.cs" />
-    <Compile Include="Migrations\201704111336003_isdeclined.Designer.cs">
-      <DependentUpon>201704111336003_isdeclined.cs</DependentUpon>
+    <Compile Include="Migrations\201704111841092_initialmodel.cs" />
+    <Compile Include="Migrations\201704111841092_initialmodel.Designer.cs">
+      <DependentUpon>201704111841092_initialmodel.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminPanelViewModel.cs" />
-    <Compile Include="Models\Complaint.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LandLord.cs" />
     <Compile Include="Models\LandLordViewModel.cs" />
@@ -289,6 +248,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="img\apartments.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -377,6 +337,8 @@
     <Content Include="Views\Admin\LandLordsAwaitingApproval.cshtml" />
     <Content Include="Views\Admin\ApproveLandLord.cshtml" />
     <Content Include="Views\Admin\DeclineLandLord.cshtml" />
+    <Content Include="Views\Admin\DeclinedLandLords.cshtml" />
+    <Content Include="Views\Admin\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -390,38 +352,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201704072035474_initialmodel.resx">
-      <DependentUpon>201704072035474_initialmodel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704072056069_fourmodelsplusratingtouser.resx">
-      <DependentUpon>201704072056069_fourmodelsplusratingtouser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704072059308_complaintstousers.resx">
-      <DependentUpon>201704072059308_complaintstousers.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704072103024_landlordtoreportspropscomplaints.resx">
-      <DependentUpon>201704072103024_landlordtoreportspropscomplaints.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704072355251_landlordvirtual.resx">
-      <DependentUpon>201704072355251_landlordvirtual.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704072358296_addlandlordid.resx">
-      <DependentUpon>201704072358296_addlandlordid.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704081244177_overallrating.resx">
-      <DependentUpon>201704081244177_overallrating.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704081539271_redoRating.resx">
-      <DependentUpon>201704081539271_redoRating.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704101805590_removeunwantedprops.resx">
-      <DependentUpon>201704101805590_removeunwantedprops.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704101846506_landlordapproval.resx">
-      <DependentUpon>201704101846506_landlordapproval.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704111336003_isdeclined.resx">
-      <DependentUpon>201704111336003_isdeclined.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201704111841092_initialmodel.resx">
+      <DependentUpon>201704111841092_initialmodel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

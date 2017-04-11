@@ -1,0 +1,85 @@
+﻿@model LandLordRating.Models.LandLordViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h2>Viewing Reviews For @Model.LandLord.FullName</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <h4>@Html.DisplayNameFor(model => model.LandLord.PhoneNumber)</h4>
+            <p>
+                @Html.DisplayFor(model => model.LandLord.PhoneNumber)
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h4>@Html.DisplayNameFor(model => model.LandLord.City)</h4>
+            <p>
+                @Html.DisplayFor(model => model.LandLord.City)
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h4>
+                @Html.DisplayNameFor(model => model.LandLord.State)
+            </h4>
+            <p>
+                @Html.DisplayFor(model => model.LandLord.State)
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <h1>Reviews For This LandLord</h1>
+        <div class="col-md-12">
+
+            @if (Model.LandLord.Ratings.Count == 0)
+            {
+                @Html.Raw("<h4>There are no ratings for this landlord yet, be the first to ")
+                @Html.ActionLink("leave a rating", "CreateRating", "LandLords", new {id = Model.LandLord.LandLordId}, null)
+                @Html.Raw(".</h4>")
+            }
+            else
+            {
+                @Html.ActionLink("Leave a Rating", "CreateRating", "LandLords", new { id = Model.LandLord.LandLordId }, null)
+            }
+
+            
+            <table class="table table-striped" id="landlordratingstable">
+                <thead>
+                    <tr>
+                        <th>
+                            Rating Name
+                        </th>
+                        <th>
+                            LandLord Rating
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Ratings)
+                    {
+                        <tr>
+                            <td>
+                                @Html.ActionLink(@Html.DisplayFor(modelItem => item.RatingName).ToString(), "ViewRating", "LandLords", new { id = item.RatingId }, null)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LandLordRating)
+                            </td>
+                            <td>
+                                @Html.ActionLink("View Rating", "ViewRating", "LandLords", new { id = item.RatingId }, new { @class = "btn btn-primary" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            
+        </div>
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Back to Admin Panel", "Index", "Admin", new { @class = "btn btn-primary"})
+</p>

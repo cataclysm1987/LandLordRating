@@ -24,7 +24,6 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("Landlords", "Index", "Landlords")</li>
-                    <li>@Html.ActionLink("Properties", "Index", "Landlords")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
@@ -34,9 +33,11 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - LandLord Watch</p>
-        </footer>
+        <div class="container">
+            <footer>
+                <p>&copy; @DateTime.Now.Year - LandLord Watch</p>
+            </footer>
+        </div>
     </div>
 
     @Scripts.Render("~/bundles/jquery")

@@ -34,11 +34,9 @@ namespace LandLordRating.Models
         {
             var Ratings = new List<Rating>();
             var Properties = new List<Property>();
-            var Complaints = new List<Complaint>();
         }
 
         public virtual ICollection<Rating> Ratings { get; set; }
         public virtual ICollection<Property> Properties { get; set; }
-        public virtual ICollection<Complaint> Complaints { get; set; }
     }
 }

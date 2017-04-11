@@ -7,13 +7,13 @@ namespace LandLordRating.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class landlordvirtual : IMigrationMetadata
+    public sealed partial class initialmodel : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(landlordvirtual));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(initialmodel));
         
         string IMigrationMetadata.Id
         {
-            get { return "201704072355251_landlordvirtual"; }
+            get { return "201704111841092_initialmodel"; }
         }
         
         string IMigrationMetadata.Source

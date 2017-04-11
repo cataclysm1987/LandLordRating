@@ -7,37 +7,37 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Admin</h2>
+<h1>Admin Panel</h1>
 
-<h3>Welcome to the Admin Area</h3>
+<h2>Welcome to the Admin Area</h2>
 
 <div class="container">
-    <div class="row" style ="min-height: 150px;">
+    <div class="row admin-count-bars" style ="min-height: 150px;">
         <div class="col-md-4">
-            Current User Count: @Model.Users
+            <h3>Current User Count: @Model.Users</h3>
         </div>
         <div class="col-md-4">
-            Current LandLord Count: @Model.LandLords
+            <h3>Current LandLord Count: @Model.LandLords</h3>
         </div>
         <div class="col-md-4">
-            Current Ratings Count: @Model.Ratings
+            <h3>Current Ratings Count: @Model.Ratings</h3>
         </div>
     </div>
     <div class="row" style="min-height: 150px;">
         <div class="col-md-6">
-            <p>LandLords Currently Awaiting Approval: @Model.LandLordsAwaitingApproval</p>
+            <h3>LandLords Currently Awaiting Approval: @Model.LandLordsAwaitingApproval</h3>
         </div>
         <div class="col-md-6">
-            @Html.ActionLink("Click Here to View LandLords Awaiting Approval >>", "LandLordsAwaitingApproval", "Admin", null, new { @type="p" })
+            @Html.ActionLink("Click Here to View LandLords Awaiting Approval >>", "LandLordsAwaitingApproval", "Admin", null, new { @type="h3" })
         </div>
     </div>
     
     <div class="row" style="min-height: 150px;">
         <div class="col-md-6">
-            <p>LandLords Currently Declined For Approval: @Model.LandLordsDeclined</p>
+            <h3>LandLords Currently Declined For Approval: @Model.LandLordsDeclined</h3>
         </div>
         <div class="col-md-6">
-            @Html.ActionLink("Click Here to View LandLords Declined LandLords >>", "DeclinedLandLords", "Admin", null, new { @type = "p" })
+            @Html.ActionLink("Click Here to View Declined LandLords >>", "DeclinedLandLords", "Admin", null, new { @type = "h3" })
         </div>
     </div>
     
