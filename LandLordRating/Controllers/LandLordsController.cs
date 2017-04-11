@@ -36,9 +36,7 @@ namespace LandLordRating.Controllers
 
             ViewBag.CurrentFilter = searchString;
 
-
-            var landlords = from s in db.LandLords
-                           select s;
+            var landlords = db.LandLords.Where(u => u.IsApproved);
             if (!String.IsNullOrEmpty(searchString))
             {
                 landlords = landlords.Where(s => s.FullName.Contains(searchString)
@@ -86,7 +84,7 @@ namespace LandLordRating.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             LandLord landLord = await db.LandLords.FindAsync(id);
-            if (landLord == null)
+            if (landLord == null || landLord.IsApproved == false)
             {
                 return HttpNotFound();
             }
@@ -114,15 +112,17 @@ namespace LandLordRating.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "LandLordId,FullName,PhoneNumber,City,State")] LandLord landLord)
+        public async Task<ActionResult> Create([Bind(Include = "LandLordId,FullName,PhoneNumber,City,State,IsDeclined,IsApproved")] LandLord landLord)
         {
             if (IsAdminUser())
             {
                 landLord.IsApproved = true;
+                landLord.IsDeclined = false;
             }
             else
             {
                 landLord.IsApproved = false;
+                landLord.IsDeclined = false;
             }
             if (ModelState.IsValid)
             {
@@ -135,6 +135,7 @@ namespace LandLordRating.Controllers
         }
 
         // GET: LandLords/Edit/5
+        [Authorize]
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -142,7 +143,7 @@ namespace LandLordRating.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             LandLord landLord = await db.LandLords.FindAsync(id);
-            if (landLord == null)
+            if (landLord == null || !IsAdminUser())
             {
                 return HttpNotFound();
             }

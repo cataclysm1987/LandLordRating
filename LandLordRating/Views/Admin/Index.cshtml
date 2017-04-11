@@ -12,69 +12,36 @@
 <h3>Welcome to the Admin Area</h3>
 
 <div class="container">
-    <div class="row" style ="min-height: 200px;">
-        <div id="col-md-4">
+    <div class="row" style ="min-height: 150px;">
+        <div class="col-md-4">
             Current User Count: @Model.Users
         </div>
-        <div id="col-md-4">
+        <div class="col-md-4">
             Current LandLord Count: @Model.LandLords
         </div>
-        <div id="col-md-4">
+        <div class="col-md-4">
             Current Ratings Count: @Model.Ratings
         </div>
     </div>
-    <div class="row" style="min-height: 200px;">
-        <div id="col-md-12, col-sm-12">
-            <table class="table table-striped" id="landlordsawaitingapprovaltable">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.ActionLink("Full Name", "Index", new { sortOrder = ViewBag.NameSortParm })
-                        </th>
-                        <th>
-                            LandLord Rating
-                        </th>
-                        <th>
-                            City
-                        </th>
-                        <th>
-                            State
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in (IEnumerable) Model.AwaitingApprovalList)
-                    {
-                        <tr>
-                            <td>
-                                @Html.ActionLink(@Html.DisplayFor(modelItem => item.).ToString(), "Details", new { id = item.LandLordId }, null)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.OverallRating)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.City)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.State)
-                            </td>
-                            <td>
-                                @Html.ActionLink("Write Rating", "CreateRating", new { id = item.LandLordId }, new { @class = "btn btn-primary" })
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-
-            <br />
-            Page @(Model.AwaitingApprovalList.PageCount < Model.AwaitingApprovalList.PageNumber ? 0 : Model.AwaitingApprovalList.PageNumber) of @Model.AwaitingApprovalList.PageCount
-
-            @Html.PagedListPager(Model.AwaitingApprovalList, page => Url.Action("Index",
-    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+    <div class="row" style="min-height: 150px;">
+        <div class="col-md-6">
+            <p>LandLords Currently Awaiting Approval: @Model.LandLordsAwaitingApproval</p>
+        </div>
+        <div class="col-md-6">
+            @Html.ActionLink("Click Here to View LandLords Awaiting Approval >>", "LandLordsAwaitingApproval", "Admin", null, new { @type="p" })
         </div>
     </div>
-    <div class="row" style="min-height: 200px;">
-
+    
+    <div class="row" style="min-height: 150px;">
+        <div class="col-md-6">
+            <p>LandLords Currently Declined For Approval: @Model.LandLordsDeclined</p>
+        </div>
+        <div class="col-md-6">
+            @Html.ActionLink("Click Here to View LandLords Declined LandLords >>", "DeclinedLandLords", "Admin", null, new { @type = "p" })
+        </div>
     </div>
+    
+
+    <br/>
+       
 </div>

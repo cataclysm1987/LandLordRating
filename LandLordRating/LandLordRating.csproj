@@ -251,6 +251,10 @@
     <Compile Include="Migrations\201704101846506_landlordapproval.Designer.cs">
       <DependentUpon>201704101846506_landlordapproval.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704111336003_isdeclined.cs" />
+    <Compile Include="Migrations\201704111336003_isdeclined.Designer.cs">
+      <DependentUpon>201704111336003_isdeclined.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminPanelViewModel.cs" />
@@ -370,6 +374,9 @@
     <Content Include="Views\LandLords\AlreadyCreated.cshtml" />
     <Content Include="Views\LandLords\ViewUserRatings.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\LandLordsAwaitingApproval.cshtml" />
+    <Content Include="Views\Admin\ApproveLandLord.cshtml" />
+    <Content Include="Views\Admin\DeclineLandLord.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -412,6 +419,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704101846506_landlordapproval.resx">
       <DependentUpon>201704101846506_landlordapproval.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704111336003_isdeclined.resx">
+      <DependentUpon>201704111336003_isdeclined.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,0 +1,39 @@
+﻿@model LandLordRating.Models.LandLord
+
+@{
+    ViewBag.Title = "Approve LandLord";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Approve LandLord</h2>
+
+<h2>@Model.FullName</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <h4>@Html.DisplayNameFor(model => model.PhoneNumber)</h4>
+            <p>
+                @Html.DisplayFor(model => model.PhoneNumber)
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h4>@Html.DisplayNameFor(model => model.City)</h4>
+            <p>
+                @Html.DisplayFor(model => model.City)
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h4>
+                @Html.DisplayNameFor(model => model.State)
+            </h4>
+            <p>
+                @Html.DisplayFor(model => model.State)
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <h3>Would You Like to Approve This LandLord?</h3>
+        @Html.ActionLink("Approve This LandLord", "ApproveLandLordFinal", "Admin", new { id = Model.LandLordId }, new { @class = "btn btn-primary" })
+    </div>
+    </div>
+
