@@ -10,5 +10,7 @@ namespace LandLordRating.Models
     {
         public LandLord LandLord { get; set; }
         public IPagedList<Rating> Ratings { get; set; }
+        public bool IsClaimed { get; set; }
+        public string ClaimantUserName { get; set; }
     }
 }

@@ -49,37 +49,48 @@
             
             <table class="table table-striped" id="landlordratingstable">
                 <thead>
-                    <tr>
-                        <th>
-                            Rating Name
-                        </th>
-                        <th>
-                            LandLord Rating
-                        </th>
-                        <th></th>
-                    </tr>
+                <tr>
+                    <th>
+                        Rating Name
+                    </th>
+                    <th>
+                        LandLord Rating
+                    </th>
+                    <th></th>
+                </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.Ratings)
-                    {
-                        <tr>
-                            <td>
-                                @Html.ActionLink(@Html.DisplayFor(modelItem => item.RatingName).ToString(), "ViewRating", new { id = item.RatingId }, null)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.LandLordRating)
-                            </td>
-                            <td>
-                                @Html.ActionLink("View Rating", "ViewRating", new { id = item.RatingId }, new { @class = "btn btn-primary" })
-                            </td>
-                        </tr>
-                    }
+                @foreach (var item in Model.Ratings)
+                {
+                    <tr>
+                        <td>
+                            @Html.ActionLink(@Html.DisplayFor(modelItem => item.RatingName).ToString(), "ViewRating", new { id = item.RatingId }, null)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LandLordRating)
+                        </td>
+                        <td>
+                            @Html.ActionLink("View Rating", "ViewRating", new { id = item.RatingId }, new { @class = "btn btn-primary" })
+                        </td>
+                    </tr>
+                }
                 </tbody>
             </table>
             
         </div>
     </div>
 </div>
+
+@if (Model.IsClaimed)
+{
+    <h3>This LandLord page has been claimed and is actively being maintained by @Model.ClaimantUserName</h3>
+}
+else
+{
+    <h3>This LandLord page has not been claimed.</h3>
+    <p>If you are the landlord listed above, please @Html.ActionLink("submit a claim request to control your page.", "ClaimLandLord", "LandLords", null, new {id = Model.LandLord.LandLordId})</p>
+}
+
 <p>
     @Html.ActionLink("Back to LandLord Search", "Index", "LandLords", new { @class = "btn btn-primary"})
 </p>

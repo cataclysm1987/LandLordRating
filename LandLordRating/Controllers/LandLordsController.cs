@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Net;
@@ -91,6 +92,13 @@ namespace LandLordRating.Controllers
             LandLordViewModel vm = new LandLordViewModel();
             vm.LandLord = landLord;
             vm.Ratings = db.Ratings.Where(u => u.LandLordId == id).OrderBy(u => u.LandLordRating).ToPagedList(1, 10);
+            vm.IsClaimed = db.Users.Any(u => u.ClaimedLandLordId == id);
+            if (vm.IsClaimed)
+            {
+                var user = db.Users.FirstOrDefault(u => u.ClaimedLandLordId == id);
+                vm.ClaimantUserName = user.UserName;
+            }
+
             return View(vm);
         }
 
@@ -303,6 +311,53 @@ namespace LandLordRating.Controllers
                 return false;
             }
             return false;
+        }
+
+        public ActionResult ClaimLandLord(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            LandLord landlord = db.LandLords.Find(id);
+
+            if (landlord == null)
+            {
+                return HttpNotFound();
+            }
+
+            ClaimLandLordViewModel vm = new ClaimLandLordViewModel();
+            vm.LandLordName = landlord.FullName;
+            return View(vm);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ClaimLandLord([Bind(Include = "Id,ClaimName,ClaimDescription,DocumentFilePath,IsPending,IsApproved,ApplicationUser_Id,LandLord_LandLordId")] ClaimLandLordViewModel vm)
+        {
+            if (ModelState.IsValid)
+            {
+                string currentUserId = User.Identity.GetUserId();
+                ApplicationUser currentUser = db.Users.FirstOrDefault(x => x.Id == currentUserId);
+                var landLordClaim = new LandLordClaim();
+                var docPath = Path.Combine(Server.MapPath("~/uploads"), vm.Document.FileName);
+                vm.Document.SaveAs(docPath);
+                landLordClaim.DocumentFilePath = docPath;
+                landLordClaim.ClaimName = vm.ClaimName;
+                landLordClaim.ClaimDescription = vm.ClaimDescription;
+                landLordClaim.ApplicationUser = currentUser;
+                landLordClaim.LandLord = vm.LandLord;
+                db.LandLordClaims.Add(landLordClaim);
+                await db.SaveChangesAsync();
+                return RedirectToAction("ClaimSubmitted");
+            }
+            return View(vm);
+        }
+
+        public ViewResult ClaimSubmitted()
+        {
+            return View();
         }
     }
 

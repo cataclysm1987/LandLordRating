@@ -11,11 +11,18 @@ namespace LandLordRating.Models
     public class ApplicationUser : IdentityUser
     {
         public virtual ICollection<Rating> Ratings { get; set; }
+        public virtual ICollection<LandLordClaim> LandLordClaims { get; set; }
+
+        public int ClaimedLandLordId { get; set; }
 
         public ApplicationUser()
         {
             Ratings = new List<Rating>();
+            LandLordClaims = new List<LandLordClaim>();
         }
+
+        
+
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -31,6 +38,7 @@ namespace LandLordRating.Models
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<LandLord> LandLords { get; set; }
         public DbSet<Property> Properties { get; set; }
+        public DbSet<LandLordClaim> LandLordClaims { get; set; }
         
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
