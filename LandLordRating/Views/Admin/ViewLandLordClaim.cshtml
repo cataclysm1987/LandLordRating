@@ -1,0 +1,51 @@
+﻿@model LandLordRating.Models.LandLordClaim
+
+@{
+    ViewBag.Title = "View LandLord Claim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>View LandLord Claim</h2>
+
+<div>
+    <h4>Claim Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ClaimName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClaimName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClaimDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClaimDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DocumentFilePath)
+        </dt>
+
+        <dd>
+            <a href="@Html.DisplayFor(model => model.DocumentFilePath)">Click here to view document</a>
+        </dd>
+    </dl>
+    <p>Claiming Username: @Html.DisplayFor(model => model.ApplicationUser.UserName)</p>
+
+    <br />
+
+    <p>Claiming E-mail address: @Html.DisplayFor(model => model.ApplicationUser.Email)</p>
+</div>
+
+<br />
+
+<p>
+    @Html.ActionLink("Approve Claim", "ApproveLandLordClaim", new { id = Model.Id }, new { @class = "btn btn-primary" }) |
+    @Html.ActionLink("Deny Claim", "DenyLandLordClaim", new { id = Model.Id }, new { @class = "btn btn-primary" }) |
+    @Html.ActionLink("Back to Pending LandLord Claims", "PendingLandLordClaims")
+</p>

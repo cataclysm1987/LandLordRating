@@ -13,5 +13,6 @@ namespace LandLordRating.Models
         public int Ratings { get; set; }
         public int LandLordsAwaitingApproval { get; set; }
         public int LandLordsDeclined { get; set; }
+        public int PendingLandLordClaims { get; set; }
     }
 }

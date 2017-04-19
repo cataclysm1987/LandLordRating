@@ -1,0 +1,20 @@
+﻿@model LandLordRating.Models.LandLordClaim
+
+@{
+    ViewBag.Title = "ApproveLandLordClaim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Are You Sure You Want To Approve The User: @Model.ApplicationUser.UserName to Claim The LandLord Page: @Model.LandLord.FullName ?</h4>
+
+<p>Please note once this is complete: </p>
+<ul>
+    <li>This user will be able to edit the landlord page he/she is claiming.</li>
+    <li>This user will be able to respond to reviews and provide feedback to users.</li>
+    <li>This user may not be authorized. PLEASE VERIFY DOCUMENTATION ATTACHED TO CLAIM BEFORE AUTHORIZING.</li>
+</ul>
+
+<p>
+    @Html.ActionLink("Approve This LandLord Claim", "ApproveLandLordClaimFinal", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -223,6 +223,18 @@
     <Compile Include="Migrations\201704122115245_landlordclaim.Designer.cs">
       <DependentUpon>201704122115245_landlordclaim.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704171725082_updatelandlordclaim.cs" />
+    <Compile Include="Migrations\201704171725082_updatelandlordclaim.Designer.cs">
+      <DependentUpon>201704171725082_updatelandlordclaim.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704181233059_update.cs" />
+    <Compile Include="Migrations\201704181233059_update.Designer.cs">
+      <DependentUpon>201704181233059_update.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704191723132_imageanddesc.cs" />
+    <Compile Include="Migrations\201704191723132_imageanddesc.Designer.cs">
+      <DependentUpon>201704191723132_imageanddesc.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminPanelViewModel.cs" />
@@ -351,10 +363,16 @@
     <Content Include="Views\Admin\Details.cshtml" />
     <Content Include="Views\LandLords\ClaimLandLord.cshtml" />
     <Content Include="Views\LandLords\ClaimSubmitted.cshtml" />
+    <Content Include="uploads\Eric_Conklin_resume.pdf" />
+    <Content Include="Views\Admin\PendingLandLordClaims.cshtml" />
+    <Content Include="Views\Admin\ViewLandLordClaim.cshtml" />
+    <Content Include="Views\Admin\ApproveLandLordClaim.cshtml" />
+    <Content Include="Views\LandLords\AlreadyClaimed.cshtml" />
+    <Content Include="Views\LandLords\LandLordAlreadyClaimed.cshtml" />
+    <Content Include="Views\LandLords\Unauthorized.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -373,6 +391,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704122115245_landlordclaim.resx">
       <DependentUpon>201704122115245_landlordclaim.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704171725082_updatelandlordclaim.resx">
+      <DependentUpon>201704171725082_updatelandlordclaim.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704181233059_update.resx">
+      <DependentUpon>201704181233059_update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704191723132_imageanddesc.resx">
+      <DependentUpon>201704191723132_imageanddesc.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

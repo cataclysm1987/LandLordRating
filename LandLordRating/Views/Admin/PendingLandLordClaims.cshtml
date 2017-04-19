@@ -1,0 +1,57 @@
+﻿@model PagedList.IPagedList<LandLordRating.Models.LandLordClaim>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Pending LandLord Claims";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>LandLords Claims Awaiting Approval</h2>
+<br />
+<p>Here is a list of claims submitted for landlord pages by users.</p>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Find by Claim Name: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" class="btn btn-primary"/>
+    </p>
+}
+<table class="table table-striped" id="landlordsTable">
+    <thead>
+    <tr>
+        <th>
+            @Html.ActionLink("Claim Name", "Index", new { sortOrder = ViewBag.NameSortParm })
+        </th>
+        <th>
+            LandLord Name
+        </th>
+        
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.ActionLink(@Html.DisplayFor(modelItem => item.ClaimName).ToString(), "Details", new { id = item.LandLord.LandLordId }, null)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LandLord.FullName)
+            </td>
+            <td>
+                @Html.ActionLink("View Claim", "ViewLandLordClaim", new { id = item.Id }, new { @class = "btn btn-primary" })
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+@Html.ActionLink("Return to Admin Area", "Index", "Admin")

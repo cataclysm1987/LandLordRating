@@ -1,0 +1,13 @@
+﻿@model LandLordRating.Models.LandLord
+
+@{
+    ViewBag.Title = "LandLord Already Claimed";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>This LandLord Page Has Already Been Claimed</h2>
+
+<p>Our records indicate that @Model.FullName already has been claimed by a user.</p>
+
+<p>If you are the proper owner of this landlord page, please @Html.ActionLink("Contact Us", "Contact", "Home") to resolve this issue.</p>
+

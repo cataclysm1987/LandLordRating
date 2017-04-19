@@ -29,6 +29,7 @@ namespace LandLordRating.Controllers
                 vm.LandLords = db.LandLords.Count();
                 vm.LandLordsAwaitingApproval = db.LandLords.Where(u=> u.IsDeclined == false).Count(u => u.IsApproved == false);
                 vm.LandLordsDeclined = db.LandLords.Count(u => u.IsDeclined);
+                vm.PendingLandLordClaims = db.LandLordClaims.Count(u => u.IsPending);
                 return View(vm);
             }
             return RedirectToAction("Index", "Home");
@@ -109,8 +110,7 @@ namespace LandLordRating.Controllers
             if (!string.IsNullOrEmpty(searchString))
             {
                 landlordsdeclined = landlordsdeclined.Where(s => s.FullName.Contains(searchString)
-                                                 || s.City.Contains(searchString)
-                                                 || s.State.Contains(searchString));
+                                                 || s.City.Contains(searchString));
             }
 
             switch (sortOrder)
@@ -170,8 +170,7 @@ namespace LandLordRating.Controllers
             if (!string.IsNullOrEmpty(searchString))
             {
                 landlordapprovallist = landlordapprovallist.Where(s => s.FullName.Contains(searchString)
-                                                 || s.City.Contains(searchString)
-                                                 || s.State.Contains(searchString));
+                                                 || s.City.Contains(searchString));
             }
 
             switch (sortOrder)
@@ -290,6 +289,120 @@ namespace LandLordRating.Controllers
             vm.LandLord = landLord;
             vm.Ratings = db.Ratings.Where(u => u.LandLordId == id).OrderBy(u => u.LandLordRating).ToPagedList(1, 10);
             return View(vm);
+        }
+
+
+        [Authorize]
+        public ActionResult PendingLandLordClaims(string sortOrder, string currentFilter, string searchString, int? page)
+        {
+            if (!IsAdminUser())
+                return RedirectToAction("Index", "Home");
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var claimlist = db.LandLordClaims.Where(u => u.IsPending).Where(u => !u.IsApproved);
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                claimlist = claimlist.Where(s => s.ClaimName.Contains(searchString)
+                                                 || s.ClaimDescription.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    claimlist = claimlist.OrderByDescending(s => s.ClaimName);
+                    break;
+                case "Date":
+                    //Should be a date here, will add later and update the model as well.
+                    claimlist = claimlist.OrderBy(s => s.ClaimDescription);
+                    break;
+                case "date_desc":
+                    claimlist = claimlist.OrderByDescending(s => s.ClaimDescription);
+                    break;
+                default:  // Name ascending 
+                    claimlist = claimlist.OrderBy(s => s.ClaimName);
+                    break;
+            }
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(claimlist.ToPagedList(pageNumber, pageSize));
+        }
+
+        [Authorize]
+        public async Task<ActionResult> ViewLandLordClaim(int? id)
+        {
+            if (!IsAdminUser())
+                return RedirectToAction("Index", "Home");
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            LandLordClaim claim = await db.LandLordClaims.FindAsync(id);
+            if (claim == null || !IsAdminUser())
+            {
+                return HttpNotFound();
+            }
+            return View(claim);
+
+        }
+
+        [Authorize]
+        public async Task<ActionResult> ApproveLandLordClaim(int? id)
+        {
+            if (!IsAdminUser())
+                return RedirectToAction("Index", "Home");
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            LandLordClaim claim = await db.LandLordClaims.FindAsync(id);
+            if (claim == null || !IsAdminUser() || claim.LandLord.IsClaimed)
+            {
+                return HttpNotFound();
+            }
+            return View(claim);
+        }
+
+        [Authorize]
+        public async Task<ActionResult> ApproveLandLordClaimFinal(int? id)
+        {
+            if (!IsAdminUser())
+                return RedirectToAction("Index", "Home");
+            
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            LandLordClaim claim = await db.LandLordClaims.FindAsync(id);
+            if (claim == null || !IsAdminUser() || claim.LandLord.IsClaimed || claim.ApplicationUser.ClaimedLandLordId != 0)
+            {
+                return HttpNotFound();
+            }
+            claim.IsApproved = true;
+            claim.IsPending = false;
+            var user = claim.ApplicationUser;
+            var landlord = claim.LandLord;
+            user.ClaimedLandLordId = claim.LandLord.LandLordId;
+            landlord.IsClaimed = true;
+            db.Entry(landlord).State = EntityState.Modified;
+            db.Entry(user).State = EntityState.Modified;
+            db.Entry(claim).State = EntityState.Modified;
+            await db.SaveChangesAsync();
+            return RedirectToAction("PendingLandLordClaims");
         }
     }
 }

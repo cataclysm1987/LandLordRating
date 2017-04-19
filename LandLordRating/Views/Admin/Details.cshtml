@@ -5,39 +5,62 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+<h2>LandLord Details</h2>
 
 <div>
-    <h2>Viewing Reviews For @Model.LandLord.FullName</h2>
-    <div class="row">
-        <div class="col-md-4">
-            <h4>@Html.DisplayNameFor(model => model.LandLord.PhoneNumber)</h4>
-            <p>
-                @Html.DisplayFor(model => model.LandLord.PhoneNumber)
-            </p>
-        </div>
-        <div class="col-md-4">
-            <h4>@Html.DisplayNameFor(model => model.LandLord.City)</h4>
-            <p>
-                @Html.DisplayFor(model => model.LandLord.City)
-            </p>
-        </div>
-        <div class="col-md-4">
-            <h4>
-                @Html.DisplayNameFor(model => model.LandLord.State)
-            </h4>
-            <p>
-                @Html.DisplayFor(model => model.LandLord.State)
-            </p>
-        </div>
-    </div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LandLord.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LandLord.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LandLord.City)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LandLord.City)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LandLord.State)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LandLord.State)
+        </dd>
+
+        <dt>
+            Is This LandLord Page Claimed By The Owner?
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LandLord.IsClaimed)
+        </dd>
+    </dl>
+</div>
+
+@if (Model.LandLord.IsClaimed)
+{
+    <p>This LandLord page has already been claimed. If you are the owner or individual referenced in this page, please @Html.ActionLink("Contact Us", "Contact", "Home", null, null) to dispute this information.</p>
+}
+else
+{
+    <p>This LandLord page has not been claimed. If you are the owner or individual referenced in this page, please @Html.ActionLink("Claim this page", "ClaimLandLord", "LandLords", null, null)</p>
+}
+
+<div>
     <div class="row">
         <h1>Reviews For This LandLord</h1>
         <div class="col-md-12">
 
             @if (Model.LandLord.Ratings.Count == 0)
             {
-                @Html.Raw("<h4>There are no ratings for this landlord yet, be the first to ")
+                @Html.Raw("<h4>There are no ratings for this landlord yet. Be the first to ")
                 @Html.ActionLink("leave a rating", "CreateRating", "LandLords", new {id = Model.LandLord.LandLordId}, null)
                 @Html.Raw(".</h4>")
             }

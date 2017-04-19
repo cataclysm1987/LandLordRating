@@ -5,92 +5,113 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+<h2>LandLord Details</h2>
 
 <div>
-    <h2>Viewing Reviews For @Model.LandLord.FullName</h2>
-    <div class="row">
-        <div class="col-md-4">
-            <h4>@Html.DisplayNameFor(model => model.LandLord.PhoneNumber)</h4>
-            <p>
-                @Html.DisplayFor(model => model.LandLord.PhoneNumber)
-            </p>
-        </div>
-        <div class="col-md-4">
-            <h4>@Html.DisplayNameFor(model => model.LandLord.City)</h4>
-            <p>
-                @Html.DisplayFor(model => model.LandLord.City)
-            </p>
-        </div>
-        <div class="col-md-4">
-            <h4>
-                @Html.DisplayNameFor(model => model.LandLord.State)
-            </h4>
-            <p>
-                @Html.DisplayFor(model => model.LandLord.State)
-            </p>
-        </div>
-    </div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LandLord.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LandLord.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LandLord.City)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LandLord.City)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LandLord.State)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LandLord.State)
+        </dd>
+
+        <dt>
+            Is This LandLord Claimed?
+        </dt>
+
+        
+            @if (Model.LandLord.IsClaimed)
+            {
+                <dd>Yes</dd>
+            }
+            else
+            {
+                <dd>No</dd>
+            }
+    </dl>
+</div>
+
+@if (Model.LandLord.IsClaimed)
+{
+    <p>This LandLord page has already been claimed. If you are the owner or individual referenced in this page, please @Html.ActionLink("Contact Us", "Contact", "Home", null, null) to dispute this information.</p>
+}
+else
+{
+    <p>This LandLord page has not been claimed. If you are the owner or individual referenced in this page, please @Html.ActionLink("Claim this page", "ClaimLandLord", "LandLords", new { id = Model.LandLord.LandLordId }, null)</p>
+}
+<div>
     <div class="row">
         <h1>Reviews For This LandLord</h1>
         <div class="col-md-12">
 
             @if (Model.LandLord.Ratings.Count == 0)
             {
-                @Html.Raw("<h4>There are no reviews for this landlord yet, be the first to ")
-                @Html.ActionLink("leave a review", "CreateRating", new {id = Model.LandLord.LandLordId})
+                @Html.Raw("<h4>There are no ratings for this landlord yet. Be the first to ")
+                @Html.ActionLink("leave a rating", "CreateRating", "LandLords", new { id = Model.LandLord.LandLordId }, null)
                 @Html.Raw(".</h4>")
             }
             else
             {
-                @Html.ActionLink("Leave a Rating", "CreateRating", new { id = Model.LandLord.LandLordId })
+                @Html.ActionLink("Leave a Rating", "CreateRating", "LandLords", new { id = Model.LandLord.LandLordId }, null)
             }
 
-            
+
             <table class="table table-striped" id="landlordratingstable">
                 <thead>
-                <tr>
-                    <th>
-                        Rating Name
-                    </th>
-                    <th>
-                        LandLord Rating
-                    </th>
-                    <th></th>
-                </tr>
+                    <tr>
+                        <th>
+                            Rating Name
+                        </th>
+                        <th>
+                            LandLord Rating
+                        </th>
+                        <th></th>
+                    </tr>
                 </thead>
                 <tbody>
-                @foreach (var item in Model.Ratings)
-                {
-                    <tr>
-                        <td>
-                            @Html.ActionLink(@Html.DisplayFor(modelItem => item.RatingName).ToString(), "ViewRating", new { id = item.RatingId }, null)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.LandLordRating)
-                        </td>
-                        <td>
-                            @Html.ActionLink("View Rating", "ViewRating", new { id = item.RatingId }, new { @class = "btn btn-primary" })
-                        </td>
-                    </tr>
-                }
+                    @foreach (var item in Model.Ratings)
+                    {
+                        <tr>
+                            <td>
+                                @Html.ActionLink(@Html.DisplayFor(modelItem => item.RatingName).ToString(), "ViewRating", "LandLords", new { id = item.RatingId }, null)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LandLordRating)
+                            </td>
+                            <td>
+                                @Html.ActionLink("View Rating", "ViewRating", "LandLords", new { id = item.RatingId }, new { @class = "btn btn-primary" })
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
-            
+
         </div>
     </div>
 </div>
-
-@if (Model.IsClaimed)
-{
-    <h3>This LandLord page has been claimed and is actively being maintained by @Model.ClaimantUserName</h3>
-}
-else
-{
-    <h3>This LandLord page has not been claimed.</h3>
-    <p>If you are the landlord listed above, please @Html.ActionLink("submit a claim request to control your page.", "ClaimLandLord", "LandLords", null, new {id = Model.LandLord.LandLordId})</p>
-}
-
 <p>
-    @Html.ActionLink("Back to LandLord Search", "Index", "LandLords", new { @class = "btn btn-primary"})
+    @if (Model.IsClaimingUser)
+    {
+        <p>@Html.ActionLink("Edit Your LandLord Page", "Edit", "LandLords") | </p>
+    }
+    @Html.ActionLink("Back to LandLord Search", "Index", "LandLords", new {@class = "btn btn-primary"})
 </p>
