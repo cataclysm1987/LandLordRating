@@ -136,10 +136,50 @@
         <p>This LandLord page has not been claimed. If you are the owner or individual referenced in this page, please @Html.ActionLink("Claim this page", "ClaimLandLord", "LandLords", new { id = Model.LandLord.LandLordId }, null)</p>
     }
 
-<p>
+
     @if (Model.IsClaimingUser)
     {
-        <p>@Html.ActionLink("Edit Your LandLord Page", "Edit", "LandLords") | </p>
+        <p>@Html.ActionLink("Edit Your LandLord Page", "Edit", "LandLords")</p> 
     }
     @Html.ActionLink("Back to LandLord Search", "Index", "LandLords", new {@class = "btn btn-primary"})
-</p>
+
+
+<!--Magnific Popup Code-->
+<div id="test-popup" class="white-popup mfp-hide">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <h1>We Found @Model.LandLord.FullName!</h1>
+            <p>Sign up to view information about this landlord.</p>
+            <p>Logged in users can...</p>
+            <ul>
+                <li>Rate landlords based on their service quality.</li>
+                <li>Find what other users think of this landlord</li>
+                <li>Research properties a landlord owns</li>
+                <li>Claim a landlord page to respond to feedback and update your page</li>
+            </ul>
+            <br/>
+            @Html.ActionLink("Sign Up Now", "Register", "Account", null, new { @type = "button", @class="btn btn-primary btn-lg"})
+        </div>
+    </div>
+</div>
+
+@if (!Request.IsAuthenticated)
+{
+    <script>
+
+        $(document).ready(function () {
+            setTimeout(function () {
+                if ($('#test-popup').length) {
+                    $.magnificPopup.open({
+                        items: {
+                            src: '#test-popup'
+                        },
+                        type: 'inline',
+                        closeOnBgClick: false,
+                        showCloseBtn: false
+                    });
+                }
+            }, 2000);
+        });
+    </script>
+}

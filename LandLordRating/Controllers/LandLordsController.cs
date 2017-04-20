@@ -23,7 +23,7 @@ namespace LandLordRating.Controllers
         public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.NameSortParm = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
 
             if (searchString != null)
@@ -178,8 +178,11 @@ namespace LandLordRating.Controllers
         }
 
         // GET: LandLords/Delete/5
+        [Authorize]
         public async Task<ActionResult> Delete(int? id)
         {
+            if (!IsAdminUser())
+                return RedirectToAction("Unauthorized");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
