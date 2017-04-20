@@ -18,6 +18,19 @@ namespace LandLordRating.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+        public bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public AccountController()
         {
         }
@@ -73,9 +86,20 @@ namespace LandLordRating.Controllers
                 return View(model);
             }
 
+            SignInStatus result = new SignInStatus();
+            if (IsValidEmail(model.Email))
+            {
+                var user = UserManager.FindByEmail(model.Email);
+                result = await SignInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe,
+                    shouldLockout: false);
+            }
+            else
+            {
+                result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            }
+
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -151,7 +175,7 @@ namespace LandLordRating.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -422,6 +446,10 @@ namespace LandLordRating.Controllers
 
             base.Dispose(disposing);
         }
+
+
+
+
 
         #region Helpers
         // Used for XSRF protection when adding external logins
