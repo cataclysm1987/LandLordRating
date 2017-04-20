@@ -11,7 +11,7 @@ namespace LandLordRating.Models
     {
         [Key]
         public int Id { get; set; }
-        [Display(Name = "LandLordClaim Name - Please Provide a Subject Name For Your Message")]
+        [Display(Name = "Please Provide a Subject Name For Your Claim")]
         public string ClaimName { get; set; }
         [Display(Name = "Please Explain Your Association With This LandLord Page")]
         public string ClaimDescription { get; set; }

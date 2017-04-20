@@ -7,6 +7,7 @@
 
 <h2>Claim This LandLord Page</h2>
 <p>Does the LandLord page for @Model.LandLordName belong to you?</p>
+<p>If you own the company, work for them or are the person named on the page, you can claim this page and respond to ratings, update images and change information.</p>
 <hr />
 
 @if (ViewBag.Message != null)
@@ -21,7 +22,7 @@
     <div class="form-horizontal">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.ClaimName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ClaimName, htmlAttributes: new { @class = "control-label col-md-2", @style = "display:inline; float: none;" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ClaimName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ClaimName, "", new { @class = "text-danger" })
@@ -29,17 +30,21 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ClaimDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ClaimDescription, htmlAttributes: new { @class = "control-label col-md-2", @style = "display:inline; float: none;" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ClaimDescription, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.ClaimDescription, new { htmlAttributes = new { @class = "form-control", @style = "width: 100%;" } })
                 @Html.ValidationMessageFor(model => model.ClaimDescription, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        
+        <p>Please upload supporting documentation for your landlord page.</p>
+        <p>This can be LLC documentation, copies of photo ID's or anything confirmation management of this property.</p>
         <input type="file" id="document" name="document" />
+        <br/>
+        <hr/>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
+            <div class="col-md-10">
                 <input type="submit" value="Upload" class="btn btn-default" />
             </div>
         </div>
