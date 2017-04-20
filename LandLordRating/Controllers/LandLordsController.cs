@@ -91,7 +91,8 @@ namespace LandLordRating.Controllers
             LandLordViewModel vm = new LandLordViewModel();
             vm.LandLord = landLord;
             vm.Ratings = db.Ratings.Where(u => u.LandLordId == id).OrderBy(u => u.LandLordRating).ToPagedList(1, 10);
-            vm.IsClaimingUser = db.Users.Any(u => u.ClaimedLandLordId == landLord.LandLordId);
+            var userid = GetCurrentUser().Id;
+            vm.IsClaimingUser = db.Users.Any(u => u.ClaimedLandLordId == landLord.LandLordId && u.Id == userid);
 
             return View(vm);
         }
@@ -146,8 +147,10 @@ namespace LandLordRating.Controllers
             }
             LandLord landLord = await db.LandLords.FindAsync(id);
             var currentuser = GetCurrentUser();
+            if (currentuser.ClaimedLandLordId != landLord.LandLordId)
+                return RedirectToAction("Unauthorized");
 
-            if (landLord == null || !IsAdminUser() || currentuser.ClaimedLandLordId != landLord.LandLordId)
+            if (landLord == null || !IsAdminUser())
             {
                 return HttpNotFound();
             }

@@ -73,7 +73,7 @@
         </div>
     </div>
 
-<hr/>
+    <hr/>
 
 
     <div class="row">
@@ -126,22 +126,22 @@
     </div>
 </div>
 
+<hr />
 
-@if (Model.LandLord.IsClaimed)
-    {
-        <p>This LandLord page has already been claimed. If you are the owner or individual referenced in this page, please @Html.ActionLink("Contact Us", "Contact", "Home", null, null) to dispute this information.</p>
-    }
-    else
-    {
-        <p>This LandLord page has not been claimed. If you are the owner or individual referenced in this page, please @Html.ActionLink("Claim this page", "ClaimLandLord", "LandLords", new { id = Model.LandLord.LandLordId }, null)</p>
-    }
-
-
-    @if (Model.IsClaimingUser)
-    {
-        <p>@Html.ActionLink("Edit Your LandLord Page", "Edit", "LandLords", null, new {id=Model.LandLord.LandLordId})</p> 
-    }
-    @Html.ActionLink("Back to LandLord Search", "Index", "LandLords", new {@class = "btn btn-primary"})
+@if (Model.IsClaimingUser)
+{
+    <p>@Html.ActionLink("Edit Your LandLord Page", "Edit", "LandLords", null, new {id = Model.LandLord.LandLordId}) </p>
+    <p>@Html.ActionLink("Update Your Profile Image", "UploadProfileImage", "LandLords", null, new { id = Model.LandLord.LandLordId })</p>
+}
+else if (Model.LandLord.IsClaimed)
+{
+    <p>This LandLord page has already been claimed. If you are the owner or individual referenced in this page, please @Html.ActionLink("Contact Us", "Contact", "Home", null, null) to dispute this information.</p>
+}
+else if (!Model.LandLord.IsClaimed)
+{
+    <p>This LandLord page has not been claimed. If you are the owner or individual referenced in this page, please @Html.ActionLink("Claim this page", "ClaimLandLord", "LandLords", new {id = Model.LandLord.LandLordId}, null)</p>
+}
+@Html.ActionLink("Back to LandLord Search", "Index", "LandLords", new {@class = "btn btn-primary"})
 
 
 <!--Magnific Popup Code-->
