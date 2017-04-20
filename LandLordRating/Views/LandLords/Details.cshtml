@@ -139,7 +139,7 @@
 
     @if (Model.IsClaimingUser)
     {
-        <p>@Html.ActionLink("Edit Your LandLord Page", "Edit", "LandLords")</p> 
+        <p>@Html.ActionLink("Edit Your LandLord Page", "Edit", "LandLords", null, new {id=Model.LandLord.LandLordId})</p> 
     }
     @Html.ActionLink("Back to LandLord Search", "Index", "LandLords", new {@class = "btn btn-primary"})
 
