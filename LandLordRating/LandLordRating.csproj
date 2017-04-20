@@ -271,6 +271,8 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="img\apartments.jpg" />
+    <Content Include="img\profile\1ngpji.jpg" />
+    <Content Include="img\profile\profile-placeholder.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -370,6 +372,7 @@
     <Content Include="Views\LandLords\AlreadyClaimed.cshtml" />
     <Content Include="Views\LandLords\LandLordAlreadyClaimed.cshtml" />
     <Content Include="Views\LandLords\Unauthorized.cshtml" />
+    <Content Include="Views\LandLords\UploadProfileImage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

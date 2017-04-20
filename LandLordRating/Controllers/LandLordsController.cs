@@ -331,7 +331,7 @@ namespace LandLordRating.Controllers
                 return HttpNotFound();
             }
             var user = GetCurrentUser();
-            if (user.ClaimedLandLordId == id)
+            if (user.ClaimedLandLordId != 0)
                 return RedirectToAction("AlreadyClaimed");
             if (landlord.IsClaimed)
                 return RedirectToAction("LandLordAlreadyClaimed", new {id=landlord.LandLordId});
@@ -435,10 +435,37 @@ namespace LandLordRating.Controllers
         [Authorize]
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public ActionResult UploadProfileImage(HttpPostedFileBase image)
+        public async Task<ActionResult> UploadProfileImage(HttpPostedFileBase image)
         {
-            int landlordid = (int) TempData["landlordid"];
+            int landlordid = (int)TempData["landlordid"];
             var landlord = db.LandLords.FirstOrDefault(u => u.LandLordId == landlordid);
+            if (image != null && HasImageExtension(image.FileName))
+            {
+                string pic = System.IO.Path.GetFileName(image.FileName);
+                string path = System.IO.Path.Combine(
+                                       Server.MapPath("~/img/profile"), pic);
+                
+                // file is uploaded
+                image.SaveAs(path);
+               
+                landlord.ProfileImageUrl = path;
+                db.Entry(landlord).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+
+                // save the image path path to the database or you can send image 
+                // directly to database
+                // in-case if you want to store byte[] ie. for DB
+                //using (MemoryStream ms = new MemoryStream())
+                //{
+                //    await image.InputStream.CopyToAsync(ms);
+                //    //commented out as currently not being used
+                //    //byte[] array = ms.GetBuffer();
+                //}
+                return RedirectToAction("Details", new {id = landlord.LandLordId});
+            }
+            ViewBag.Message = "Error: You must submit a valid image file. A file can either be a .gif, .jpg or .png.";
+            return View(landlord.LandLordId);
+
 
         }
 
@@ -451,6 +478,11 @@ namespace LandLordRating.Controllers
         {
             var userid = User.Identity.GetUserId();
             return db.Users.FirstOrDefault(u => u.Id == userid);
+        }
+
+        public static bool HasImageExtension(string source)
+        {
+            return (source.EndsWith(".png") || source.EndsWith(".jpg") || source.EndsWith(".gif"));
         }
     }
 

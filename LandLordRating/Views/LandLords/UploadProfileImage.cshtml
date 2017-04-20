@@ -1,0 +1,30 @@
+﻿@model LandLordRating.Models.LandLord
+
+@{
+    ViewBag.Title = "Upload Profile Image";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Upload Profile Image</h2>
+
+<p>Use this page to upload a profile image for your landlord page. Please be sure to upload a .gif, .png or .jpg file 2MB or less.</p>
+
+<hr/>
+@using (Html.BeginForm("UploadProfileImage", "LandLords", FormMethod.Post,
+                                                    new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <label for="file">Upload Image:</label>
+    <input type="file" name="image" id="image" style="width: 100%;" />
+    <br/>
+    <input type="submit" value="Upload" class="submit btn btn-primary" />
+}
+
+<br/>
+
+@if (ViewBag.Message != null)
+{
+    <p class="field-validation-error">@ViewBag.Message</p>
+}
+
+
