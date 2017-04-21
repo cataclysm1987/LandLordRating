@@ -7,9 +7,8 @@
 </div>
 <div class="jumbotron apartment-bg">
     <div class="container">
-        <h1 class="j-text" style="color: #ffffff;">LandLord Watch</h1>
+        <h1 class="j-text" style="color: #ffffff;">LandLord Karma</h1>
         <p class="lead j-text" style="font-weight: bold; color: #ffffff;">Quickly Find Information About Your LandLord</p>
-        <p class="lead j-text" style="font-weight: bold; color: #ffffff;">Research Before You Sign the Lease!</p>
         @using (Html.BeginForm("Index", "LandLords"))
         {
             <input type="submit" value="Search LandLords" class="btn btn-lg btn-primary" style="margin-right: 10px; font-size: 16px;" />
@@ -26,11 +25,47 @@
 
     <div class="row">
         <div class="col-sm-12">
-            <h2>Welcome to Landlord Watch</h2>
-            <p>
-                 Landlord Watch recognizes landlords who care about their community.  LandLord Watch gives landlords feedback to help them identify concerns of residents who have previously live in rental property owned by the landlord.
+            <h1>Need to Research a LandLord?</h1>
+            <hr/>
+            <h2></h2>
+            <p class="copy-text">
+                LandLord Karma is here to help. We provide a 100% free, searchable database of known landlords and allow our users to provide reviews, interact with landlords, discuss common issues and seek transparency from landlords.
+
+                Our goal is simple: make it easy to research who you rent from while providing the necessary tools and support to improve transparency.
             </p>
+            <hr/>
+            <h2>Thinking About Renting? Start Here First. Registered Users Can...</h2>
         </div>
     </div>
+    <hr/>
+    <div class="row featured-row">
+        <div class="col-md-4 col-sm-12" style="background-color: #eeeeee;">
+            <i class="fa fa-search fa-5x" aria-hidden="true" style="margin: 0 auto; margin-top: 10px; margin-bottom: 10px; color: #158cba;"></i>
+            <p class="copy-text">Search our database to find an existing landlord. Just enter the landlord’s name or city of operation and we return a list of anyone we know or any companies we know that match your request.</p>
+        </div>
+        <div class="col-md-4 col-sm-12" style="border-left: 1px; border-right: 1px; background-color: #f9f9f9;">
+            <i class="fa fa-thumbs-o-up fa-5x" aria-hidden="true" style="margin: 0 auto; margin-top: 10px; margin-bottom: 10px; color: #158cba;"></i>
+            <p class="copy-text">Rate your landlord. Received great service? Let them know! Terrible service and nothing but problems? Same deal. Either way, we open the lines of communication and broadcast your grievances so other users can benefit from the information.</p>
+        </div>
+        <div class="col-md-4 col-sm-12" style="background-color: #eeeeee;">
+            <i class="fa fa-user-circle-o fa-5x" aria-hidden="true" style="margin: 0 auto; margin-top: 10px; margin-bottom: 10px; color: #158cba;"></i>
+            <p class="copy-text">Claim a landlord page. Does a particular page belong to you? Claim it. This will allow you to edit your information and start interacting with your users by responding to ratings.</p>
+        </div>
+    </div>
+    
+    <hr/>
+    <br/>
+    <div class="col-md-4 col-md-offset-4">
+        <h3 style="text-align:center">Ready to get started?</h3>
+
+        <p style="text-align:center" class="copy-text">Search our database of landlords today.</p>
+        <div align="center" style="margin: 0 auto;">
+            <a href="@Url.Action("Index", "LandLords")">
+                <button class="btn btn-primary btn-lg" style="margin:0 auto; text-align: center; float:none; font-size: 22px;">Browse LandLords Now!</button>
+            </a>
+        </div>
+    </div>
+    
+    <br/>
 
 </div>

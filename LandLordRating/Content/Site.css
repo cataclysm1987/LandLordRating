@@ -38,10 +38,32 @@
     ), url("../img/apartments.jpg");
     background-color: #17234E;
     margin-bottom: 0;
-    height: 300px;
+    min-height: 320px;
     background-repeat: no-repeat;
     background-position: center;
     -webkit-background-size: cover;
     background-size: cover;
     color: #000;
+}
+
+.featured-row {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display:         flex;
+  flex-wrap: wrap;
+}
+.featured-row > [class*='col-'] {
+  display: flex;
+  flex-direction: column;
+}
+
+.featured-row li {
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 8px;
+}
+
+.copy-text {
+    font-size: 18px;
 }
