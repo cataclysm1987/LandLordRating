@@ -12,7 +12,7 @@
         @using (Html.BeginForm("Index", "LandLords"))
         {
             <input type="submit" value="Search LandLords" class="btn btn-lg btn-primary" style="margin-right: 10px; font-size: 16px;" />
-            <input type="text" id="zipcode" name="zipcode" value="Enter LandLord Info" style="display: inline; line-height: 30px; font-size: 16px;" onfocus="if (this.value == 'Enter LandLord Info') { this.value = ''; }" onblur="    if (this.value == '') { this.value = 'Enter LandLord Info'; }" />
+            <input type="text" id="zipcode" name="zipcode" value="Enter LandLord Info" style="display: inline; line-height: 30px; font-size: 16px; width: 180px;" onfocus="if (this.value == 'Enter LandLord Info') { this.value = ''; }" onblur="    if (this.value == '') { this.value = 'Enter LandLord Info'; }" />
         }
         @if (ViewBag.Message != null)
         {

@@ -83,5 +83,20 @@
                     }
                 }*@
         </dd>
+        <dt>LandLord Page:</dt>
+        
+            @if (Model.ClaimedLandLordId != null)
+            {
+                <dd>
+                    @Html.ActionLink("View Your LandLord Page", "Details", "LandLords", new {id = Model.ClaimedLandLordId}, null)
+                </dd>
+            }
+            else
+            {
+                <dd>
+                    This account has not claimed a landlord page.
+                </dd>
+            }
+
     </dl>
 </div>

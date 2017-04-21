@@ -235,8 +235,10 @@ namespace LandLordRating.Controllers
                 return HttpNotFound();
             }
             ViewBag.Message = landLord.FullName;
-
-            var userid = User.Identity.GetUserId();
+            var user = GetCurrentUser();
+            if (user.ClaimedLandLordId == id)
+                return RedirectToAction("Unauthorized");
+            var userid = user.Id;
             var ratings = db.Ratings.Where(u => u.User.Id == userid).Count(u => u.LandLordId == id);
             if (ratings != 0)
             {

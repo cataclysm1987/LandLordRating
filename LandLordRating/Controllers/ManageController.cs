@@ -13,6 +13,7 @@ namespace LandLordRating.Controllers
     [Authorize]
     public class ManageController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -72,6 +73,11 @@ namespace LandLordRating.Controllers
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
+            var user = await UserManager.FindByIdAsync(userId);
+            if (user.ClaimedLandLordId != 0)
+            {
+                model.ClaimedLandLordId = user.ClaimedLandLordId;
+            }
             return View(model);
         }
 

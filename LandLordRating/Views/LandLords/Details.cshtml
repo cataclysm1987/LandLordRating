@@ -130,8 +130,8 @@
 
 @if (Model.IsClaimingUser)
 {
-    <p>@Html.ActionLink("Edit Your LandLord Page", "Edit", "LandLords", null, new {id = Model.LandLord.LandLordId}) </p>
-    <p>@Html.ActionLink("Update Your Profile Image", "UploadProfileImage", "LandLords", null, new { id = Model.LandLord.LandLordId })</p>
+    <p>@Html.ActionLink("Edit Your LandLord Page", "Edit", "LandLords", new {id = Model.LandLord.LandLordId}, null) </p>
+    <p>@Html.ActionLink("Update Your Profile Image", "UploadProfileImage", "LandLords", new { id = Model.LandLord.LandLordId }, null)</p>
 }
 else if (Model.LandLord.IsClaimed)
 {
