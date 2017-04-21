@@ -401,6 +401,11 @@ namespace LandLordRating.Controllers
             db.Entry(landlord).State = EntityState.Modified;
             db.Entry(user).State = EntityState.Modified;
             db.Entry(claim).State = EntityState.Modified;
+            if (db.Ratings.Any(u => u.LandLord == landlord && u.User == user))
+            {
+                var rating = db.Ratings.SingleOrDefault(u => u.LandLord == landlord && u.User == user);
+                db.Ratings.Remove(rating);
+            }
             await db.SaveChangesAsync();
             return RedirectToAction("PendingLandLordClaims");
         }
