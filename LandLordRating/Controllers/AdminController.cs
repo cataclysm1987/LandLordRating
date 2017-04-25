@@ -30,6 +30,8 @@ namespace LandLordRating.Controllers
                 vm.LandLordsAwaitingApproval = db.LandLords.Where(u=> u.IsDeclined == false).Count(u => u.IsApproved == false);
                 vm.LandLordsDeclined = db.LandLords.Count(u => u.IsDeclined);
                 vm.PendingLandLordClaims = db.LandLordClaims.Count(u => u.IsPending);
+                vm.PendingRatings = db.Ratings.Count(u => !u.IsApproved);
+                vm.PendingRatingReplies = db.RatingReplies.Count(u => !u.IsApproved);
                 return View(vm);
             }
             return RedirectToAction("Index", "Home");
@@ -408,6 +410,75 @@ namespace LandLordRating.Controllers
             }
             await db.SaveChangesAsync();
             return RedirectToAction("PendingLandLordClaims");
+        }
+
+
+        [Authorize]
+        public ActionResult PendingRatings(string sortOrder, string currentFilter, string searchString, int? page)
+        {
+            if (!IsAdminUser())
+                return RedirectToAction("Index", "Home");
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var ratinglist = db.Ratings.Where(u => !u.IsApproved);
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                ratinglist = ratinglist.Where(s => s.RatingDescription.Contains(searchString)
+                                                 || s.User.UserName.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    ratinglist = ratinglist.OrderByDescending(s => s.RatingDescription);
+                    break;
+                case "Date":
+                    //Should be a date here, will add later and update the model as well.
+                    ratinglist = ratinglist.OrderBy(s => s.LandLordRating);
+                    break;
+                case "date_desc":
+                    ratinglist = ratinglist.OrderByDescending(s => s.LandLordRating);
+                    break;
+                default:  // Name ascending 
+                    ratinglist = ratinglist.OrderBy(s => s.RatingDescription);
+                    break;
+            }
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(ratinglist.ToPagedList(pageNumber, pageSize));
+        }
+
+        [Authorize]
+        public async Task<ActionResult> ViewRating(int? id)
+        {
+            if (!IsAdminUser())
+                return RedirectToAction("Index", "Home");
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Rating rating = await db.Ratings.FindAsync(id);
+            if (rating == null || !IsAdminUser())
+            {
+                return HttpNotFound();
+            }
+            return View(rating);
+
         }
     }
 }

@@ -39,6 +39,7 @@ namespace LandLordRating.Models
         public DbSet<LandLord> LandLords { get; set; }
         public DbSet<Property> Properties { get; set; }
         public DbSet<LandLordClaim> LandLordClaims { get; set; }
+        public DbSet<RatingReply> RatingReplies { get; set; }
         
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

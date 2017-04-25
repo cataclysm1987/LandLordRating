@@ -90,7 +90,7 @@ namespace LandLordRating.Controllers
             }
             LandLordViewModel vm = new LandLordViewModel();
             vm.LandLord = landLord;
-            vm.Ratings = db.Ratings.Where(u => u.LandLordId == id).OrderBy(u => u.LandLordRating).ToPagedList(1, 10);
+            vm.Ratings = db.Ratings.Where(u => u.LandLordId == id && u.IsApproved).OrderBy(u => u.LandLordRating).ToPagedList(1, 10);
             var userid = GetCurrentUser().Id;
             vm.IsClaimingUser = db.Users.Any(u => u.ClaimedLandLordId == landLord.LandLordId && u.Id == userid);
 
@@ -239,8 +239,8 @@ namespace LandLordRating.Controllers
             if (user.ClaimedLandLordId == id)
                 return RedirectToAction("Unauthorized");
             var userid = user.Id;
-            var ratings = db.Ratings.Where(u => u.User.Id == userid).Count(u => u.LandLordId == id);
-            if (ratings != 0)
+            var alreadyrated = db.Ratings.Where(u => u.User.Id == userid).Any(u => u.LandLordId == id);
+            if (alreadyrated)
             {
                 return RedirectToAction("AlreadyCreated", "LandLords");
             }
@@ -253,10 +253,9 @@ namespace LandLordRating.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<ActionResult> CreateRating([Bind(Include = "RatingId,RatingName,LateFees,LandLordNotice,LandLordResponse,ContactPhoneNumer,RecommendLandLord,RentIncrease,WrittenLease,LandLordRating,RateAnonymously,User_Id,LandLordId,RatingDescription")] Rating rating)
+        public async Task<ActionResult> CreateRating([Bind(Include = "RatingId,RatingName,LateFees,LandLordNotice,LandLordResponse,ContactPhoneNumer,RecommendLandLord,RentIncrease,WrittenLease,LandLordRating,RateAnonymously,User_Id,LandLordId,RatingDescription,IsApproved,IsDeclined")] Rating rating)
         {
-            var userid = User.Identity.GetUserId();
-            rating.User = db.Users.FirstOrDefault(u => u.Id == userid);
+            rating.User = GetCurrentUser();
             if (ModelState.IsValid)
             {
                 db.Ratings.Add(rating);
@@ -292,7 +291,7 @@ namespace LandLordRating.Controllers
             }
             Rating rating = db.Ratings.Find(id);
 
-            if (rating == null)
+            if (rating == null || !rating.IsApproved)
             {
                 return HttpNotFound();
             }
@@ -491,6 +490,46 @@ namespace LandLordRating.Controllers
         public static bool HasImageExtension(string source)
         {
             return (source.EndsWith(".png") || source.EndsWith(".jpg") || source.EndsWith(".gif"));
+        }
+
+        public ActionResult ReplyToRating(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Rating rating = db.Ratings.Find(id);
+
+            if (rating == null)
+            {
+                return HttpNotFound();
+            }
+            var user = GetCurrentUser();
+            if (user.ClaimedLandLordId != rating.LandLordId || rating.RatingReply != null)
+            {
+                return RedirectToAction("Unauthorized");
+            }
+            RatingReplyViewModel vm = new RatingReplyViewModel();
+            vm.Rating = rating;
+            vm.RatingReply = new RatingReply();
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ReplyToRating(RatingReplyViewModel vm)
+        {
+            if (vm.RatingReply.ReplyDescription != null && vm.RatingReply.ReplyDescription.Length <= 2000)
+            {
+                vm.RatingReply.Rating = vm.Rating;
+                RatingReply rr = new RatingReply();
+                rr.ReplyDescription = vm.RatingReply.ReplyDescription;
+                db.RatingReplies.Add(rr);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Details", "LandLords", new {id=vm.Rating.LandLordId});
+            }
+            ViewBag.Message = "Error. Please enter a valid description.";
+            return View(vm);
         }
     }
 

@@ -38,7 +38,17 @@ namespace LandLordRating.Models
         
         public int LandLordId { get; set; }
 
+        public bool IsApproved { get; set; }
+        public bool IsDeclined { get; set; }
+
+        public Rating()
+        {
+            IsApproved = false;
+            IsDeclined = false;
+        }
+
         public virtual ApplicationUser User { get; set; }
         public virtual LandLord LandLord { get; set; }
+        public virtual RatingReply RatingReply { get; set; }
     }
 }

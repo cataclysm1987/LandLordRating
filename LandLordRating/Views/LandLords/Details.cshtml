@@ -116,6 +116,10 @@
                         </td>
                         <td>
                             @Html.ActionLink("View Rating", "ViewRating", "LandLords", new {id = item.RatingId}, new {@class = "btn btn-primary"})
+                            @if (Model.IsClaimingUser)
+                            {
+                                @Html.ActionLink("Reply To Rating", "ReplyToRating", "LandLords", new {id=item.RatingId}, new {@class="btn btn-primary"})
+                            }
                         </td>
                     </tr>
                 }
