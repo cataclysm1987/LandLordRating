@@ -1,0 +1,131 @@
+﻿@model LandLordRating.Models.Rating
+
+@{
+    ViewBag.Title = "View Rating";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>View Rating</h2>
+
+<div>
+    <h4>Rating</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LandLord.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LandLord.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RatingReply.ReplyDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RatingReply.ReplyDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RatingName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RatingName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RatingDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RatingDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LateFees)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LateFees)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LandLordNotice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LandLordNotice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LandLordResponse)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LandLordResponse)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactPhoneNumer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactPhoneNumer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RecommendLandLord)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RecommendLandLord)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RentIncrease)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RentIncrease)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LandLordRating)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LandLordRating)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RateAnonymously)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RateAnonymously)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsApproved)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsApproved)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsDeclined)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsDeclined)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Approve This Rating", "ApproveRating", new { id = Model.RatingId }) |
+    @Html.ActionLink("Back to List", "PendingRatings")
+</p>

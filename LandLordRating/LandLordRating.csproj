@@ -393,6 +393,8 @@
     <Content Include="Views\LandLords\UploadProfileImage.cshtml" />
     <Content Include="Views\LandLords\ReplyToRating.cshtml" />
     <Content Include="Views\Admin\PendingRatings.cshtml" />
+    <Content Include="Views\Admin\ViewRating.cshtml" />
+    <Content Include="Views\Admin\ApproveRating.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

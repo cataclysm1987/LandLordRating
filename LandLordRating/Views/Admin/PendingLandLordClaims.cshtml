@@ -11,6 +11,11 @@
 <br />
 <p>Here is a list of claims submitted for landlord pages by users.</p>
 
+@if (ViewBag.Message != null)
+{
+    <p class="alert-success">@ViewBag.Message</p>
+}
+
 @using (Html.BeginForm())
 {
     <p>

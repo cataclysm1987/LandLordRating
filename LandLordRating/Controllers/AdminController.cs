@@ -235,6 +235,8 @@ namespace LandLordRating.Controllers
                 return HttpNotFound();
             }
             landLord.IsApproved = true;
+            ViewBag.Message = "You have approved the landlord " + landLord.FullName +
+                              ". This account is now live on the website.";
             db.Entry(landLord).State = EntityState.Modified;
             await db.SaveChangesAsync();
             return RedirectToAction("Index", "Admin");
@@ -272,7 +274,8 @@ namespace LandLordRating.Controllers
                 landLord.IsApproved = false;
             db.Entry(landLord).State = EntityState.Modified;
             await db.SaveChangesAsync();
-            return RedirectToAction("Index", "Admin");
+            ViewBag.Message = "You have declined the landlord page " + landLord.FullName;
+            return RedirectToAction("LandLordsAwaitingApproval", "Admin");
         }
 
         [Authorize]
@@ -479,6 +482,43 @@ namespace LandLordRating.Controllers
             }
             return View(rating);
 
+        }
+
+        [Authorize]
+        public async Task<ActionResult> ApproveRating(int? id)
+        {
+            if (!IsAdminUser())
+                return RedirectToAction("Unauthorized", "LandLords");
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Rating rating = await db.Ratings.FindAsync(id);
+            if (rating == null || !IsAdminUser() || rating.IsApproved)
+            {
+                return HttpNotFound();
+            }
+            return View(rating);
+        }
+
+        public async Task<ActionResult> ApproveRatingFinal(int? id)
+        {
+            if (!IsAdminUser())
+                return RedirectToAction("Unauthorized", "LandLords");
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Rating rating = await db.Ratings.FindAsync(id);
+            if (rating == null || !IsAdminUser() || rating.IsApproved)
+            {
+                return HttpNotFound();
+            }
+            rating.IsApproved = true;
+            db.Entry(rating).State = EntityState.Modified;
+            await db.SaveChangesAsync();
+            ViewBag.Message = "The Rating for " + rating.LandLord.FullName + " was approved and is live.";
+            return RedirectToAction("PendingRatings");
         }
     }
 }
