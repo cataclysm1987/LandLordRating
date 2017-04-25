@@ -10,6 +10,7 @@ using System.Web.Security;
 using LandLordRating.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin.Security.OAuth;
 using PagedList;
 
 namespace LandLordRating.Controllers
@@ -151,7 +152,7 @@ namespace LandLordRating.Controllers
         public ActionResult LandLordsAwaitingApproval(string sortOrder, string currentFilter, string searchString, int? page)
         {
             if (!IsAdminUser())
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Unauthorized", "LandLords");
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
@@ -210,6 +211,8 @@ namespace LandLordRating.Controllers
         [Authorize]
         public async Task<ActionResult> ApproveLandLord(int? id)
         {
+            if (!IsAdminUser())
+                return RedirectToAction("Unauthorized", "LandLords");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -225,6 +228,8 @@ namespace LandLordRating.Controllers
         [Authorize]
         public async Task<ActionResult> ApproveLandLordFinal([Bind(Include = "LandLordId,FullName,PhoneNumber,City,State,IsApproved")] int? id)
         {
+            if (!IsAdminUser())
+                return RedirectToAction("Unauthorized", "LandLords");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -245,6 +250,8 @@ namespace LandLordRating.Controllers
         [Authorize]
         public async Task<ActionResult> DeclineLandLord(int? id)
         {
+            if (!IsAdminUser())
+                return RedirectToAction("Unauthorized", "LandLords");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -260,6 +267,8 @@ namespace LandLordRating.Controllers
         [Authorize]
         public async Task<ActionResult> DeclineLandLordFinal([Bind(Include = "LandLordId,FullName,PhoneNumber,City,State,IsApproved")] int? id)
         {
+            if (!IsAdminUser())
+                return RedirectToAction("Unauthorized", "LandLords");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -301,7 +310,7 @@ namespace LandLordRating.Controllers
         public ActionResult PendingLandLordClaims(string sortOrder, string currentFilter, string searchString, int? page)
         {
             if (!IsAdminUser())
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Unauthorized", "LandLords");
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
@@ -351,7 +360,7 @@ namespace LandLordRating.Controllers
         public async Task<ActionResult> ViewLandLordClaim(int? id)
         {
             if (!IsAdminUser())
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Unauthorized", "LandLords");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -369,7 +378,7 @@ namespace LandLordRating.Controllers
         public async Task<ActionResult> ApproveLandLordClaim(int? id)
         {
             if (!IsAdminUser())
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Unauthorized", "LandLords");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -386,8 +395,8 @@ namespace LandLordRating.Controllers
         public async Task<ActionResult> ApproveLandLordClaimFinal(int? id)
         {
             if (!IsAdminUser())
-                return RedirectToAction("Index", "Home");
-            
+                return RedirectToAction("Unauthorized", "LandLords");
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -420,7 +429,7 @@ namespace LandLordRating.Controllers
         public ActionResult PendingRatings(string sortOrder, string currentFilter, string searchString, int? page)
         {
             if (!IsAdminUser())
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Unauthorized", "LandLords");
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
@@ -519,6 +528,110 @@ namespace LandLordRating.Controllers
             await db.SaveChangesAsync();
             ViewBag.Message = "The Rating for " + rating.LandLord.FullName + " was approved and is live.";
             return RedirectToAction("PendingRatings");
+        }
+
+        public ActionResult PendingRatingReplies(string sortOrder, string currentFilter, string searchString, int? page)
+        {
+            if (!IsAdminUser())
+                return RedirectToAction("Unauthorized", "LandLords");
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var ratingreplylist = db.RatingReplies.Where(u => !u.IsApproved);
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                ratingreplylist = ratingreplylist.Where(s => s.ReplyDescription.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    ratingreplylist = ratingreplylist.OrderByDescending(s => s.ReplyDescription);
+                    break;
+                case "Date":
+                    //Should be a date here, will add later and update the model as well.
+                    ratingreplylist = ratingreplylist.OrderBy(s => s.Rating.RatingName);
+                    break;
+                case "date_desc":
+                    ratingreplylist = ratingreplylist.OrderByDescending(s => s.Rating.RatingName);
+                    break;
+                default:  // Name ascending 
+                    ratingreplylist = ratingreplylist.OrderBy(s => s.ReplyDescription);
+                    break;
+            }
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(ratingreplylist.ToPagedList(pageNumber, pageSize));
+        }
+
+
+        [Authorize]
+        public async Task<ActionResult> ViewRatingReply(int? id)
+        {
+            if (!IsAdminUser())
+                return RedirectToAction("Unauthorized", "LandLords");
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            RatingReply ratingreply = await db.RatingReplies.FindAsync(id);
+            if (ratingreply == null || !IsAdminUser() || ratingreply.IsApproved)
+            {
+                return HttpNotFound();
+            }
+            return View(ratingreply);
+        }
+
+        [Authorize]
+        public async Task<ActionResult> ApproveRatingReply(int? id)
+        {
+            if (!IsAdminUser())
+                return RedirectToAction("Unauthorized", "LandLords");
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            RatingReply ratingreply = await db.RatingReplies.FindAsync(id);
+            if (ratingreply == null || !IsAdminUser() || ratingreply.IsApproved)
+            {
+                return HttpNotFound();
+            }
+            return View(ratingreply);
+        }
+
+        [Authorize]
+        public async Task<ActionResult> ApproveRatingReplyFinal(int? id)
+        {
+            if (!IsAdminUser())
+                return RedirectToAction("Unauthorized", "LandLords");
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            RatingReply ratingreply = await db.RatingReplies.FindAsync(id);
+            if (ratingreply == null || !IsAdminUser() || ratingreply.IsApproved)
+            {
+                return HttpNotFound();
+            }
+            ratingreply.IsApproved = true;
+            db.Entry(ratingreply).State = EntityState.Modified;
+            await db.SaveChangesAsync();
+            ViewBag.Message = "The Rating Reply for " + ratingreply.Rating.LandLord.FullName + " was approved and is live.";
+            return RedirectToAction("PendingRatingReplies");
         }
     }
 }

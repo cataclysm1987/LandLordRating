@@ -9,6 +9,8 @@
 
 <p>Are you sure you wish to approve the rating @Model.RatingName?</p>
 
+<p>Make sure it is in line with our @Html.ActionLink("community guidelines.", "CommunityGuideLines", "Home")</p>
+
 <p>Read the full description: @Model.RatingDescription</p>
 
 @Html.ActionLink("Approve This Rating", "ApproveRatingFinal", "Admin", new { id = Model.RatingId}, new { @class = "btn btn-primary btn-lg"})

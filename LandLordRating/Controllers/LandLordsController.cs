@@ -295,8 +295,11 @@ namespace LandLordRating.Controllers
             {
                 return HttpNotFound();
             }
-
-            return View(rating);
+            RatingViewModel vm = new RatingViewModel();
+            vm.Rating = rating;
+            var landlordid = rating.LandLordId;
+            vm.IsClaimingUser = db.Users.Any(u => u.ClaimedLandLordId == landlordid);
+            return View(vm);
         }
 
         public ActionResult AlreadyCreated()

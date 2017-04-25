@@ -256,6 +256,7 @@
     <Compile Include="Models\Rating.cs" />
     <Compile Include="Models\RatingReply.cs" />
     <Compile Include="Models\RatingReplyViewModel.cs" />
+    <Compile Include="Models\RatingViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -395,6 +396,9 @@
     <Content Include="Views\Admin\PendingRatings.cshtml" />
     <Content Include="Views\Admin\ViewRating.cshtml" />
     <Content Include="Views\Admin\ApproveRating.cshtml" />
+    <Content Include="Views\Admin\PendingRatingReplies.cshtml" />
+    <Content Include="Views\Admin\ViewRatingReply.cshtml" />
+    <Content Include="Views\Admin\ApproveRatingReply.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

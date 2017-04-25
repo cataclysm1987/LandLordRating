@@ -1,0 +1,62 @@
+﻿@model PagedList.IPagedList<LandLordRating.Models.RatingReply>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Pending Rating Replies";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>LandLord Rating Replies Awaiting Approval</h2>
+<br />
+<p>Here is a list of rating replies submitted for landlord pages by users that are pending approval by an administrator.</p>
+
+@if (ViewBag.Message != null)
+{
+    <p class="alert-success">@ViewBag.Message</p>
+}
+
+@using (Html.BeginForm())
+{
+    <p>
+        Find by Claim Name: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" class="btn btn-primary"/>
+    </p>
+}
+<table class="table table-striped" id="landlordsTable">
+    <thead>
+    <tr>
+        <th>
+            @Html.ActionLink("Rating Reply", "Index", new { sortOrder = ViewBag.NameSortParm })
+        </th>
+        <th>
+            Rating Name
+        </th>
+        
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.ActionLink(@Html.DisplayFor(modelItem => item.ReplyDescription).ToString(), "ViewRatingReply", new { id = item.RatingReplyId }, null)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rating.RatingName)
+            </td>
+            <td>
+                @Html.ActionLink("View Rating", "ViewRatingReply", new { id = item.RatingReplyId }, new { @class = "btn btn-primary" })
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+@Html.ActionLink("Return to Rating Reply List", "PendingRatingReplies", "Admin")

@@ -1,177 +1,124 @@
-﻿@model LandLordRating.Models.Rating
+﻿@using Microsoft.AspNet.Identity
+@model LandLordRating.Models.RatingViewModel
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Rating Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+<h2>Rating Details</h2>
 
 <div>
-    <h2>Viewing Reviews For @Model.LandLord.FullName</h2>
+    <h2>Viewing Rating Details For @Model.Rating.LandLord.FullName</h2>
     <div class="row">
         <div class="col-md-12">
-            <h4>@Html.DisplayNameFor(model => model.RatingName)</h4>
+            <h4>@Html.DisplayNameFor(model => model.Rating.RatingName)</h4>
             <p>
-                @Html.DisplayFor(model => model.RatingName)
+                @Html.DisplayFor(model => model.Rating.RatingName)
             </p>
         </div>
     </div>
     <div class="row">
         <div class="col-md-6">
             <h4>
-                @Html.DisplayNameFor(model => model.Safty)
+                @Html.DisplayNameFor(model => model.Rating.RatingDescription)
             </h4>
             <p>
-                @Html.DisplayFor(model => model.Safty)
+                @Html.DisplayFor(model => model.Rating.RatingDescription)
             </p>
         </div>
         <div class="col-md-6">
             <h4>
-                @Html.DisplayNameFor(model => model.VoucherUser)
+                @Html.DisplayNameFor(model => model.Rating.LandLord.FullName)
             </h4>
             <p>
-                @Html.DisplayFor(model => model.VoucherUser)
+                @Html.DisplayFor(model => model.Rating.LandLord.FullName)
             </p>
         </div>
     </div>
     <div class="row">
         <div class="col-md-6">
             <h4>
-                @Html.DisplayNameFor(model => model.FireExtinguisher)
+                @Html.DisplayNameFor(model => model.Rating.LateFees)
             </h4>
             <p>
-                @Html.DisplayFor(model => model.FireExtinguisher)
-            </p>
-        </div>
-        <div class="col-md-6">
-            <h4>
-                @Html.DisplayNameFor(model => model.SmokeDetectors)
-            </h4>
-            <p>
-                @Html.DisplayFor(model => model.SmokeDetectors)
+                @Html.DisplayFor(model => model.Rating.LateFees)
             </p>
         </div>
     </div>
     <div class="row">
         <div class="col-md-6">
             <h4>
-                @Html.DisplayNameFor(model => model.CarbonMonoxcide)
+                @Html.DisplayNameFor(model => model.Rating.LandLordNotice)
             </h4>
             <p>
-                @Html.DisplayFor(model => model.CarbonMonoxcide)
+                @Html.DisplayFor(model => model.Rating.LandLordNotice)
             </p>
         </div>
         <div class="col-md-6">
             <h4>
-                @Html.DisplayNameFor(model => model.LateFees)
+                @Html.DisplayNameFor(model => model.Rating.LandLordResponse)
             </h4>
             <p>
-                @Html.DisplayFor(model => model.LateFees)
+                @Html.DisplayFor(model => model.Rating.LandLordResponse)
             </p>
         </div>
     </div>
     <div class="row">
         <div class="col-md-6">
             <h4>
-                @Html.DisplayNameFor(model => model.LandLordNotice)
+                @Html.DisplayNameFor(model => model.Rating.ContactPhoneNumer)
             </h4>
             <p>
-                @Html.DisplayFor(model => model.LandLordNotice)
+                @Html.DisplayFor(model => model.Rating.ContactPhoneNumer)
             </p>
         </div>
         <div class="col-md-6">
             <h4>
-                @Html.DisplayNameFor(model => model.LandLordResponse)
+                @Html.DisplayNameFor(model => model.Rating.RecommendLandLord)
             </h4>
             <p>
-                @Html.DisplayFor(model => model.LandLordResponse)
+                @Html.DisplayFor(model => model.Rating.RecommendLandLord)
             </p>
         </div>
     </div>
     <div class="row">
         <div class="col-md-6">
             <h4>
-                @Html.DisplayNameFor(model => model.ContactPhoneNumer)
+                @Html.DisplayNameFor(model => model.Rating.RentIncrease)
             </h4>
             <p>
-                @Html.DisplayFor(model => model.ContactPhoneNumer)
-            </p>
-        </div>
-        <div class="col-md-6">
-            <h4>
-                @Html.DisplayNameFor(model => model.RecommendLandLord)
-            </h4>
-            <p>
-                @Html.DisplayFor(model => model.RecommendLandLord)
+                @Html.DisplayFor(model => model.Rating.RentIncrease)
             </p>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-6">
-            <h4>
-                @Html.DisplayNameFor(model => model.RentIncrease)
-            </h4>
-            <p>
-                @Html.DisplayFor(model => model.RentIncrease)
-            </p>
-        </div>
-        <div class="col-md-6">
-            <h4>
-                @Html.DisplayNameFor(model => model.WrittenLease)
-            </h4>
-            <p>
-                @Html.DisplayFor(model => model.WrittenLease)
-            </p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <h4>
-                @Html.DisplayNameFor(model => model.Eviction)
-            </h4>
-            <p>
-                @Html.DisplayFor(model => model.Eviction)
-            </p>
-        </div>
-        <div class="col-md-6">
-            <h4>
-                @Html.DisplayNameFor(model => model.EndLease)
-            </h4>
-            <p>
-                @Html.DisplayFor(model => model.EndLease)
-            </p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <h4>
-                @Html.DisplayNameFor(model => model.TimesHaveMoved)
-            </h4>
-            <p>
-                @Html.DisplayFor(model => model.TimesHaveMoved)
-            </p>
-        </div>
-        <div class="col-md-12">
-            <h4>
-                @Html.DisplayNameFor(model => model.LandLordRating)
-            </h4>
-            <p>
-                @Html.DisplayFor(model => model.LandLordRating)
-            </p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <h4>
-                @Html.DisplayNameFor(model => model.AdditionalComments)
-            </h4>
-            <p>
-                @Html.DisplayFor(model => model.AdditionalComments)
-            </p>
-        </div>
+    <div class="col-md-12">
+        <h4>
+            @Html.DisplayNameFor(model => model.Rating.LandLordRating)
+        </h4>
+        <p>
+            @Html.DisplayFor(model => model.Rating.LandLordRating)
+        </p>
     </div>
 </div>
+
+@if (Model.RatingReply != null)
+{
+    <h2>LandLord's Reply to this Rating:</h2>
+    <p>@Model.RatingReply.ReplyDescription</p>
+}
+
+@if (Model.IsClaimingUser && Model.RatingReply != null)
+{
+    <h2>You've already replied to this rating.</h2>
+    <p>You can only reply once to a particular rating.</p>
+} else if (Model.IsClaimingUser && Model.RatingReply == null)
+{
+    <h2>You can reply to this rating</h2>
+    <p>Since this is your landlord page, you can reply to this rating and provide feedback to the user.</p>
+    <p>Just make sure your feedback meets our @Html.ActionLink("community guidelines.", "CommunityGuideLines", "Home")</p>
+    @Html.ActionLink("Repy to Rating", "ReplyToRating", "LandLords", new { id = Model.Rating.RatingId }, new { @class = "btn btn-primary" })
+}
 <p>
-    @Html.ActionLink("Back to LandLord Details", "Details", "LandLords", new { id = Model.LandLordId }, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Back to LandLord Details", "Details", "LandLords", new { id = Model.Rating.LandLord.LandLordId }, new { @class = "btn btn-primary" })
 </p>

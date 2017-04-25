@@ -31,5 +31,10 @@ namespace LandLordRating.Controllers
         {
             return View();
         }
+
+        public ActionResult CommunityGuideLines()
+        {
+            return View();
+        }
     }
 }

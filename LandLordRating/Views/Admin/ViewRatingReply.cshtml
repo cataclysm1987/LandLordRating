@@ -1,0 +1,35 @@
+﻿@model LandLordRating.Models.RatingReply
+
+@{
+    ViewBag.Title = "View Rating Reply";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>View Rating</h2>
+
+<div>
+    <h4>Rating Reply</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Rating.LandLord.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rating.LandLord.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReplyDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReplyDescription)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Approve This Rating Reply", "ApproveRatingReply", new { id = Model.RatingReplyId }) |
+    @Html.ActionLink("Back to List", "PendingRatings")
+</p>

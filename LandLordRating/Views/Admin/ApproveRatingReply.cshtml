@@ -1,0 +1,16 @@
+﻿@model LandLordRating.Models.RatingReply
+
+@{
+    ViewBag.Title = "Approve Rating";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Approve Rating Reply</h2>
+
+<p>Are you sure you wish to approve the rating following rating reply?</p>
+
+<p>Make sure it is in line with our @Html.ActionLink("community guidelines.", "CommunityGuideLines", "Home")</p>
+
+<p>Read the full description: @Model.ReplyDescription</p>
+
+@Html.ActionLink("Approve This Rating", "ApproveRatingReplyFinal", "Admin", new { id = Model.RatingReplyId}, new { @class = "btn btn-primary btn-lg"})
