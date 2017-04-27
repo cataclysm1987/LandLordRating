@@ -36,5 +36,15 @@ namespace LandLordRating.Controllers
         {
             return View();
         }
+
+        public ActionResult FAQ()
+        {
+            return View();
+        }
+
+        public ActionResult TermsAndConditions()
+        {
+            return View();
+        }
     }
 }
