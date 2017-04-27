@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Frequently Asked Questions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Frequently Asked Questions</h2>
+
+<h3>What is LandLord Karma?</h3>
+
+<p>LandLord Karma is a free, open source search engine for tenants seeking information on landlords and for landlords looking to improve their image.</p>
+
+<p>Anyone can search for a landlord, provide feedback on that landlord, claim a landlord page or reply to ratings on their claimed landlord page.</p>
+
+<h3>How Do I Get Started?</h3>
+
+<p>Just @Html.ActionLink("register for an account here", "Register", "Account") to get started. You can submit a claim for a landlord page or review an existing landlord page.</p>
+
+<h3>I See My Information On Your Site But I Never Signed Up. Why?</h3>
+
+<p>We periodically create pages for landlords we know about. These pages are not maintained nor do we represent the landlords in these pages. They are meant as placeholders so users can provide reviews for these pages and so if the landlord wants to, they can claim this page.</p>
+
+<h3>How Can I Claim a LandLord Page?</h3>
+
+<p>Start by @Html.ActionLink("logging in", "Login", "Account") to your account. From there, navigate to your landlord page either by @Html.ActionLink("searching for your landlord page here", "Index", "LandLords") and clicking on claim this landlord page to submit your claim.</p>
+
+<p>Claims are typically processed within 48 hours. You must submit supporting documentation in the form of identification or legal documents to verify your ownership of the page.</p>
+
+<h3>What Do I Do If Someone Posts an Unfair Rating?</h3>
+
+<p>You may @Html.ActionLink("contact us", "Contact", "Home") to resolve the issue. Harassment, hate speech and dishonest or malicious ratings are against our @Html.ActionLink("community guidelines", "CommunityGuideLines", "Home").</p>
+
