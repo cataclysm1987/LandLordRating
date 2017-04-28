@@ -1,0 +1,15 @@
+﻿
+
+@{
+    ViewBag.Title = "400 Error - Bad Request";
+    Layout = "_Layout";
+}
+
+<h2>HTTP Error 400 - Bad Request</h2>
+
+<p>We couldn't find anything in our database coresponding to that request.</p>
+
+<p>Please try entering the information again.</p>
+
+@Html.ActionLink("Return to Home Page", "Index", "Home", null, new {@class="btn btn-primary"})
+

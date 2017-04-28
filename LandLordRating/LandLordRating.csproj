@@ -205,43 +205,16 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LandLordsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201704111841092_initialmodel.cs" />
-    <Compile Include="Migrations\201704111841092_initialmodel.Designer.cs">
-      <DependentUpon>201704111841092_initialmodel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704121903085_landlordidint.cs" />
-    <Compile Include="Migrations\201704121903085_landlordidint.Designer.cs">
-      <DependentUpon>201704121903085_landlordidint.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704122115245_landlordclaim.cs" />
-    <Compile Include="Migrations\201704122115245_landlordclaim.Designer.cs">
-      <DependentUpon>201704122115245_landlordclaim.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704171725082_updatelandlordclaim.cs" />
-    <Compile Include="Migrations\201704171725082_updatelandlordclaim.Designer.cs">
-      <DependentUpon>201704171725082_updatelandlordclaim.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704181233059_update.cs" />
-    <Compile Include="Migrations\201704181233059_update.Designer.cs">
-      <DependentUpon>201704181233059_update.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704191723132_imageanddesc.cs" />
-    <Compile Include="Migrations\201704191723132_imageanddesc.Designer.cs">
-      <DependentUpon>201704191723132_imageanddesc.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704212100087_ratingreply.cs" />
-    <Compile Include="Migrations\201704212100087_ratingreply.Designer.cs">
-      <DependentUpon>201704212100087_ratingreply.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201704251329202_isapprovedratingratingreply.cs" />
-    <Compile Include="Migrations\201704251329202_isapprovedratingratingreply.Designer.cs">
-      <DependentUpon>201704251329202_isapprovedratingratingreply.cs</DependentUpon>
+    <Compile Include="Migrations\201704281541330_init.cs" />
+    <Compile Include="Migrations\201704281541330_init.Designer.cs">
+      <DependentUpon>201704281541330_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -403,6 +376,11 @@
     <Content Include="Views\Home\FAQ.cshtml" />
     <Content Include="Views\Home\TermsAndConditions.cshtml" />
     <Content Include="Views\Home\PrivacyPolicy.cshtml" />
+    <Content Include="Views\Admin\AddTestLandLordsFinal.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\Error\Forbidden.cshtml" />
+    <Content Include="Views\Error\BadRequest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -416,29 +394,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201704111841092_initialmodel.resx">
-      <DependentUpon>201704111841092_initialmodel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704121903085_landlordidint.resx">
-      <DependentUpon>201704121903085_landlordidint.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704122115245_landlordclaim.resx">
-      <DependentUpon>201704122115245_landlordclaim.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704171725082_updatelandlordclaim.resx">
-      <DependentUpon>201704171725082_updatelandlordclaim.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704181233059_update.resx">
-      <DependentUpon>201704181233059_update.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704191723132_imageanddesc.resx">
-      <DependentUpon>201704191723132_imageanddesc.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704212100087_ratingreply.resx">
-      <DependentUpon>201704212100087_ratingreply.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201704251329202_isapprovedratingratingreply.resx">
-      <DependentUpon>201704251329202_isapprovedratingratingreply.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201704281541330_init.resx">
+      <DependentUpon>201704281541330_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

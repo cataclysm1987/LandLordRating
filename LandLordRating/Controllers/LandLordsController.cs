@@ -61,7 +61,12 @@ namespace LandLordRating.Controllers
                     break;
             }
 
-            foreach (var landlord in db.LandLords)
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            var landlordspagedlist = landlords.ToPagedList(pageNumber, pageSize);
+
+            //Currently updates every time a search is performed, CHANGE TO SCHEDULED TASK!!!!!
+            foreach (var landlord in landlordspagedlist)
             {
                 var listofratings = db.Ratings.Where(u => u.LandLordId == landlord.LandLordId).Select(u=>u.LandLordRating).ToList();
                 if (listofratings.Count() != 0)
@@ -72,9 +77,7 @@ namespace LandLordRating.Controllers
                 
             }
 
-            int pageSize = 10;
-            int pageNumber = (page ?? 1);
-            return View(landlords.ToPagedList(pageNumber, pageSize));
+            return View(landlordspagedlist);
         }
 
         // GET: LandLords/Details/5
@@ -91,7 +94,11 @@ namespace LandLordRating.Controllers
             }
             LandLordViewModel vm = new LandLordViewModel();
             vm.LandLord = landLord;
-            vm.Ratings = db.Ratings.Where(u => u.LandLordId == id && u.IsApproved).OrderBy(u => u.LandLordRating).ToPagedList(1, 10);
+            if (db.Ratings.Count(u => u.LandLordId == id && u.IsApproved) > 5)
+                vm.AreThereMoreThan5Ratings = true;
+            else
+                vm.AreThereMoreThan5Ratings = false;
+            vm.Ratings = db.Ratings.Where(u => u.LandLordId == id && u.IsApproved).OrderBy(u => u.LandLordRating).Take(5).ToPagedList(1, 10);
             var userid = GetCurrentUser().Id;
             vm.IsClaimingUser = db.Users.Any(u => u.ClaimedLandLordId == landLord.LandLordId && u.Id == userid);
 
@@ -267,8 +274,9 @@ namespace LandLordRating.Controllers
             return RedirectToAction("Index", "LandLords");
         }
 
-        public async Task<ActionResult> ViewRatingsForLandLord(int? id)
+        public async Task<ActionResult> ViewRatingsForLandLord(int? id, string sortOrder, string currentFilter, string searchString, int? page)
         {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -279,9 +287,55 @@ namespace LandLordRating.Controllers
             {
                 return HttpNotFound();
             }
-            var ratinglist = db.Ratings.Where(u => u.LandLordId == id).OrderBy(u=>u.LandLordRating).ToPagedList(1, 10);
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+            var ratinglist = db.Ratings.Where(u => u.LandLordId == id && u.IsApproved);
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                ratinglist = ratinglist.Where(s => s.RatingName.Contains(searchString)
+                                                 || s.RatingDescription.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    ratinglist = ratinglist.OrderByDescending(s => s.RatingName);
+                break;
+                case "Date":
+                    ratinglist = ratinglist.OrderBy(s => s.LandLordRating);
+                break;
+                case "date_desc":
+                    ratinglist = ratinglist.OrderByDescending(s => s.LandLordRating);
+                break;
+                default:  // Name ascending 
+                    ratinglist = ratinglist.OrderBy(s => s.RatingName);
+                break;
+            }
+
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+
             ViewBag.Message = "Viewing Ratings for " + landLord.FullName;
-            return View(ratinglist);
+            LandLordViewModel vm = new LandLordViewModel();
+            vm.Ratings = ratinglist.ToPagedList(pageNumber, pageSize);
+            vm.LandLord = landLord;
+            var userid = GetCurrentUser().Id;
+            vm.IsClaimingUser = db.Users.Any(u => u.ClaimedLandLordId == landLord.LandLordId && u.Id == userid);
+            return View(vm);
         }
 
         public ActionResult ViewRating(int? id)
