@@ -12,6 +12,7 @@ using LandLordRating.Models;
 
 namespace LandLordRating.Controllers
 {
+    
     [Authorize]
     public class AccountController : Controller
     {

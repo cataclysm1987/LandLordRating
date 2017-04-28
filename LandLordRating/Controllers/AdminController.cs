@@ -15,6 +15,7 @@ using PagedList;
 
 namespace LandLordRating.Controllers
 {
+    
     public class AdminController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
