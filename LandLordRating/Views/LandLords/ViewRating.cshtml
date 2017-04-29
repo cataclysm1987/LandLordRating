@@ -5,120 +5,98 @@
     ViewBag.Title = "Rating Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script>
+        $(document).ready(function () {
+            $("#rating-bar").css("width", "calc(10% * @Html.DisplayFor(model => model.Rating.LandLordRating))");
+        });
+</script>
 
-<h2>Rating Details</h2>
-
-<div>
-    <h2>Viewing Rating Details For @Model.Rating.LandLord.FullName</h2>
+<div class="container">
+    <h1>View Rating Details for @Html.DisplayFor(model=>model.Rating.LandLord.FullName)</h1>
+    <h2 style="text-align: center;">Overall Rating: @Html.DisplayFor(model => model.Rating.LandLordRating) / 10</h2>
+    @if (Model.Rating.LandLordRating <= 4)
+    {
+        <p style="text-align: center;">That's a pretty bad score! This landlord probably needs to improve service quality!</p>
+    } else if (Model.Rating.LandLordRating <= 6)
+    {
+        <p style="text-align: center;">Not too bad but not great either. This landlord probably needs to improve in a few areas!</p>
+    } else if (Model.Rating.LandLordRating <= 9)
+    {
+        <p style="text-align: center;">This is a pretty darn good review! This landlord probably gives great service!</p>
+    } else
+    {
+        <p style="text-align: center;">Wow! A perfect 10! This landlord probably works very hard to deliver quality service!</p>
+    }
     <div class="row">
-        <div class="col-md-12">
-            <h4>@Html.DisplayNameFor(model => model.Rating.RatingName)</h4>
-            <p>
-                @Html.DisplayFor(model => model.Rating.RatingName)
-            </p>
+        <div class="col-md-10 col-md-offset-1">
+            <div class="progress progress-striped active">
+                <div class="progress-bar progress-bar-success" id="rating-bar"></div>
+            </div>
         </div>
     </div>
+    
+    <hr />
+
     <div class="row">
-        <div class="col-md-6">
-            <h4>
-                @Html.DisplayNameFor(model => model.Rating.RatingDescription)
-            </h4>
-            <p>
+        <div class="col-md-12">
+            <h2>Rating Name: @Html.DisplayFor(model => model.Rating.RatingName)</h2>
+            <h3>Full Rating Text: </h3>
+            <p style="font-size: 16px;">
                 @Html.DisplayFor(model => model.Rating.RatingDescription)
             </p>
         </div>
-        <div class="col-md-6">
-            <h4>
-                @Html.DisplayNameFor(model => model.Rating.LandLord.FullName)
-            </h4>
-            <p>
-                @Html.DisplayFor(model => model.Rating.LandLord.FullName)
-            </p>
+    </div>
+    <h1>Additional Rating Information: </h1>
+    <hr/>
+    <div class="row" style="background-color: #efefef">
+        <div class="col-md-6 col-sm-12">
+            <ul style="font-size: 16px; line-height: 1.8;">
+                <li>Did LandLord Charge Excessive Late Fees: @Html.DisplayFor(model => model.Rating.LateFees)</li>
+                <li>Did LandLord Provide 24 Hour Notice Before Entering: @Html.DisplayFor(model => model.Rating.LandLordNotice)</li>
+                <li>Did LandLord Respond Promptly to Requests: @Html.DisplayFor(model => model.Rating.LandLordResponse)</li>
+            </ul>
+        </div>
+        <div class="col-md-6 col-sm-12">
+            <ul style="font-size: 16px; line-height: 1.8;">
+                <li>Did LandLord Provide a Good Contact Number: @Html.DisplayFor(model => model.Rating.ContactPhoneNumer)</li>
+                <li>Did LandLord Increase Rent Without 30 Day Notice: @Html.DisplayFor(model => model.Rating.RentIncrease)</li>
+                <li>Would You Recommend This LandLord: @Html.DisplayFor(model => model.Rating.RecommendLandLord)</li>
+            </ul>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-6">
-            <h4>
-                @Html.DisplayNameFor(model => model.Rating.LateFees)
-            </h4>
-            <p>
-                @Html.DisplayFor(model => model.Rating.LateFees)
-            </p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <h4>
-                @Html.DisplayNameFor(model => model.Rating.LandLordNotice)
-            </h4>
-            <p>
-                @Html.DisplayFor(model => model.Rating.LandLordNotice)
-            </p>
-        </div>
-        <div class="col-md-6">
-            <h4>
-                @Html.DisplayNameFor(model => model.Rating.LandLordResponse)
-            </h4>
-            <p>
-                @Html.DisplayFor(model => model.Rating.LandLordResponse)
-            </p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <h4>
-                @Html.DisplayNameFor(model => model.Rating.ContactPhoneNumer)
-            </h4>
-            <p>
-                @Html.DisplayFor(model => model.Rating.ContactPhoneNumer)
-            </p>
-        </div>
-        <div class="col-md-6">
-            <h4>
-                @Html.DisplayNameFor(model => model.Rating.RecommendLandLord)
-            </h4>
-            <p>
-                @Html.DisplayFor(model => model.Rating.RecommendLandLord)
-            </p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <h4>
-                @Html.DisplayNameFor(model => model.Rating.RentIncrease)
-            </h4>
-            <p>
-                @Html.DisplayFor(model => model.Rating.RentIncrease)
-            </p>
-        </div>
-    </div>
-    <div class="col-md-12">
-        <h4>
-            @Html.DisplayNameFor(model => model.Rating.LandLordRating)
-        </h4>
-        <p>
-            @Html.DisplayFor(model => model.Rating.LandLordRating)
-        </p>
-    </div>
+    <hr/>
+    <br/>
+
+
+    @if (Model.RatingReply != null)
+    {
+        <h3 style="text-align: center;">LandLord's Reply to this Rating:</h3>
+        <p>@Model.RatingReply.ReplyDescription</p>
+        <br />
+    }
+    else
+    {
+        <h3 style="text-align: center;">@Model.Rating.LandLord.FullName has not replied to this rating yet.</h3>
+        <br />
+    }
+
+    @if (Model.IsClaimingUser && Model.RatingReply != null)
+    {
+        <h3 style="text-align: center;">You've already replied to this rating.</h3>
+        <p>You can only reply once to a particular rating.</p>
+        <br />
+    }
+    else if (Model.IsClaimingUser && Model.RatingReply == null)
+    {
+        <h3 style="text-align: center;">You can reply to this rating</h3>
+        <p>Since this is your landlord page, you can reply to this rating and provide feedback to the user.</p>
+        <p>Just make sure your feedback meets our @Html.ActionLink("community guidelines.", "CommunityGuideLines", "Home")</p>
+        @Html.ActionLink("Repy to Rating", "ReplyToRating", "LandLords", new {id = Model.Rating.RatingId}, new {@class = "btn btn-primary"})
+        <br />
+    }
+
+    <p>
+        @Html.ActionLink("<< Back to LandLord Details", "Details", "LandLords", new {id = Model.Rating.LandLord.LandLordId}, new {@class = "btn btn-primary"})
+    </p>
+
 </div>
-
-@if (Model.RatingReply != null)
-{
-    <h2>LandLord's Reply to this Rating:</h2>
-    <p>@Model.RatingReply.ReplyDescription</p>
-}
-
-@if (Model.IsClaimingUser && Model.RatingReply != null)
-{
-    <h2>You've already replied to this rating.</h2>
-    <p>You can only reply once to a particular rating.</p>
-} else if (Model.IsClaimingUser && Model.RatingReply == null)
-{
-    <h2>You can reply to this rating</h2>
-    <p>Since this is your landlord page, you can reply to this rating and provide feedback to the user.</p>
-    <p>Just make sure your feedback meets our @Html.ActionLink("community guidelines.", "CommunityGuideLines", "Home")</p>
-    @Html.ActionLink("Repy to Rating", "ReplyToRating", "LandLords", new { id = Model.Rating.RatingId }, new { @class = "btn btn-primary" })
-}
-<p>
-    @Html.ActionLink("Back to LandLord Details", "Details", "LandLords", new { id = Model.Rating.LandLord.LandLordId }, new { @class = "btn btn-primary" })
-</p>
