@@ -66,16 +66,7 @@ namespace LandLordRating.Controllers
             var landlordspagedlist = landlords.ToPagedList(pageNumber, pageSize);
 
             //Currently updates every time a search is performed, CHANGE TO SCHEDULED TASK!!!!!
-            foreach (var landlord in landlordspagedlist)
-            {
-                var listofratings = db.Ratings.Where(u => u.LandLordId == landlord.LandLordId).Select(u=>u.LandLordRating).ToList();
-                if (listofratings.Count() != 0)
-                {
-                    double result = listofratings.Average();
-                    landlord.OverallRating = result;
-                }
-                
-            }
+           
 
             return View(landlordspagedlist);
         }
