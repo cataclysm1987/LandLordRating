@@ -48,6 +48,10 @@
       <HintPath>..\packages\FluentScheduler.5.1.4\lib\net40\FluentScheduler.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="hbehr.recaptcha, Version=1.4.0.23109, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Bin\hbehr.recaptcha.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -216,9 +220,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201704281541330_init.cs" />
-    <Compile Include="Migrations\201704281541330_init.Designer.cs">
-      <DependentUpon>201704281541330_init.cs</DependentUpon>
+    <Compile Include="Migrations\201705021906400_init.cs" />
+    <Compile Include="Migrations\201705021906400_init.Designer.cs">
+      <DependentUpon>201705021906400_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -400,8 +404,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201704281541330_init.resx">
-      <DependentUpon>201704281541330_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201705021906400_init.resx">
+      <DependentUpon>201705021906400_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

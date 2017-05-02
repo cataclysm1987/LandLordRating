@@ -637,6 +637,7 @@ namespace LandLordRating.Controllers
                 return HttpNotFound();
             }
             ratingreply.IsApproved = true;
+            ratingreply.Rating = db.Ratings.FirstOrDefault(u => u.RatingReply.RatingReplyId == id);
             db.Entry(ratingreply).State = EntityState.Modified;
             try
             {
@@ -688,11 +689,11 @@ namespace LandLordRating.Controllers
                         rating.RatingName = "Rating" + k;
                         rating.LandLord = landlord;
                         rating.ContactPhoneNumer = UnspecifiedYesNo.Yes;
-                        rating.LandLordRating = 7;
+                        rating.LandLordRating = 2;
                         rating.LateFees = UnspecifiedYesNo.Yes;
                         rating.IsApproved = true;
-                        rating.RatingDescription = landlord.FullName + " is a great landlord! I'd recommend this guy!";
-                        rating.RatingName = "Great landlord";
+                        rating.RatingDescription = landlord.FullName + " is a terrible landlord! I'd never recommend this guy!";
+                        rating.RatingName = "Terrible landlord";
                         RatingReply ratingreply = new RatingReply();
                         ratingreply.ReplyDescription = "Thanks for the review!";
                         ratingreply.Rating = rating;

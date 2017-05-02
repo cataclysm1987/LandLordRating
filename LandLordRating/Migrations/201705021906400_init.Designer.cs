@@ -13,7 +13,7 @@ namespace LandLordRating.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201704281541330_init"; }
+            get { return "201705021906400_init"; }
         }
         
         string IMigrationMetadata.Source

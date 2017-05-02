@@ -26,15 +26,11 @@
         <dd>
             @Html.DisplayFor(model => model.ReplyDescription)
         </dd>
-        <dd>
-            Original Rating Text
-        </dd>
-        <dt>
-            @Html.DisplayFor(model => model.Rating.RatingDescription)
-        </dt>
-
     </dl>
+    <h3>Original Rating Text: </h3>
+    <p>@Html.DisplayFor(model => model.Rating.RatingDescription)</p>
 </div>
+<hr />
 <p>
     @Html.ActionLink("Approve This Rating Reply", "ApproveRatingReply", new { id = Model.RatingReplyId }) |
     @Html.ActionLink("Back to List", "PendingRatings")
