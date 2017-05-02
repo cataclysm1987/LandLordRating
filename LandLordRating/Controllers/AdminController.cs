@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ using PagedList;
 
 namespace LandLordRating.Controllers
 {
-    
+
     public class AdminController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -29,7 +30,8 @@ namespace LandLordRating.Controllers
                 vm.Users = db.Users.Count();
                 vm.Ratings = db.Ratings.Count();
                 vm.LandLords = db.LandLords.Count();
-                vm.LandLordsAwaitingApproval = db.LandLords.Where(u=> u.IsDeclined == false).Count(u => u.IsApproved == false);
+                vm.LandLordsAwaitingApproval =
+                    db.LandLords.Where(u => u.IsDeclined == false).Count(u => u.IsApproved == false);
                 vm.LandLordsDeclined = db.LandLords.Count(u => u.IsDeclined);
                 vm.PendingLandLordClaims = db.LandLordClaims.Count(u => u.IsPending);
                 vm.PendingRatings = db.Ratings.Count(u => !u.IsApproved);
@@ -114,7 +116,7 @@ namespace LandLordRating.Controllers
             if (!string.IsNullOrEmpty(searchString))
             {
                 landlordsdeclined = landlordsdeclined.Where(s => s.FullName.Contains(searchString)
-                                                 || s.City.Contains(searchString));
+                                                                 || s.City.Contains(searchString));
             }
 
             switch (sortOrder)
@@ -128,14 +130,15 @@ namespace LandLordRating.Controllers
                 case "date_desc":
                     landlordsdeclined = landlordsdeclined.OrderByDescending(s => s.OverallRating);
                     break;
-                default:  // Name ascending 
+                default: // Name ascending 
                     landlordsdeclined = landlordsdeclined.OrderBy(s => s.FullName);
                     break;
             }
 
             foreach (var landlord in db.LandLords)
             {
-                var listofratings = db.Ratings.Where(u => u.LandLordId == landlord.LandLordId).Select(u => u.LandLordRating).ToList();
+                var listofratings =
+                    db.Ratings.Where(u => u.LandLordId == landlord.LandLordId).Select(u => u.LandLordRating).ToList();
                 if (listofratings.Count() != 0)
                 {
                     double result = listofratings.Average();
@@ -150,7 +153,8 @@ namespace LandLordRating.Controllers
         }
 
         [Authorize]
-        public ActionResult LandLordsAwaitingApproval(string sortOrder, string currentFilter, string searchString, int? page)
+        public ActionResult LandLordsAwaitingApproval(string sortOrder, string currentFilter, string searchString,
+            int? page)
         {
             if (!IsAdminUser())
                 return RedirectToAction("Unauthorized", "LandLords");
@@ -174,7 +178,7 @@ namespace LandLordRating.Controllers
             if (!string.IsNullOrEmpty(searchString))
             {
                 landlordapprovallist = landlordapprovallist.Where(s => s.FullName.Contains(searchString)
-                                                 || s.City.Contains(searchString));
+                                                                       || s.City.Contains(searchString));
             }
 
             switch (sortOrder)
@@ -188,14 +192,15 @@ namespace LandLordRating.Controllers
                 case "date_desc":
                     landlordapprovallist = landlordapprovallist.OrderByDescending(s => s.OverallRating);
                     break;
-                default:  // Name ascending 
+                default: // Name ascending 
                     landlordapprovallist = landlordapprovallist.OrderBy(s => s.FullName);
                     break;
             }
 
             foreach (var landlord in db.LandLords)
             {
-                var listofratings = db.Ratings.Where(u => u.LandLordId == landlord.LandLordId).Select(u => u.LandLordRating).ToList();
+                var listofratings =
+                    db.Ratings.Where(u => u.LandLordId == landlord.LandLordId).Select(u => u.LandLordRating).ToList();
                 if (listofratings.Count() != 0)
                 {
                     double result = listofratings.Average();
@@ -227,7 +232,8 @@ namespace LandLordRating.Controllers
         }
 
         [Authorize]
-        public async Task<ActionResult> ApproveLandLordFinal([Bind(Include = "LandLordId,FullName,PhoneNumber,City,State,IsApproved")] int? id)
+        public async Task<ActionResult> ApproveLandLordFinal(
+            [Bind(Include = "LandLordId,FullName,PhoneNumber,City,State,IsApproved")] int? id)
         {
             if (!IsAdminUser())
                 return RedirectToAction("Unauthorized", "LandLords");
@@ -266,7 +272,8 @@ namespace LandLordRating.Controllers
         }
 
         [Authorize]
-        public async Task<ActionResult> DeclineLandLordFinal([Bind(Include = "LandLordId,FullName,PhoneNumber,City,State,IsApproved")] int? id)
+        public async Task<ActionResult> DeclineLandLordFinal(
+            [Bind(Include = "LandLordId,FullName,PhoneNumber,City,State,IsApproved")] int? id)
         {
             if (!IsAdminUser())
                 return RedirectToAction("Unauthorized", "LandLords");
@@ -347,7 +354,7 @@ namespace LandLordRating.Controllers
                 case "date_desc":
                     claimlist = claimlist.OrderByDescending(s => s.ClaimDescription);
                     break;
-                default:  // Name ascending 
+                default: // Name ascending 
                     claimlist = claimlist.OrderBy(s => s.ClaimName);
                     break;
             }
@@ -403,7 +410,8 @@ namespace LandLordRating.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             LandLordClaim claim = await db.LandLordClaims.FindAsync(id);
-            if (claim == null || !IsAdminUser() || claim.LandLord.IsClaimed || claim.ApplicationUser.ClaimedLandLordId != 0)
+            if (claim == null || !IsAdminUser() || claim.LandLord.IsClaimed ||
+                claim.ApplicationUser.ClaimedLandLordId != 0)
             {
                 return HttpNotFound();
             }
@@ -451,7 +459,7 @@ namespace LandLordRating.Controllers
             if (!string.IsNullOrEmpty(searchString))
             {
                 ratinglist = ratinglist.Where(s => s.RatingDescription.Contains(searchString)
-                                                 || s.User.UserName.Contains(searchString));
+                                                   || s.User.UserName.Contains(searchString));
             }
 
             switch (sortOrder)
@@ -466,7 +474,7 @@ namespace LandLordRating.Controllers
                 case "date_desc":
                     ratinglist = ratinglist.OrderByDescending(s => s.LandLordRating);
                     break;
-                default:  // Name ascending 
+                default: // Name ascending 
                     ratinglist = ratinglist.OrderBy(s => s.RatingDescription);
                     break;
             }
@@ -569,7 +577,7 @@ namespace LandLordRating.Controllers
                 case "date_desc":
                     ratingreplylist = ratingreplylist.OrderByDescending(s => s.Rating.RatingName);
                     break;
-                default:  // Name ascending 
+                default: // Name ascending 
                     ratingreplylist = ratingreplylist.OrderBy(s => s.ReplyDescription);
                     break;
             }
@@ -630,9 +638,94 @@ namespace LandLordRating.Controllers
             }
             ratingreply.IsApproved = true;
             db.Entry(ratingreply).State = EntityState.Modified;
+            try
+            {
+                await db.SaveChangesAsync();
+                ViewBag.Message = "The Rating Reply for " + ratingreply.Rating.LandLord.FullName +
+                                  " was approved and is live.";
+                return RedirectToAction("PendingRatingReplies");
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine(eve);
+                }
+                ViewBag.Message = "There was an error approving this rating reply: " + e.Message;
+                return RedirectToAction("PendingRatingReplies");
+            }
+        }
+
+        [Authorize]
+        public async Task<ActionResult> AddTestLandLordsFinal()
+        {
+            if (!IsAdminUser())
+                return RedirectToAction("Unauthorized", "LandLords");
+            try
+            {
+
+
+                var landlordnumber = db.LandLords.Count();
+                if (landlordnumber == 0)
+                    landlordnumber = 1;
+                for (int i = landlordnumber; i <= 100; i++)
+                {
+                    var landlordname = "LandLord" + i;
+                    LandLord landlord = new LandLord();
+                    landlord.FullName = landlordname;
+                    landlord.City = "Cleveland";
+                    landlord.IndividualOrCompany = IndividualOrCompany.Individual;
+                    landlord.Description =
+                        "This is just a test landlord! Here is some information about this landlord. What a great/terrible landlord this landlord is! Yay!";
+                    landlord.PhoneNumber = "1231231234";
+                    landlord.State = States.OH;
+                    landlord.IsApproved = true;
+                    db.LandLords.Add(landlord);
+                    List<Rating> ratings = new List<Rating>();
+                    for (int k = 1; i <= 10; i++)
+                    {
+                        Rating rating = new Rating();
+                        rating.RatingName = "Rating" + k;
+                        rating.LandLord = landlord;
+                        rating.ContactPhoneNumer = UnspecifiedYesNo.Yes;
+                        rating.LandLordRating = 7;
+                        rating.LateFees = UnspecifiedYesNo.Yes;
+                        rating.IsApproved = true;
+                        rating.RatingDescription = landlord.FullName + " is a great landlord! I'd recommend this guy!";
+                        rating.RatingName = "Great landlord";
+                        RatingReply ratingreply = new RatingReply();
+                        ratingreply.ReplyDescription = "Thanks for the review!";
+                        ratingreply.Rating = rating;
+                        db.Ratings.Add(rating);
+                        db.RatingReplies.Add(ratingreply);
+
+                    }
+                    await db.SaveChangesAsync();
+                }
+                ViewBag.Message = "Success! 100 landlords with 10 ratings were added.";
+            }
+            catch (SystemException ex)
+            {
+                ViewBag.Message = ex.Message;
+            }
+            return View();
+        }
+
+        [Authorize]
+        public async Task ApproveAllLandLords()
+        {
+            if (!IsAdminUser())
+            {
+                RedirectToAction("Unauthorized", "LandLords");
+                return;
+            }
+            foreach (LandLord landlord in db.LandLords)
+            {
+                landlord.IsApproved = true;
+                db.Entry(landlord).State = EntityState.Modified;
+                
+            }
             await db.SaveChangesAsync();
-            ViewBag.Message = "The Rating Reply for " + ratingreply.Rating.LandLord.FullName + " was approved and is live.";
-            return RedirectToAction("PendingRatingReplies");
         }
     }
 }

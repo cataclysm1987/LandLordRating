@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -22,6 +23,8 @@ namespace LandLordRating.Models
             IsApproved = false;
             IsDeclined = false;
         }
+
+       
 
         [Required]
         public virtual Rating Rating { get; set; }

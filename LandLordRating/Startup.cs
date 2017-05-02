@@ -1,5 +1,5 @@
-﻿using System;
-using hbehr.recaptcha;
+﻿using System.Linq;
+using FluentScheduler;
 using LandLordRating.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -12,10 +12,12 @@ namespace LandLordRating
 {
     public partial class Startup
     {
+        
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
             createRolesandUsers();
+            JobManager.Initialize(new MyRegistry());
         }
 
         private void createRolesandUsers()
@@ -62,6 +64,32 @@ namespace LandLordRating
 
             }
         }
+    }
 
+    public class MyRegistry : Registry
+    {
+        public MyRegistry()
+        {
+            Schedule<UpdateAverageRatings>().ToRunEvery(1).Days().At(3, 0);
+        }
+        
+    }
+
+    public class UpdateAverageRatings : IJob
+    {
+        private ApplicationDbContext db = new ApplicationDbContext();
+        public void Execute()
+        {
+            foreach (var landlord in db.LandLords)
+            {
+                var listofratings = db.Ratings.Where(u => u.LandLordId == landlord.LandLordId).Select(u => u.LandLordRating).ToList();
+                if (listofratings.Count() != 0)
+                {
+                    double result = listofratings.Average();
+                    landlord.OverallRating = result;
+                }
+
+            }
+        }
     }
 }

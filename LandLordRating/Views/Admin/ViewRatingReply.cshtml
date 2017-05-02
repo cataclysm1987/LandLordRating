@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>View Rating</h2>
+<h2>View Rating Reply</h2>
 
 <div>
     <h4>Rating Reply</h4>
@@ -20,12 +20,18 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ReplyDescription)
+            Reply Description: 
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.ReplyDescription)
         </dd>
+        <dd>
+            Original Rating Text
+        </dd>
+        <dt>
+            @Html.DisplayFor(model => model.Rating.RatingDescription)
+        </dt>
 
     </dl>
 </div>

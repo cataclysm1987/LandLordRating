@@ -1,4 +1,4 @@
-﻿@model PagedList.IPagedList<LandLordRating.Models.Rating>
+﻿@model LandLordRating.Models.LandLordViewModel
 @using PagedList.Mvc;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
@@ -6,72 +6,69 @@
     ViewBag.Title = "View Ratings For LandLord";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@section scripts{
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.13/af-2.1.3/b-1.2.4/datatables.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#landlordsTable').DataTable({
-                "bLengthChange": false,
-                "pageLength": 50
-            });
-        });
-    </script>
-}
 
 <h2>@ViewBag.Message</h2>
 <br />
-<p>Below is a list of all ratings on this landlord we have information on.</p>
+<p>Below is a list of all ratings on this landlord that our users have submitted.</p>
 
-@using (Html.BeginForm())
-{
-    <p>
-        Find by LandLord Name: @Html.TextBox("SearchString")
-        <input type="submit" value="Search" />
-    </p>
-}
-<table class="table table-striped" id="landlordsTable">
+<table class="table table-striped" id="landlordratingstable">
     <thead>
-    <tr>
-        <th>
-            @Html.ActionLink("Full Name", "Index", new { sortOrder = ViewBag.NameSortParm })
-        </th>
-        <th>
-            LandLord Rating
-        </th>
-        <th>
-            City
-        </th>
-        <th>
-            State
-        </th>
-        <th></th>
-    </tr>
+        <tr>
+            <th>
+                Rating Name
+            </th>
+            <th>
+                LandLord Rating
+            </th>
+            <th>
+                View Rating
+            </th>
+            <th>
+                Has LandLord Replied?
+            </th>
+        </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.ActionLink(@Html.DisplayFor(modelItem => item.RatingName).ToString(), "RatingDetails", new { id = item.RatingId }, null)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LandLordRating)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RatingDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SafetyRating)
-            </td>
-            <td>
-                @Html.ActionLink("Write Rating", "CreateRating", new { id = item.LandLordId }, new { @class = "btn btn-primary" })
-            </td>
-        </tr>
-    }
+        @foreach (var item in Model.Ratings)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(@Html.DisplayFor(modelItem => item.RatingName).ToString(), "ViewRating", "LandLords", new { id = item.RatingId }, null)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LandLordRating)
+                </td>
+                <td>
+                    @Html.ActionLink("View Rating", "ViewRating", "LandLords", new { id = item.RatingId }, new { @class = "btn btn-primary" })
+                    @if (Model.IsClaimingUser)
+                    {
+                        @Html.ActionLink("Reply To Rating", "ReplyToRating", "LandLords", new { id = item.RatingId }, new { @class = "btn btn-primary" })
+                    }
+                </td>
+                @if (item.RatingReply != null)
+                {
+                    <td>Yes</td>
+                }
+                else
+                {
+                    <td>No</td>
+                }
+            </tr>
+        }
     </tbody>
 </table>
 
-<br />
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+<hr />
 
-@Html.PagedListPager(Model, page => Url.Action("Index",
+
+<br />
+Page @(Model.Ratings.PageCount < Model.Ratings.PageNumber ? 0 : Model.Ratings.PageNumber) of @Model.Ratings.PageCount
+
+@Html.PagedListPager(Model.Ratings, page => Url.Action("Index",
     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+<br/>
+
+@Html.ActionLink("Return to LandLord Page", "Details", "LandLords", new { id=Model.LandLord.LandLordId}, new { @class="btn btn-primary btn-lg"})
+
+

@@ -101,7 +101,12 @@
                     <th>
                         LandLord Rating
                     </th>
-                    <th></th>
+                    <th>
+                        View Rating
+                    </th>
+                    <th>
+                        Has LandLord Replied?
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -121,10 +126,23 @@
                                 @Html.ActionLink("Reply To Rating", "ReplyToRating", "LandLords", new {id=item.RatingId}, new {@class="btn btn-primary"})
                             }
                         </td>
+                        @if (item.RatingReply != null)
+                        {
+                            <td>Yes</td>
+                        }
+                        else
+                        {
+                            <td>No</td>
+                        }
                     </tr>
                 }
                 </tbody>
             </table>
+            <br />
+            @if (Model.AreThereMoreThan5Ratings)
+            {
+                @Html.ActionLink("View All Ratings", "ViewRatingsForLandLord", "LandLords", new {id=Model.LandLord.LandLordId}, new {@class="btn btn-primary btn-lg", @style="font-size: 16px;"})
+            }
 
         </div>
     </div>
