@@ -1,4 +1,6 @@
-﻿using LandLordRating.Models;
+﻿using System;
+using hbehr.recaptcha;
+using LandLordRating.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
@@ -60,5 +62,6 @@ namespace LandLordRating
 
             }
         }
+
     }
 }

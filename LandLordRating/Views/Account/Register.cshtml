@@ -1,4 +1,6 @@
-﻿@model LandLordRating.Models.RegisterViewModel
+﻿@using BotDetect.Web.Mvc
+@using hbehr.recaptcha
+@model LandLordRating.Models.RegisterViewModel
 @{
     ViewBag.Title = "Register";
 }
@@ -36,6 +38,10 @@
             @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
         </div>
     </div>
+    <hr />
+
+    @ReCaptcha.GetCaptcha()
+    <br/>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" class="btn btn-default" value="Register" />

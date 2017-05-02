@@ -5,6 +5,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using BotDetect.Web.Mvc;
+using hbehr.recaptcha;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -18,6 +20,7 @@ namespace LandLordRating.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public bool IsValidEmail(string email)
         {
@@ -88,7 +91,7 @@ namespace LandLordRating.Controllers
             }
 
             SignInStatus result = new SignInStatus();
-            if (IsValidEmail(model.Email))
+            if (IsValidEmail(model.Email) && db.Users.Any(u=>u.Email == model.Email))
             {
                 var user = UserManager.FindByEmail(model.Email);
                 result = await SignInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe,
@@ -174,6 +177,13 @@ namespace LandLordRating.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+            string userResponse = HttpContext.Request.Params["g-recaptcha-response"];
+            bool validCaptcha = ReCaptcha.ValidateCaptcha(userResponse);
+            if (!validCaptcha)
+            {
+                // A bot, not validated !
+                return RedirectToAction("Unauthorized", "Account");
+            }
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
@@ -192,7 +202,6 @@ namespace LandLordRating.Controllers
                 }
                 AddErrors(result);
             }
-
             // If we got this far, something failed, redisplay form
             return View(model);
         }
@@ -510,5 +519,10 @@ namespace LandLordRating.Controllers
             }
         }
         #endregion
+
+        public ActionResult Unauthorized()
+        {
+            return View();
+        }
     }
 }
