@@ -224,10 +224,15 @@
     <Compile Include="Migrations\201705021906400_init.Designer.cs">
       <DependentUpon>201705021906400_init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705031817154_flags.cs" />
+    <Compile Include="Migrations\201705031817154_flags.Designer.cs">
+      <DependentUpon>201705031817154_flags.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminPanelViewModel.cs" />
     <Compile Include="Models\ClaimLandLordViewModel.cs" />
+    <Compile Include="Models\Flag.cs" />
     <Compile Include="Models\LandLordClaim.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LandLord.cs" />
@@ -391,6 +396,8 @@
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Error\Forbidden.cshtml" />
     <Content Include="Views\Error\BadRequest.cshtml" />
+    <Content Include="Views\LandLords\FlagLandLord.cshtml" />
+    <Content Include="Views\LandLords\FlagSubmitted.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -406,6 +413,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201705021906400_init.resx">
       <DependentUpon>201705021906400_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705031817154_flags.resx">
+      <DependentUpon>201705031817154_flags.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

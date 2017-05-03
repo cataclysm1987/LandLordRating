@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using hbehr.recaptcha;
 using LandLordRating.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -15,7 +16,7 @@ using PagedList;
 
 namespace LandLordRating.Controllers
 {
-    
+
     public class LandLordsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -56,7 +57,7 @@ namespace LandLordRating.Controllers
                 case "date_desc":
                     landlords = landlords.OrderByDescending(s => s.OverallRating);
                     break;
-                default:  // Name ascending 
+                default: // Name ascending 
                     landlords = landlords.OrderBy(s => s.FullName);
                     break;
             }
@@ -66,7 +67,7 @@ namespace LandLordRating.Controllers
             var landlordspagedlist = landlords.ToPagedList(pageNumber, pageSize);
 
             //Currently updates every time a search is performed, CHANGE TO SCHEDULED TASK!!!!!
-           
+
 
             return View(landlordspagedlist);
         }
@@ -89,7 +90,11 @@ namespace LandLordRating.Controllers
                 vm.AreThereMoreThan5Ratings = true;
             else
                 vm.AreThereMoreThan5Ratings = false;
-            vm.Ratings = db.Ratings.Where(u => u.LandLordId == id && u.IsApproved).OrderBy(u => u.LandLordRating).Take(5).ToPagedList(1, 10);
+            vm.Ratings =
+                db.Ratings.Where(u => u.LandLordId == id && u.IsApproved)
+                    .OrderBy(u => u.LandLordRating)
+                    .Take(5)
+                    .ToPagedList(1, 10);
             var userid = GetCurrentUser().Id;
             vm.IsClaimingUser = db.Users.Any(u => u.ClaimedLandLordId == landLord.LandLordId && u.Id == userid);
 
@@ -105,7 +110,7 @@ namespace LandLordRating.Controllers
         public ActionResult ViewUserRatings()
         {
             var userid = User.Identity.GetUserId();
-            var ratings = db.Ratings.Where(u => u.User.Id == userid).OrderBy(u=>u.RatingName).ToPagedList(1, 10);
+            var ratings = db.Ratings.Where(u => u.User.Id == userid).OrderBy(u => u.RatingName).ToPagedList(1, 10);
             return View(ratings);
         }
 
@@ -114,7 +119,8 @@ namespace LandLordRating.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "LandLordId,FullName,PhoneNumber,City,State,IsDeclined,IsApproved")] LandLord landLord)
+        public async Task<ActionResult> Create(
+            [Bind(Include = "LandLordId,FullName,PhoneNumber,City,State,IsDeclined,IsApproved")] LandLord landLord)
         {
             if (IsAdminUser())
             {
@@ -174,9 +180,9 @@ namespace LandLordRating.Controllers
                     return RedirectToAction("Index");
                 }
             }
-        return
+            return
 
-        View(landLord);
+                View(landLord);
         }
 
         // GET: LandLords/Delete/5
@@ -228,7 +234,7 @@ namespace LandLordRating.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             LandLord landLord = await db.LandLords.FindAsync(id);
-            
+
             if (landLord == null)
             {
                 return HttpNotFound();
@@ -252,7 +258,11 @@ namespace LandLordRating.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<ActionResult> CreateRating([Bind(Include = "RatingId,RatingName,LateFees,LandLordNotice,LandLordResponse,ContactPhoneNumer,RecommendLandLord,RentIncrease,WrittenLease,LandLordRating,RateAnonymously,User_Id,LandLordId,RatingDescription,IsApproved,IsDeclined")] Rating rating)
+        public async Task<ActionResult> CreateRating(
+        [Bind(
+            Include =
+                "RatingId,RatingName,LateFees,LandLordNotice,LandLordResponse,ContactPhoneNumer,RecommendLandLord,RentIncrease,WrittenLease,LandLordRating,RateAnonymously,User_Id,LandLordId,RatingDescription,IsApproved,IsDeclined"
+        )] Rating rating)
         {
             rating.User = GetCurrentUser();
             if (ModelState.IsValid)
@@ -265,7 +275,8 @@ namespace LandLordRating.Controllers
             return RedirectToAction("Index", "LandLords");
         }
 
-        public async Task<ActionResult> ViewRatingsForLandLord(int? id, string sortOrder, string currentFilter, string searchString, int? page)
+        public async Task<ActionResult> ViewRatingsForLandLord(int? id, string sortOrder, string currentFilter,
+            string searchString, int? page)
         {
 
             if (id == null)
@@ -297,23 +308,23 @@ namespace LandLordRating.Controllers
             if (!string.IsNullOrEmpty(searchString))
             {
                 ratinglist = ratinglist.Where(s => s.RatingName.Contains(searchString)
-                                                 || s.RatingDescription.Contains(searchString));
+                                                   || s.RatingDescription.Contains(searchString));
             }
 
             switch (sortOrder)
             {
                 case "name_desc":
                     ratinglist = ratinglist.OrderByDescending(s => s.RatingName);
-                break;
+                    break;
                 case "Date":
                     ratinglist = ratinglist.OrderBy(s => s.LandLordRating);
-                break;
+                    break;
                 case "date_desc":
                     ratinglist = ratinglist.OrderByDescending(s => s.LandLordRating);
-                break;
-                default:  // Name ascending 
+                    break;
+                default: // Name ascending 
                     ratinglist = ratinglist.OrderBy(s => s.RatingName);
-                break;
+                    break;
             }
 
 
@@ -381,7 +392,7 @@ namespace LandLordRating.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             LandLord landlord = db.LandLords.Find(id);
-            
+
             if (landlord == null)
             {
                 return HttpNotFound();
@@ -390,7 +401,7 @@ namespace LandLordRating.Controllers
             if (user.ClaimedLandLordId != 0)
                 return RedirectToAction("AlreadyClaimed");
             if (landlord.IsClaimed)
-                return RedirectToAction("LandLordAlreadyClaimed", new {id=landlord.LandLordId});
+                return RedirectToAction("LandLordAlreadyClaimed", new {id = landlord.LandLordId});
 
 
             ClaimLandLordViewModel vm = new ClaimLandLordViewModel();
@@ -402,7 +413,11 @@ namespace LandLordRating.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ClaimLandLord([Bind(Include = "Id,ClaimName,ClaimDescription,DocumentFilePath,IsPending,IsApproved,ApplicationUser_Id,LandLord_LandLordId")] ClaimLandLordViewModel vm, HttpPostedFileBase document)
+        public async Task<ActionResult> ClaimLandLord(
+        [Bind(
+            Include =
+                "Id,ClaimName,ClaimDescription,DocumentFilePath,IsPending,IsApproved,ApplicationUser_Id,LandLord_LandLordId"
+        )] ClaimLandLordViewModel vm, HttpPostedFileBase document)
         {
             if (Request.Files.Count > 0)
             {
@@ -493,17 +508,17 @@ namespace LandLordRating.Controllers
         [HttpPost]
         public async Task<ActionResult> UploadProfileImage(HttpPostedFileBase image)
         {
-            int landlordid = (int)TempData["landlordid"];
+            int landlordid = (int) TempData["landlordid"];
             var landlord = db.LandLords.FirstOrDefault(u => u.LandLordId == landlordid);
             if (image != null && HasImageExtension(image.FileName))
             {
                 string pic = System.IO.Path.GetFileName(image.FileName);
                 string path = System.IO.Path.Combine(
-                                       Server.MapPath("~/img/profile"), pic);
-                
+                    Server.MapPath("~/img/profile"), pic);
+
                 // file is uploaded
                 image.SaveAs(path);
-               
+
                 landlord.ProfileImageUrl = path;
                 db.Entry(landlord).State = EntityState.Modified;
                 await db.SaveChangesAsync();
@@ -575,12 +590,61 @@ namespace LandLordRating.Controllers
                 rr.ReplyDescription = vm.RatingReply.ReplyDescription;
                 db.RatingReplies.Add(rr);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Details", "LandLords", new {id=vm.Rating.LandLordId});
+                return RedirectToAction("Details", "LandLords", new {id = vm.Rating.LandLordId});
             }
             ViewBag.Message = "Error. Please enter a valid description.";
             return View(vm);
         }
-    }
 
-    
+        [Authorize]
+        public async Task<ActionResult> FlagLandLord(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            LandLord landLord = await db.LandLords.FindAsync(id);
+            if (landLord == null)
+            {
+                return HttpNotFound();
+            }
+            Flag flag = new Flag();
+            flag.FlaggedObjectId = landLord.LandLordId;
+            flag.FlaggedObject = FlaggedObject.LandLord;
+            return View(flag);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> FlagLandLord(Flag flag)
+        {
+            string userResponse = HttpContext.Request.Params["g-recaptcha-response"];
+            bool validCaptcha = ReCaptcha.ValidateCaptcha(userResponse);
+            if (!validCaptcha)
+            {
+                // A bot, not validated !
+                return RedirectToAction("Unauthorized", "Account");
+            }
+            db.Flags.Add(flag);
+            await db.SaveChangesAsync();
+            return RedirectToAction("FlagSubmitted", "LandLords", new {id = flag.FlaggedObjectId});
+        }
+
+        [Authorize]
+        public async Task<ActionResult> FlagSubmitted(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            LandLord landLord = await db.LandLords.FindAsync(id);
+            Flag flag = db.Flags.FirstOrDefault(u => u.FlaggedObjectId == id);
+            if (landLord == null)
+            {
+                return HttpNotFound();
+            }
+            return View(landLord);
+        }
+    }
 }

@@ -12,6 +12,7 @@ namespace LandLordRating.Models
     {
         public virtual ICollection<Rating> Ratings { get; set; }
         public virtual ICollection<LandLordClaim> LandLordClaims { get; set; }
+        public virtual ICollection<Flag> Flags { get; set; }
 
         public int ClaimedLandLordId { get; set; }
 
@@ -40,6 +41,7 @@ namespace LandLordRating.Models
         public DbSet<Property> Properties { get; set; }
         public DbSet<LandLordClaim> LandLordClaims { get; set; }
         public DbSet<RatingReply> RatingReplies { get; set; }
+        public DbSet<Flag> Flags { get; set; }
         
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
