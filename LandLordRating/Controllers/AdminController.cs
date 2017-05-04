@@ -36,6 +36,7 @@ namespace LandLordRating.Controllers
                 vm.PendingLandLordClaims = db.LandLordClaims.Count(u => u.IsPending);
                 vm.PendingRatings = db.Ratings.Count(u => !u.IsApproved);
                 vm.PendingRatingReplies = db.RatingReplies.Count(u => !u.IsApproved);
+                vm.PendingFlags = db.Flags.Count(u => u.IsReviewed == false);
                 return View(vm);
             }
             return RedirectToAction("Index", "Home");
@@ -519,6 +520,7 @@ namespace LandLordRating.Controllers
             return View(rating);
         }
 
+        [Authorize]
         public async Task<ActionResult> ApproveRatingFinal(int? id)
         {
             if (!IsAdminUser())
@@ -539,6 +541,7 @@ namespace LandLordRating.Controllers
             return RedirectToAction("PendingRatings");
         }
 
+        [Authorize]
         public ActionResult PendingRatingReplies(string sortOrder, string currentFilter, string searchString, int? page)
         {
             if (!IsAdminUser())
@@ -727,6 +730,133 @@ namespace LandLordRating.Controllers
                 
             }
             await db.SaveChangesAsync();
+        }
+
+        [Authorize]
+        public ActionResult PendingFlags(string sortOrder, string currentFilter, string searchString,
+            int? page)
+        {
+            if (!IsAdminUser())
+                return RedirectToAction("Unauthorized", "Account");
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var flagslist = db.Flags.Where(u => !u.IsReviewed);
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                flagslist = flagslist.Where(s => s.Description.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    flagslist = flagslist.OrderByDescending(s => s.Description);
+                    break;
+                case "Date":
+                    //Should be a date here, will add later and update the model as well.
+                    flagslist = flagslist.OrderBy(s => s.ApplicationUser.Email);
+                    break;
+                case "date_desc":
+                    flagslist = flagslist.OrderByDescending(s => s.ApplicationUser.Email);
+                    break;
+                default: // Name ascending 
+                    flagslist = flagslist.OrderBy(s => s.Description);
+                    break;
+            }
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(flagslist.ToPagedList(pageNumber, pageSize));
+        }
+
+        [Authorize]
+        public async Task<ActionResult> ViewFlag(int? id)
+        {
+            if (!IsAdminUser())
+                return RedirectToAction("Index", "Home");
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var flag = await db.Flags.FindAsync(id);
+            if (flag == null || !IsAdminUser())
+            {
+                return HttpNotFound();
+            }
+            return View(flag);
+        }
+
+        [Authorize]
+        public async Task<ActionResult> RemoveContent(int? id)
+        {
+            if (!IsAdminUser())
+                return RedirectToAction("Index", "Home");
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var flag = await db.Flags.FindAsync(id);
+            if (flag == null || !IsAdminUser() || flag.IsReviewed)
+            {
+                return HttpNotFound();
+            }
+            if (flag.FlaggedObject == FlaggedObject.LandLord)
+            {
+                var landlord = db.LandLords.Find(flag.FlaggedObjectId);
+                var vm = new FlagViewModel();
+                vm.LandLord = landlord;
+                vm.Flag = flag;
+                return View("RemoveLandLord", vm);
+            }
+            if (flag.FlaggedObject == FlaggedObject.Rating)
+            {
+                var rating = db.Ratings.Find(flag.FlaggedObjectId);
+                var vm = new FlagViewModel();
+                vm.Rating = rating;
+                vm.Flag = flag;
+                return View("RemoveRating", vm);
+            }
+            if (flag.FlaggedObject == FlaggedObject.RatingReply)
+            {
+                var ratingreply = db.RatingReplies.Find(flag.FlaggedObjectId);
+                var vm = new FlagViewModel();
+                vm.RatingReply = ratingreply;
+                vm.Flag = flag;
+                return View("RemoveRatingReply", vm);
+            }
+            return RedirectToAction("Index", "Admin");
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<ActionResult> RemoveLandLordFinal(LandLord landlord, Flag flag)
+        {
+            if (!IsAdminUser())
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (landlord == null || flag == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            flag.IsReviewed = true;
+            landlord.IsApproved = false;
+            landlord.IsDeclined = true;
+            db.Entry(landlord).State = EntityState.Modified;
+            db.Entry(flag).State = EntityState.Modified;
+            await db.SaveChangesAsync();
+            return RedirectToAction("PendingFlags");
         }
     }
 }

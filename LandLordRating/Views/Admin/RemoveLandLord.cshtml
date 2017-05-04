@@ -1,0 +1,131 @@
+﻿@model LandLordRating.Models.FlagViewModel
+
+@{
+    ViewBag.Title = "RemoveLandLord";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Remove LandLord</h2>
+
+<h3>Are you sure you want to remove this landlord?</h3>
+<div>
+    <h4>LandLord</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LandLord.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LandLord.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LandLord.PhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LandLord.PhoneNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LandLord.City)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LandLord.City)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LandLord.State)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LandLord.State)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LandLord.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LandLord.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LandLord.ProfileImageUrl)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LandLord.ProfileImageUrl)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LandLord.LandLordOrTenant)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LandLord.LandLordOrTenant)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LandLord.IndividualOrCompany)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LandLord.IndividualOrCompany)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LandLord.OverallRating)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LandLord.OverallRating)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LandLord.IsApproved)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LandLord.IsApproved)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LandLord.IsClaimed)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LandLord.IsClaimed)
+        </dd>
+
+        <dd>
+            @Html.DisplayFor(model => model.Flag.ApplicationUser.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Flag.ApplicationUser.UserName)
+        </dt>
+        
+        <dd>
+            @Html.DisplayFor(model => model.Flag.FlaggedReason)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Flag.FlaggedReason)
+        </dt>
+
+    </dl>
+
+    @using (Html.BeginForm(Html.BeginForm("RemoveLandLordFinal", "Admin", FormMethod.Post,
+    new { model = Model }))) {
+        
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.LandLord)
+        @Html.HiddenFor(model => model.Flag)
+        <div class="form-actions no-color">
+            <input type="submit" value="Remove LandLord" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "PendingFlags")
+        </div>
+    }
+</div>

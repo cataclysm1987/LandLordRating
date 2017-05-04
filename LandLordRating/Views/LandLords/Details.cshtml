@@ -1,5 +1,10 @@
 ﻿@model LandLordRating.Models.LandLordViewModel
 
+@if (!Model.LandLord.IsApproved)
+{
+    <META NAME="robots" CONTENT="noindex">
+}
+
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -163,6 +168,11 @@ else if (!Model.LandLord.IsClaimed)
 {
     <p>This LandLord page has not been claimed. If you are the owner or individual referenced in this page, please @Html.ActionLink("Claim this page", "ClaimLandLord", "LandLords", new {id = Model.LandLord.LandLordId}, null)</p>
 }
+
+@Html.ActionLink("Flag for Abuse", "FlagLandLord", "LandLords", new { id = Model.LandLord.LandLordId }, null)
+
+<br />
+
 @Html.ActionLink("Back to LandLord Search", "Index", "LandLords", new {@class = "btn btn-primary"})
 
 

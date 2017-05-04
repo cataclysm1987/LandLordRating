@@ -14,6 +14,12 @@ namespace LandLordRating.Models
         public FlaggedObject FlaggedObject { get; set; }
         public FlaggedReason FlaggedReason { get; set; }
         public int FlaggedObjectId { get; set; }
+        public bool IsReviewed { get; set; }
+
+        public Flag()
+        {
+            IsReviewed = false;
+        }
 
         public virtual ApplicationUser ApplicationUser { get; set; }
 

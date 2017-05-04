@@ -68,6 +68,15 @@
         </div>
     </div>
     
+    <div class="row" style="min-height: 150px;">
+        <div class="col-md-6">
+            <h3>Pending Flags: @Model.PendingFlags</h3>
+        </div>
+        <div class="col-md-6">
+            @Html.ActionLink("Click Here to View Pending Flags >>", "PendingFlags", "Admin", null, new { @type = "h3" })
+        </div>
+    </div>
+    
 
     <br/>
        

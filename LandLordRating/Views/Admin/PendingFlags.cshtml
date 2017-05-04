@@ -1,0 +1,62 @@
+﻿@model PagedList.IPagedList<LandLordRating.Models.Flag>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Pending Flags";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Flags Awaiting Approval</h2>
+<br />
+<p>Here is a list of flags submitted by users that are pending review by an administrator.</p>
+
+@if (ViewBag.Message != null)
+{
+    <p class="alert-success">@ViewBag.Message</p>
+}
+
+@using (Html.BeginForm())
+{
+    <p>
+        Find by Flag Name: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" class="btn btn-primary"/>
+    </p>
+}
+<table class="table table-striped" id="landlordsTable">
+    <thead>
+    <tr>
+        <th>
+            @Html.ActionLink("Flagged Object Id", "PendingFlags", new { sortOrder = ViewBag.NameSortParm })
+        </th>
+        <th>
+            User Name
+        </th>
+        
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.ActionLink(@Html.DisplayFor(modelItem => item.FlaggedObjectId).ToString(), "ViewFlag", new { id = item.FlagId }, null)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplicationUser.UserName)
+            </td>
+            <td>
+                @Html.ActionLink("View Flag", "ViewFlag", new { id = item.FlagId }, new { @class = "btn btn-primary" })
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("PendingFlags",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+@Html.ActionLink("Return to Admin Area", "Index", "Admin")

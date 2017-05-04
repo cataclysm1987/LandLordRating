@@ -80,7 +80,7 @@ namespace LandLordRating.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             LandLord landLord = await db.LandLords.FindAsync(id);
-            if (landLord == null || landLord.IsApproved == false)
+            if (landLord == null || !landLord.IsApproved)
             {
                 return HttpNotFound();
             }
@@ -95,8 +95,12 @@ namespace LandLordRating.Controllers
                     .OrderBy(u => u.LandLordRating)
                     .Take(5)
                     .ToPagedList(1, 10);
-            var userid = GetCurrentUser().Id;
-            vm.IsClaimingUser = db.Users.Any(u => u.ClaimedLandLordId == landLord.LandLordId && u.Id == userid);
+            var user = GetCurrentUser();
+            if (user != null)
+            {
+                var userid = user.Id;
+                vm.IsClaimingUser = db.Users.Any(u => u.ClaimedLandLordId == landLord.LandLordId && u.Id == userid);
+            }
 
             return View(vm);
         }
@@ -603,13 +607,18 @@ namespace LandLordRating.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            var userid = User.Identity.GetUserId();
+            if (db.Flags.Any(u => u.FlaggedObjectId == id && u.ApplicationUser.Id == userid))
+            {
+                return RedirectToAction("Unauthorized", "LandLords");
+            }
             LandLord landLord = await db.LandLords.FindAsync(id);
             if (landLord == null)
             {
                 return HttpNotFound();
             }
             Flag flag = new Flag();
-            flag.FlaggedObjectId = landLord.LandLordId;
+            flag.FlaggedObjectId = (int) id;
             flag.FlaggedObject = FlaggedObject.LandLord;
             return View(flag);
         }
@@ -626,6 +635,7 @@ namespace LandLordRating.Controllers
                 // A bot, not validated !
                 return RedirectToAction("Unauthorized", "Account");
             }
+            flag.ApplicationUser = GetCurrentUser();
             db.Flags.Add(flag);
             await db.SaveChangesAsync();
             return RedirectToAction("FlagSubmitted", "LandLords", new {id = flag.FlaggedObjectId});
@@ -639,7 +649,8 @@ namespace LandLordRating.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             LandLord landLord = await db.LandLords.FindAsync(id);
-            Flag flag = db.Flags.FirstOrDefault(u => u.FlaggedObjectId == id);
+            //Update to use flag view model instead of flag.
+            //Flag flag = db.Flags.FirstOrDefault(u => u.FlaggedObjectId == id);
             if (landLord == null)
             {
                 return HttpNotFound();
