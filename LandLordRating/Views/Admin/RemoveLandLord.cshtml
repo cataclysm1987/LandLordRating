@@ -116,6 +116,7 @@
         </dt>
 
     </dl>
+    @Html.ActionLink("Remove LandLord", "RemoveLandLordFinal", "Admin", new { id=Model.Flag.FlagId }, null)
 
     @using (Html.BeginForm(Html.BeginForm("RemoveLandLordFinal", "Admin", FormMethod.Post,
     new { model = Model }))) {

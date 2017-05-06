@@ -288,6 +288,7 @@ namespace LandLordRating.Controllers
                 return HttpNotFound();
             }
             landLord.IsDeclined = true;
+            landLord.DeclinedReason = "Admin declined";
             if (landLord.IsApproved)
                 landLord.IsApproved = false;
             db.Entry(landLord).State = EntityState.Modified;
@@ -841,18 +842,24 @@ namespace LandLordRating.Controllers
         }
 
         [Authorize]
-        [HttpPost]
-        public async Task<ActionResult> RemoveLandLordFinal(LandLord landlord, Flag flag)
+        public async Task<ActionResult> RemoveLandLordFinal(int? id)
         {
             if (!IsAdminUser())
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            if (landlord == null || flag == null)
+            if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            var flag = await db.Flags.FindAsync(id);
+            if (flag == null || !IsAdminUser() || flag.IsReviewed)
+            {
+                return HttpNotFound();
+            }
+            var landlord = db.LandLords.FirstOrDefault(u => u.LandLordId == flag.FlaggedObjectId);
             flag.IsReviewed = true;
             landlord.IsApproved = false;
             landlord.IsDeclined = true;
+            landlord.DeclinedReason = "Flagged for " + flag.FlaggedReason;
             db.Entry(landlord).State = EntityState.Modified;
             db.Entry(flag).State = EntityState.Modified;
             await db.SaveChangesAsync();

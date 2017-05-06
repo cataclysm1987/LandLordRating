@@ -232,6 +232,10 @@
     <Compile Include="Migrations\201705031900447_isreviewed.Designer.cs">
       <DependentUpon>201705031900447_isreviewed.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705062201539_declinedreason.cs" />
+    <Compile Include="Migrations\201705062201539_declinedreason.Designer.cs">
+      <DependentUpon>201705062201539_declinedreason.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminPanelViewModel.cs" />
@@ -271,8 +275,8 @@
     <Content Include="Content\magnific-popup.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\fontawesome-webfont.svg" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="img\fonts\fontawesome-webfont.svg" />
+    <Content Include="img\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="img\apartments.jpg" />
@@ -285,9 +289,9 @@
     </Content>
     <Content Include="Content\datatables\common.scss" />
     <Content Include="Content\datatables\mixins.scss" />
-    <Content Include="fonts\fontawesome-webfont.woff" />
-    <Content Include="fonts\fontawesome-webfont.woff2" />
-    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="img\fonts\fontawesome-webfont.woff" />
+    <Content Include="img\fonts\fontawesome-webfont.woff2" />
+    <Content Include="img\fonts\FontAwesome.otf" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -406,14 +410,15 @@
     <Content Include="Views\Admin\PendingFlags.cshtml" />
     <Content Include="Views\Admin\ViewFlag.cshtml" />
     <Content Include="Views\Admin\RemoveLandLord.cshtml" />
+    <Content Include="Views\Admin\RemoveRating.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="img\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="img\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="img\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
@@ -427,6 +432,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705031900447_isreviewed.resx">
       <DependentUpon>201705031900447_isreviewed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705062201539_declinedreason.resx">
+      <DependentUpon>201705062201539_declinedreason.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

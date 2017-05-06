@@ -32,8 +32,20 @@
         </div>
     </div>
     <div class="row">
+        <h1>LandLord Description</h1>
+        <p>@Model.Description</p>
+        
+        <br/>
+        
+        @if (Model.IsDeclined)
+        {
+            <h2>This landlord was declined</h2>
+            <p>Declined reason: @Model.DeclinedReason</p>
+        }
+        
+        <hr/>
         <h3>Would You Like to Approve This LandLord?</h3>
-        @Html.ActionLink("Approve This LandLord", "ApproveLandLordFinal", "Admin", new { id = Model.LandLordId }, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Approve This LandLord", "ApproveLandLordFinal", "Admin", new {id = Model.LandLordId}, new {@class = "btn btn-primary"})
     </div>
     </div>
 

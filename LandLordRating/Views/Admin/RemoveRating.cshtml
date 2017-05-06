@@ -1,0 +1,59 @@
+﻿@model LandLordRating.Models.FlagViewModel
+
+@{
+    ViewBag.Title = "Remove Rating";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Remove Rating</h2>
+
+<h3>Are you sure you want to remove this rating?</h3>
+<div>
+    <h4>Rating</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Rating.RatingName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rating.RatingName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rating.RatingDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rating.RatingDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rating.LandLord.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rating.LandLord.FullName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Rating.User.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rating.User.UserName)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm(Html.BeginForm("RemoveRatingFinal", "Admin", FormMethod.Post,
+    new { model = Model }))) {
+        
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.LandLord)
+        @Html.HiddenFor(model => model.Flag)
+        <div class="form-actions no-color">
+            <input type="submit" value="Remove Rating" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "PendingFlags")
+        </div>
+    }
+</div>

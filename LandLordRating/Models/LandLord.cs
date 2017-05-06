@@ -40,6 +40,8 @@ namespace LandLordRating.Models
         public bool IsApproved { get; set; }
         public bool IsClaimed { get; set; }
         public bool IsDeclined { get; set; }
+        [Display(Name = "Declined Reason")]
+        public string DeclinedReason { get; set; }
         public bool IsClaimedDuringCreation { get; set; }
 
 
@@ -47,6 +49,7 @@ namespace LandLordRating.Models
         {
             var Ratings = new List<Rating>();
             var Properties = new List<Property>();
+            DeclinedReason = "None";
         }
 
         public virtual ICollection<Rating> Ratings { get; set; }
