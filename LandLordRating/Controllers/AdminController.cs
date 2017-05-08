@@ -869,6 +869,7 @@ namespace LandLordRating.Controllers
             db.Entry(landlord).State = EntityState.Modified;
             db.Entry(flag).State = EntityState.Modified;
             await db.SaveChangesAsync();
+            ViewBag.Message = "The flag was reviewed and the landlord was taken down from the site.";
             return RedirectToAction("PendingFlags");
         }
 
@@ -895,7 +896,7 @@ namespace LandLordRating.Controllers
             {
                 try
                 {
-                    System.Threading.Thread.Sleep(1000);
+                    System.Threading.Thread.Sleep(500);
                     var gls = new GoogleLocationService();
                     var latlong = gls.GetLatLongFromAddress(landlord.City + " " + landlord.ZipCode);
                     landlord.Latitude = latlong.Latitude;
@@ -916,7 +917,31 @@ namespace LandLordRating.Controllers
             return RedirectToAction("Index");
         }
 
-        
+        [Authorize]
+        public async Task<ActionResult> RemoveRatingFinal(int? id)
+        {
+            if (!IsAdminUser())
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var flag = await db.Flags.FindAsync(id);
+            if (flag == null || !IsAdminUser() || flag.IsReviewed)
+            {
+                return HttpNotFound();
+            }
+            var rating = db.Ratings.FirstOrDefault(u => u.RatingId == flag.FlaggedObjectId);
+            flag.IsReviewed = true;
+            rating.IsApproved = false;
+            db.Entry(rating).State = EntityState.Modified;
+            db.Entry(flag).State = EntityState.Modified;
+            await db.SaveChangesAsync();
+            ViewBag.Message = "The flag was reviewed and the rating was taken down from the site.";
+            return RedirectToAction("PendingFlags");
+        }
+
+
 
     }
 }

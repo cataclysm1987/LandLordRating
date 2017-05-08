@@ -288,6 +288,7 @@
     <Content Include="Content\magnific-popup.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="GoogleMaps.LocationServices.readme.txt" />
     <Content Include="img\fonts\fontawesome-webfont.svg" />
     <Content Include="img\fonts\glyphicons-halflings-regular.svg" />
@@ -306,6 +307,11 @@
     <Content Include="img\fonts\fontawesome-webfont.woff" />
     <Content Include="img\fonts\fontawesome-webfont.woff2" />
     <Content Include="img\fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -425,6 +431,7 @@
     <Content Include="Views\Admin\ViewFlag.cshtml" />
     <Content Include="Views\Admin\RemoveLandLord.cshtml" />
     <Content Include="Views\Admin\RemoveRating.cshtml" />
+    <Content Include="Views\LandLords\CannotClaim.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

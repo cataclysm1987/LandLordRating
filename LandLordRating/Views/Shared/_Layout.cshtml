@@ -7,7 +7,6 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
-    <script src='https://www.google.com/recaptcha/api.js'></script>
     <link rel="stylesheet" href="~/Content/magnific-popup.css">
     <script src="~/Scripts/jquery.magnific-popup.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.13/af-2.1.3/b-1.2.4/datatables.min.css" />
@@ -26,8 +25,17 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Search Landlords", "Index", "Landlords")</li>
+                    <li class="dropdown">
+                        
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="@Url.Action("Index", "LandLords")">
+                            LandLords
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="@Url.Action("Index", "LandLords")">Search for a LandLord</a></li>
+                            <li><a href="@Url.Action("Create", "LandLords")">Create a LandLord Page</a></li>
+                        </ul>
+                    </li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("FAQ", "FAQ", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>

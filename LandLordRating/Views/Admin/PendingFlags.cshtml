@@ -7,14 +7,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Flags Awaiting Approval</h2>
-<br />
-<p>Here is a list of flags submitted by users that are pending review by an administrator.</p>
-
 @if (ViewBag.Message != null)
 {
     <p class="alert-success">@ViewBag.Message</p>
 }
+
+<h2>Flags Awaiting Approval</h2>
+<br />
+<p>Here is a list of flags submitted by users that are pending review by an administrator.</p>
+
+
 
 @using (Html.BeginForm())
 {

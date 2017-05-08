@@ -116,17 +116,9 @@
         </dt>
 
     </dl>
-    @Html.ActionLink("Remove LandLord", "RemoveLandLordFinal", "Admin", new { id=Model.Flag.FlagId }, null)
+    @Html.ActionLink("Remove LandLord", "RemoveLandLordFinal", "Admin", new { id=Model.Flag.FlagId }, new {@class="btn btn-primary btn-lg"})
 
-    @using (Html.BeginForm(Html.BeginForm("RemoveLandLordFinal", "Admin", FormMethod.Post,
-    new { model = Model }))) {
-        
-        @Html.AntiForgeryToken()
-        @Html.HiddenFor(model => model.LandLord)
-        @Html.HiddenFor(model => model.Flag)
-        <div class="form-actions no-color">
-            <input type="submit" value="Remove LandLord" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "PendingFlags")
-        </div>
-    }
+    <br />
+
+    @Html.ActionLink("Back to list", "PendingFlags", "Admin")
 </div>

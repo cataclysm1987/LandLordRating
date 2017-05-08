@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Data.Entity;
+using System.Linq;
 using FluentScheduler;
 using LandLordRating.Models;
 using Microsoft.AspNet.Identity;
@@ -71,6 +72,8 @@ namespace LandLordRating
         public MyRegistry()
         {
             Schedule<UpdateAverageRatings>().ToRunEvery(1).Days().At(3, 0);
+            //Commented out to not schedule this every 1 minute, use only to update current overall ratings for landlords if not updated recently.
+            //Schedule<UpdateAverageRatings>().ToRunEvery(1).Minutes();
         }
         
     }
@@ -82,14 +85,16 @@ namespace LandLordRating
         {
             foreach (var landlord in db.LandLords)
             {
-                var listofratings = db.Ratings.Where(u => u.LandLordId == landlord.LandLordId).Select(u => u.LandLordRating).ToList();
+                var listofratings = db.Ratings.Where(u => u.LandLordId == landlord.LandLordId & u.IsApproved).Select(u => u.LandLordRating).ToList();
                 if (listofratings.Count() != 0)
                 {
                     double result = listofratings.Average();
                     landlord.OverallRating = result;
                 }
-
+                db.Entry(landlord).State = EntityState.Modified;
+                
             }
+            db.SaveChanges();
         }
     }
 }

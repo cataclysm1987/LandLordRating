@@ -152,6 +152,7 @@ namespace LandLordRating.Controllers
         }
 
         // GET: LandLords/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -167,11 +168,19 @@ namespace LandLordRating.Controllers
         // POST: LandLords/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(
             [Bind(Include = "LandLordId,FullName,PhoneNumber,City,State,IsDeclined,IsApproved,Description,ProfileImageUrl,LandLordOrTenant,IndividualOrCompany,OverallRating,IsApproved,IsClaimed,IsDeclined,IsClaimedDuringCreation,DeclinedReason,ZipCode,Latitude,Longitude")] LandLord landLord)
         {
+            string userResponse = HttpContext.Request.Params["g-recaptcha-response"];
+            bool validCaptcha = ReCaptcha.ValidateCaptcha(userResponse);
+            if (!validCaptcha)
+            {
+                // A bot, not validated !
+                return RedirectToAction("Unauthorized", "Account");
+            }
             if (IsAdminUser())
             {
                 landLord.IsApproved = true;
@@ -190,6 +199,18 @@ namespace LandLordRating.Controllers
                 landLord.Longitude = latlong.Longitude;
                 db.LandLords.Add(landLord);
                 await db.SaveChangesAsync();
+                if (landLord.IsClaimedDuringCreation)
+                {
+                    landLord.IsClaimed = true;
+                    var user = GetCurrentUser();
+                    if (user.ClaimedLandLordId != 0)
+                    {
+                        return RedirectToAction("CannotClaim");
+                    }
+                    user.ClaimedLandLordId = landLord.LandLordId;
+                    db.Entry(user).State = EntityState.Modified;
+                    await db.SaveChangesAsync();
+                }
                 return RedirectToAction("Index");
             }
 
@@ -706,6 +727,11 @@ namespace LandLordRating.Controllers
                 return HttpNotFound();
             }
             return View(landLord);
+        }
+
+        public ActionResult CannotClaim()
+        {
+            return View();
         }
     }
 }

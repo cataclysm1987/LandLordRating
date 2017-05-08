@@ -42,18 +42,33 @@
         <dd>
             @Html.DisplayFor(model => model.Rating.User.UserName)
         </dd>
+        
+        <dd>
+            @Html.DisplayFor(model => model.Flag.ApplicationUser.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Flag.ApplicationUser.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Flag.FlaggedReason)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Flag.FlaggedReason)
+        </dt>
+
 
     </dl>
+    
+    <hr/>
+    <br/>
+    
+    @Html.ActionLink("Remove Rating", "RemoveRatingFinal", "Admin", new { id = Model.Flag.FlagId }, new { @class = "btn btn-primary btn-lg" })
+    
+    <br/>
+    
+    @Html.ActionLink("Back to list", "PendingFlags", "Admin")
 
-    @using (Html.BeginForm(Html.BeginForm("RemoveRatingFinal", "Admin", FormMethod.Post,
-    new { model = Model }))) {
-        
-        @Html.AntiForgeryToken()
-        @Html.HiddenFor(model => model.LandLord)
-        @Html.HiddenFor(model => model.Flag)
-        <div class="form-actions no-color">
-            <input type="submit" value="Remove Rating" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "PendingFlags")
-        </div>
-    }
 </div>

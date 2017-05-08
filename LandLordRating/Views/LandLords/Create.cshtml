@@ -1,4 +1,5 @@
-﻿@model LandLordRating.Models.LandLord
+﻿@using hbehr.recaptcha
+@model LandLordRating.Models.LandLord
 
 @{
     ViewBag.Title = "Create";
@@ -68,6 +69,20 @@
                 @Html.ValidationMessageFor(model => model.IndividualOrCompany, "", new { @class = "text-danger" })
             </div>
         </div>
+        
+        <div class="form-group">
+            Check Here if This is Your LandLord Page: @Html.EditorFor(model => model.IsClaimedDuringCreation, null)
+            <div class="col-md-10">
+                
+                @Html.ValidationMessageFor(model => model.IsClaimedDuringCreation, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        <br/>
+        
+        @ReCaptcha.GetCaptcha()
+        
+        <br/>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -76,6 +91,8 @@
         </div>
     </div>
 }
+
+<hr/>
 
 <div>
     @Html.ActionLink("Back to List", "Index")
