@@ -17,6 +17,17 @@
         Find by LandLord Name: @Html.TextBox("SearchString")
         <input type="submit" value="Search" class="btn btn-primary"/>
     </p>
+
+    <p>
+        Search by Location: @Html.TextBox("locationsearch")
+        Select radius of search: <select name="distance" id="distance" style="display: inline;">
+            <option value="10">Within 10 miles</option>
+            <option value="20">Within 20 miles</option>
+            <option value="50">Within 50 miles</option>
+            <option value="75">Within 75 miles</option>
+            <option value="100">Within 100 miles</option>
+        </select>
+    </p>
 }
 <table class="table table-striped" id="landlordsTable">
     <thead>

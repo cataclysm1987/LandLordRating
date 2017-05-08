@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml.Linq;
+using GoogleMaps.LocationServices;
 using hbehr.recaptcha;
 using LandLordRating.Models;
 using Microsoft.AspNet.Identity;
@@ -21,8 +23,11 @@ namespace LandLordRating.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        private GoogleLocationService gls = new GoogleLocationService();
+
+
         // GET: LandLords
-        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page, string locationsearch, int? distance)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -62,12 +67,53 @@ namespace LandLordRating.Controllers
                     break;
             }
 
+            
+
             int pageSize = 10;
             int pageNumber = (page ?? 1);
             var landlordspagedlist = landlords.ToPagedList(pageNumber, pageSize);
 
-            //Currently updates every time a search is performed, CHANGE TO SCHEDULED TASK!!!!!
+            if (!string.IsNullOrEmpty(locationsearch))
+            {
+                try
+                {
+                    var requestUri =
+                        string.Format("http://maps.googleapis.com/maps/api/geocode/xml?address={0}&sensor=false",
+                            Uri.EscapeDataString(locationsearch));
 
+                    var request = WebRequest.Create(requestUri);
+                    var response = request.GetResponse();
+                    var xdoc = XDocument.Load(response.GetResponseStream());
+
+                    if (xdoc.Element("GeocodeResponse").Element("status").ToString() == "ZERO_RESULTS")
+                    {
+                        return View(landlordspagedlist);
+                    }
+
+                    
+
+                    var location = gls.GetLatLongFromAddress(locationsearch);
+                    List<LandLord> landlordlocation = new List<LandLord>();
+                    DistanceHelper.DistanceHelper dh = new DistanceHelper.DistanceHelper();
+                    foreach (var landlord in db.LandLords)
+                    {
+                        if (
+                            dh.GetDistance(landlord.Latitude, landlord.Longitude, location.Latitude, location.Longitude,
+                                'N') <= distance)
+                        {
+                            landlordlocation.Add(landlord);
+                        }     
+                    }
+                    return View(landlordlocation.ToPagedList(pageNumber, pageSize));
+
+
+                }
+                catch (SystemException er)
+                {
+                    ViewBag.Message = er.Message;
+                    return View(landlordspagedlist);
+                }
+            }
 
             return View(landlordspagedlist);
         }
@@ -124,7 +170,7 @@ namespace LandLordRating.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(
-            [Bind(Include = "LandLordId,FullName,PhoneNumber,City,State,IsDeclined,IsApproved")] LandLord landLord)
+            [Bind(Include = "LandLordId,FullName,PhoneNumber,City,State,IsDeclined,IsApproved,Description,ProfileImageUrl,LandLordOrTenant,IndividualOrCompany,OverallRating,IsApproved,IsClaimed,IsDeclined,IsClaimedDuringCreation,DeclinedReason,ZipCode,Latitude,Longitude")] LandLord landLord)
         {
             if (IsAdminUser())
             {
@@ -138,6 +184,10 @@ namespace LandLordRating.Controllers
             }
             if (ModelState.IsValid)
             {
+                var gls = new GoogleLocationService();
+                var latlong = gls.GetLatLongFromAddress(landLord.City + " " + landLord.ZipCode);
+                landLord.Latitude = latlong.Latitude;
+                landLord.Longitude = latlong.Longitude;
                 db.LandLords.Add(landLord);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");

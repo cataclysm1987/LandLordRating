@@ -48,6 +48,10 @@
       <HintPath>..\packages\FluentScheduler.5.1.4\lib\net40\FluentScheduler.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="GoogleMaps.LocationServices, Version=0.1.6329.16944, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GoogleMaps.LocationServices.1.2.0.1\lib\net40\GoogleMaps.LocationServices.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="hbehr.recaptcha, Version=1.4.0.23109, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Bin\hbehr.recaptcha.dll</HintPath>
@@ -217,6 +221,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LandLordsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="DistanceHelper\DistanceHelper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -235,6 +240,14 @@
     <Compile Include="Migrations\201705062201539_declinedreason.cs" />
     <Compile Include="Migrations\201705062201539_declinedreason.Designer.cs">
       <DependentUpon>201705062201539_declinedreason.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705072109429_zipcode.cs" />
+    <Compile Include="Migrations\201705072109429_zipcode.Designer.cs">
+      <DependentUpon>201705072109429_zipcode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705072206198_modelrules.cs" />
+    <Compile Include="Migrations\201705072206198_modelrules.Designer.cs">
+      <DependentUpon>201705072206198_modelrules.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -275,6 +288,7 @@
     <Content Include="Content\magnific-popup.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
+    <Content Include="GoogleMaps.LocationServices.readme.txt" />
     <Content Include="img\fonts\fontawesome-webfont.svg" />
     <Content Include="img\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -435,6 +449,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705062201539_declinedreason.resx">
       <DependentUpon>201705062201539_declinedreason.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705072109429_zipcode.resx">
+      <DependentUpon>201705072109429_zipcode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705072206198_modelrules.resx">
+      <DependentUpon>201705072206198_modelrules.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

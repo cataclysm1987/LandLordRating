@@ -4,7 +4,10 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Net;
 using System.Web;
+using System.Xml.Linq;
+using GoogleMaps.LocationServices;
 
 namespace LandLordRating.Models
 {
@@ -13,14 +16,21 @@ namespace LandLordRating.Models
         [Key]
         public int LandLordId { get; set; }
         [Required]
-        [Display(Name = "Name")]
+        [Display(Name = "Full Name")]
+        [StringLength(40, ErrorMessage = "Full Name cannot be longer than 40 characters.")]
         public string FullName { get; set; }
         [Required]
         [Display(Name = "Phone Number")]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid Phone number")]
         public string PhoneNumber { get; set; }
         [Required]
         [Display(Name = "City")]
         public string City { get; set; }
+        [Required]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Zip Code must be numeric")]
+        [Display(Name = "Zip Code")]
+        public string ZipCode { get; set; }
         [Required]
         [Display(Name = "State")]
         public States State { get; set; }
@@ -43,13 +53,20 @@ namespace LandLordRating.Models
         [Display(Name = "Declined Reason")]
         public string DeclinedReason { get; set; }
         public bool IsClaimedDuringCreation { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
 
 
         public LandLord()
         {
             var Ratings = new List<Rating>();
             var Properties = new List<Property>();
-            DeclinedReason = "None";
+            //Move to respective landlord creation methods
+            //DeclinedReason = "None";
+            //var gls = new GoogleLocationService();
+            //var latlong = gls.GetLatLongFromAddress(City + " " + ZipCode);
+            //Latitude = latlong.Latitude;
+            //Longitude = latlong.Longitude;
         }
 
         public virtual ICollection<Rating> Ratings { get; set; }

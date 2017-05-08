@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using GoogleMaps.LocationServices;
 using LandLordRating.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -685,6 +686,11 @@ namespace LandLordRating.Controllers
                     landlord.PhoneNumber = "1231231234";
                     landlord.State = States.OH;
                     landlord.IsApproved = true;
+                    landlord.ZipCode = "44145";
+                    var gls = new GoogleLocationService();
+                    var latlong = gls.GetLatLongFromAddress(landlord.City + " " + landlord.ZipCode);
+                    landlord.Latitude = latlong.Latitude;
+                    landlord.Longitude = latlong.Longitude;
                     db.LandLords.Add(landlord);
                     List<Rating> ratings = new List<Rating>();
                     for (int k = 1; i <= 10; i++)
@@ -865,5 +871,52 @@ namespace LandLordRating.Controllers
             await db.SaveChangesAsync();
             return RedirectToAction("PendingFlags");
         }
+
+        [Authorize]
+        public RedirectToRouteResult AddZipCodesToAll()
+        {
+            
+            foreach (var landlord in db.LandLords)
+            {
+                if (landlord.ZipCode == "")
+                {
+                    landlord.ZipCode = "44101";
+                    db.Entry(landlord).State = EntityState.Modified;
+                }
+            }
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        [Authorize]
+        public RedirectToRouteResult UpdateAllLateLong()
+        {
+            foreach (var landlord in db.LandLords)
+            {
+                try
+                {
+                    System.Threading.Thread.Sleep(1000);
+                    var gls = new GoogleLocationService();
+                    var latlong = gls.GetLatLongFromAddress(landlord.City + " " + landlord.ZipCode);
+                    landlord.Latitude = latlong.Latitude;
+                    landlord.Longitude = latlong.Longitude;
+                    db.Entry(landlord).State = EntityState.Modified;
+                }
+                catch (SystemException ex)
+                {
+                    System.Threading.Thread.Sleep(5000);
+                    var gls = new GoogleLocationService();
+                    var latlong = gls.GetLatLongFromAddress(landlord.City + " " + landlord.ZipCode);
+                    landlord.Latitude = latlong.Latitude;
+                    landlord.Longitude = latlong.Longitude;
+                    db.Entry(landlord).State = EntityState.Modified;
+                }
+            }
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        
+
     }
 }
