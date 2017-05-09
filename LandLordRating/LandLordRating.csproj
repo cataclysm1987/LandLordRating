@@ -253,6 +253,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminPanelViewModel.cs" />
     <Compile Include="Models\ClaimLandLordViewModel.cs" />
+    <Compile Include="Models\ContactViewModel.cs" />
     <Compile Include="Models\Flag.cs" />
     <Compile Include="Models\FlagViewModel.cs" />
     <Compile Include="Models\LandLordClaim.cs" />

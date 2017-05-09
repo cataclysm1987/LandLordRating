@@ -1,17 +1,78 @@
-﻿@{
+﻿@using hbehr.recaptcha
+@model LandLordRating.Models.ContactViewModel
+@{
     ViewBag.Title = "Contact";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+<h2>Contact Us</h2>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+<h3>Fill out the form below to get in touch with us.</h3>
 
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+<div>
+    <div class="col-md-12">
+        <div>
+            @if (ViewBag.Message == null)
+            {
+                using (Html.BeginForm())
+                 {
+
+
+                     <div>
+                         <form method="post">
+                             <div class="form-group">
+                                 <label asp-for="Name">Name</label>
+                                 <input asp-for="Name" class="form-control" id="Name"/>
+                                 <span asp-validation-for="Name"
+                                       class="text-muted"></span>
+                             </div>
+                             <div class="form-group">
+                                 <label asp-for="Email">Email</label>
+                                 <input asp-for="Email" class="form-control" id="Email"/>
+                                 <span asp-validation-for="Email"
+                                       class="text-muted"></span>
+                             </div>
+                             <div class="form-group">
+                                 <label asp-for="Subject">Subject</label>
+                                 <input asp-for="Subject" class="form-control" id="Subject"/>
+                                 <span asp-validation-for="Subject"
+                                       class="text-muted"></span>
+                             </div>
+                             <div class="form-group">
+                                 <label asp-for="Message">Message</label>
+                                 <textarea rows="5" cols="15"
+                                      asp-for="Message" class="form-control" id="Message"></textarea>
+                                 <span asp-validation-for="Message"
+                                       class="text-muted"></span>
+                             </div>
+                             <br/>
+
+                             @ReCaptcha.GetCaptcha()
+
+                             <br/>
+                             <div>
+                                 <button type="submit"
+                                         class="btn btn-success">
+                                     Send
+                                 </button>
+                             </div>
+
+                         </form>
+                     </div>
+                 }
+            }
+        </div>
+
+        <div>
+            <div>
+                @if (ViewBag.Message != null)
+                {
+                    <div>@ViewBag.Message</div>
+
+
+                }
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+
+</div>

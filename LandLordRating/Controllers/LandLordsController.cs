@@ -339,6 +339,14 @@ namespace LandLordRating.Controllers
                 "RatingId,RatingName,LateFees,LandLordNotice,LandLordResponse,ContactPhoneNumer,RecommendLandLord,RentIncrease,WrittenLease,LandLordRating,RateAnonymously,User_Id,LandLordId,RatingDescription,IsApproved,IsDeclined"
         )] Rating rating)
         {
+            string userResponse = HttpContext.Request.Params["g-recaptcha-response"];
+            bool validCaptcha = ReCaptcha.ValidateCaptcha(userResponse);
+            if (!validCaptcha)
+            {
+                // A bot, not validated !
+                return RedirectToAction("Unauthorized", "Account");
+            }
+
             rating.User = GetCurrentUser();
             if (ModelState.IsValid)
             {
