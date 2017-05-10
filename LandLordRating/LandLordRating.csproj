@@ -249,6 +249,10 @@
     <Compile Include="Migrations\201705072206198_modelrules.Designer.cs">
       <DependentUpon>201705072206198_modelrules.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705101521430_requiredflagfields.cs" />
+    <Compile Include="Migrations\201705101521430_requiredflagfields.Designer.cs">
+      <DependentUpon>201705101521430_requiredflagfields.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminPanelViewModel.cs" />
@@ -297,6 +301,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="img\apartments.jpg" />
     <Content Include="img\profile\1ngpji.jpg" />
+    <Content Include="img\profile\6aafd5e2e14c0055f38ce169e87aef36.jpg" />
     <Content Include="img\profile\profile-placeholder.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -463,6 +468,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705072206198_modelrules.resx">
       <DependentUpon>201705072206198_modelrules.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705101521430_requiredflagfields.resx">
+      <DependentUpon>201705101521430_requiredflagfields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

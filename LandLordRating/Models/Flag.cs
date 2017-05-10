@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -10,8 +11,12 @@ namespace LandLordRating.Models
     public class Flag
     {
         public int FlagId { get; set; }
+        [Required]
+        [Display(Name = "Description")]
         public string Description { get; set; }
         public FlaggedObject FlaggedObject { get; set; }
+        [Required]
+        [Display(Name = "Reason")]
         public FlaggedReason FlaggedReason { get; set; }
         public int FlaggedObjectId { get; set; }
         public bool IsReviewed { get; set; }

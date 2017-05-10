@@ -13,7 +13,17 @@ namespace LandLordRating
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapRoute(
+                "OnlyController",
+                "{controller}",
+                new {controller = "Home", action = "Index"}
+            );
 
+            routes.MapRoute(
+                "OnlyAction",
+                "{action}",
+                new {controller = "Home", action = "Index"}
+            );
 
             routes.MapRoute(
                 name: "Default",

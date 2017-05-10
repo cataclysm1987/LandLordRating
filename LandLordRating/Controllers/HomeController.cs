@@ -76,7 +76,6 @@ namespace LandLordRating.Controllers
         }
 
 
-
         public ActionResult Search()
         {
             return View();
