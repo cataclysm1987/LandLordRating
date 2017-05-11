@@ -87,6 +87,7 @@ namespace LandLordRating.Controllers
 
                     if (xdoc.Element("GeocodeResponse").Element("status").ToString() == "ZERO_RESULTS")
                     {
+                        ViewBag.Message = "Error. We could not find that location.";
                         return View(landlordspagedlist);
                     }
 
@@ -437,6 +438,7 @@ namespace LandLordRating.Controllers
             }
             RatingViewModel vm = new RatingViewModel();
             vm.Rating = rating;
+            vm.RatingReply = rating.RatingReply;
             var landlordid = rating.LandLordId;
             vm.IsClaimingUser = db.Users.Any(u => u.ClaimedLandLordId == landlordid);
             return View(vm);

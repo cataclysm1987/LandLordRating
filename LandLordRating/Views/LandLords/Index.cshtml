@@ -9,16 +9,13 @@
 
 <h2>Search for LandLord</h2>
 <br />
-<p>Below is a list of all landlords we have information on.  Search the list to see if your property or landlord is on our list.  If you cannot find your landlord you are free to @Html.ActionLink("create a new landlord page.", "Create")</p>
 
 @using (Html.BeginForm())
 {
     <p>
-        Find by LandLord Name: @Html.TextBox("SearchString")
+        Search By Name: @Html.TextBox("SearchString")
         <input type="submit" value="Search" class="btn btn-primary"/>
-    </p>
-
-    <p>
+    
         Search by Location: @Html.TextBox("locationsearch")
         Select radius of search: <select name="distance" id="distance" style="display: inline;">
             <option value="10">Within 10 miles</option>
@@ -70,8 +67,14 @@
     </tbody>
 </table>
 
+<hr/>
+
 <br />
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
 @Html.PagedListPager(Model, page => Url.Action("Index",
     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+<br/>
+
+<p>Can't find the landlord you were looking for? Feel free to @Html.ActionLink("create a new landlord page here.", "Create")</p>

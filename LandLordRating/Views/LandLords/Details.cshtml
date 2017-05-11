@@ -131,7 +131,7 @@
                                 @Html.ActionLink("Reply To Rating", "ReplyToRating", "LandLords", new {id=item.RatingId}, new {@class="btn btn-primary"})
                             }
                         </td>
-                        @if (item.RatingReply != null)
+                        @if (item.RatingReply != null && item.RatingReply.IsApproved)
                         {
                             <td>Yes</td>
                         }

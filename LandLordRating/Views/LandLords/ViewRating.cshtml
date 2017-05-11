@@ -41,7 +41,7 @@
         <div class="col-md-12">
             <h2>Rating Name: @Html.DisplayFor(model => model.Rating.RatingName)</h2>
             <h3>Full Rating Text: </h3>
-            <p style="font-size: 16px;">
+            <p  class="rating-text">
                 @Html.DisplayFor(model => model.Rating.RatingDescription)
             </p>
         </div>
@@ -65,13 +65,12 @@
         </div>
     </div>
     <hr/>
-    <br/>
 
 
     @if (Model.RatingReply != null)
     {
-        <h3 style="text-align: center;">LandLord's Reply to this Rating:</h3>
-        <p>@Model.RatingReply.ReplyDescription</p>
+        <h3>LandLord's Reply to this Rating:</h3>
+        <p class="rating-text">@Model.RatingReply.ReplyDescription</p>
         <br />
     }
     else
@@ -82,18 +81,20 @@
 
     @if (Model.IsClaimingUser && Model.RatingReply != null)
     {
-        <h3 style="text-align: center;">You've already replied to this rating.</h3>
-        <p>You can only reply once to a particular rating.</p>
+        <h3>You've already replied to this rating.</h3>
+        <p class="rating-text">You can only reply once to a particular rating.</p>
         <br />
     }
     else if (Model.IsClaimingUser && Model.RatingReply == null)
     {
-        <h3 style="text-align: center;">You can reply to this rating</h3>
-        <p>Since this is your landlord page, you can reply to this rating and provide feedback to the user.</p>
-        <p>Just make sure your feedback meets our @Html.ActionLink("community guidelines.", "CommunityGuideLines", "Home")</p>
+        <h3>You can reply to this rating</h3>
+        <p  class="rating-text">Since this is your landlord page, you can reply to this rating and provide feedback to the user.</p>
+        <p  class="rating-text">Just make sure your feedback meets our @Html.ActionLink("community guidelines.", "CommunityGuideLines", "Home")</p>
         @Html.ActionLink("Repy to Rating", "ReplyToRating", "LandLords", new {id = Model.Rating.RatingId}, new {@class = "btn btn-primary"})
         <br />
     }
+    
+    <hr/>
 
     <p>
         @Html.ActionLink("<< Back to LandLord Details", "Details", "LandLords", new {id = Model.Rating.LandLord.LandLordId}, new {@class = "btn btn-primary"})
