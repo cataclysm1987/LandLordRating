@@ -253,6 +253,14 @@
     <Compile Include="Migrations\201705101521430_requiredflagfields.Designer.cs">
       <DependentUpon>201705101521430_requiredflagfields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705121550255_publicrecords.cs" />
+    <Compile Include="Migrations\201705121550255_publicrecords.Designer.cs">
+      <DependentUpon>201705121550255_publicrecords.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705121555441_plaintiffordefendant.cs" />
+    <Compile Include="Migrations\201705121555441_plaintiffordefendant.Designer.cs">
+      <DependentUpon>201705121555441_plaintiffordefendant.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminPanelViewModel.cs" />
@@ -266,6 +274,7 @@
     <Compile Include="Models\LandLordViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Property.cs" />
+    <Compile Include="Models\PublicRecord.cs" />
     <Compile Include="Models\Rating.cs" />
     <Compile Include="Models\RatingReply.cs" />
     <Compile Include="Models\RatingReplyViewModel.cs" />
@@ -471,6 +480,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705101521430_requiredflagfields.resx">
       <DependentUpon>201705101521430_requiredflagfields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705121550255_publicrecords.resx">
+      <DependentUpon>201705121550255_publicrecords.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705121555441_plaintiffordefendant.resx">
+      <DependentUpon>201705121555441_plaintiffordefendant.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

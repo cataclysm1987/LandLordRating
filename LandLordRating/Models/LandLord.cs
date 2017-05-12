@@ -71,6 +71,7 @@ namespace LandLordRating.Models
 
         public virtual ICollection<Rating> Ratings { get; set; }
         public virtual ICollection<Property> Properties { get; set; }
+        public virtual ICollection<PublicRecord> PublicRecords { get; set; }
     }
 
     public enum LandLordOrTenant { LandLord, Tenant }
