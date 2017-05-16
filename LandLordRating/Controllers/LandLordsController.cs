@@ -142,6 +142,15 @@ namespace LandLordRating.Controllers
                     .OrderBy(u => u.LandLordRating)
                     .Take(5)
                     .ToPagedList(1, 10);
+            if (db.PublicRecords.Count(u => u.LandLord.LandLordId == id && u.IsApproved) > 5)
+                vm.AreThereMoreThan5PublicRecords = true;
+            else
+                vm.AreThereMoreThan5PublicRecords = false;
+            vm.PublicRecords =
+                db.PublicRecords.Where(u => u.LandLord.LandLordId == id && u.IsApproved)
+                    .OrderBy(u => u.CaseName)
+                    .Take(5)
+                    .ToPagedList(1, 10);
             var user = GetCurrentUser();
             if (user != null)
             {
@@ -807,7 +816,6 @@ namespace LandLordRating.Controllers
             var userid = GetCurrentUser().Id;
             vm.IsClaimingUser = db.Users.Any(u => u.ClaimedLandLordId == landLord.LandLordId && u.Id == userid);
             return View(vm);
-
         }
 
         public ActionResult ViewPublicRecord(int? id)

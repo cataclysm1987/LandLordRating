@@ -1,0 +1,108 @@
+﻿@model LandLordRating.Models.PublicRecord
+
+@{
+    ViewBag.Title = "View Public Record";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>View</h2>
+
+<div>
+    <h4>PublicRecord</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.RecordType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RecordType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CriminalType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CriminalType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CivilType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CivilType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DomesticType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DomesticType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CaseName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CaseName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CaseNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CaseNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateFiled)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateFiled)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CaseURL)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CaseURL)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PlaintiffOrDefendant)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PlaintiffOrDefendant)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsApproved)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsApproved)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsDeclined)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsDeclined)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Approve Public Record", "ApprovePublicRecord", new { id = Model.PublicRecordId }) |
+    @Html.ActionLink("Decline Public Record", "DeclinePublicRecord", new { id = Model.PublicRecordId }) |
+    @Html.ActionLink("Back to List", "PendingPublicRecords")
+</p>

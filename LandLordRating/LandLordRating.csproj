@@ -451,6 +451,9 @@
     <Content Include="Views\Admin\RemoveLandLord.cshtml" />
     <Content Include="Views\Admin\RemoveRating.cshtml" />
     <Content Include="Views\LandLords\CannotClaim.cshtml" />
+    <Content Include="Views\LandLords\ViewLandLordPublicRecords.cshtml" />
+    <Content Include="Views\Admin\PendingPublicRecords.cshtml" />
+    <Content Include="Views\Admin\ViewPublicRecord.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

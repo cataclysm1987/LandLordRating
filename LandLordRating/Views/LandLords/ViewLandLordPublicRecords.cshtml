@@ -1,0 +1,82 @@
+﻿@model LandLordRating.Models.LandLordViewModel
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "View Public Records For LandLord";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Message</h2>
+<br />
+<p>Below is a list of all public records on this landlord that our users have submitted.</p>
+
+
+    <h1>Public Case Records For This LandLord</h1>
+
+        @if (Model.LandLord.PublicRecords.Count == 0)
+            {
+            @Html.Raw("<h4>There are no public records for this landlord yet. Be the first to ")
+            @Html.ActionLink("submit a public record", "SubmitPublicRecord", "LandLords", new { id = Model.LandLord.LandLordId }, null)
+            @Html.Raw(".</h4>")
+        }
+        else
+        {
+            @Html.ActionLink("Submit a Public Record", "SubmitPublicRecord", "LandLords", new { id = Model.LandLord.LandLordId }, null)
+        }
+
+
+        <table class="table table-striped" id="landlordratingstable">
+            <thead>
+                <tr>
+                    <th>
+                        Case Name
+                    </th>
+                    <th>
+                        Case Type
+                    </th>
+                    <th>
+                        Plaintiff or Defendant?
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.PublicRecords)
+                {
+                    <tr>
+                        <td>
+                            @Html.ActionLink(@Html.DisplayFor(modelItem => item.CaseName).ToString(), "ViewPublicRecord", "LandLords", new { id = item.PublicRecordId }, null)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RecordType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PlaintiffOrDefendant)
+                        </td>
+                        <td>
+                            @Html.ActionLink("View Public Record", "ViewPublicRecord", "LandLords", new { id = item.PublicRecordId }, new { @class = "btn btn-primary" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+
+
+<hr />
+
+
+<br />
+Page @(Model.PublicRecords.PageCount < Model.PublicRecords.PageNumber ? 0 : Model.PublicRecords.PageNumber) of @Model.PublicRecords.PageCount
+
+@Html.PagedListPager(Model.PublicRecords, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+<br />
+
+@Html.ActionLink("Return to LandLord Page", "Details", "LandLords", new { id = Model.LandLord.LandLordId }, new { @class = "btn btn-primary btn-lg" })
+
+
+
+

@@ -82,7 +82,7 @@
 
 
     <div class="row">
-        <h1>Reviews For This LandLord</h1>
+        <h1>Ratings For This LandLord</h1>
         <div class="col-md-12">
 
             @if (Model.LandLord.Ratings.Count == 0)
@@ -151,6 +151,67 @@
 
         </div>
     </div>
+    
+    <hr />
+    
+    <div class="row">
+        <h1>Public Case Records For This LandLord</h1>
+        <div class="col-md-12">
+
+            @if (Model.LandLord.PublicRecords.Count == 0)
+            {
+                @Html.Raw("<h4>There are no public records for this landlord yet. Be the first to ")
+                @Html.ActionLink("submit a public record", "SubmitPublicRecord", "LandLords", new { id = Model.LandLord.LandLordId }, null)
+                @Html.Raw(".</h4>")
+            }
+            else
+            {
+                @Html.ActionLink("Submit a Public Record", "SubmitPublicRecord", "LandLords", new { id = Model.LandLord.LandLordId }, null)
+            }
+
+
+            <table class="table table-striped" id="landlordratingstable">
+                <thead>
+                    <tr>
+                        <th>
+                            Case Name
+                        </th>
+                        <th>
+                            Case Type
+                        </th>
+                        <th>
+                            Plaintiff or Defendant?
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.PublicRecords)
+                    {
+                        <tr>
+                            <td>
+                                @Html.ActionLink(@Html.DisplayFor(modelItem => item.CaseName).ToString(), "ViewPublicRecord", "LandLords", new { id = item.PublicRecordId }, null)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.RecordType)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PlaintiffOrDefendant)
+                            </td>
+                            <td>
+                                @Html.ActionLink("View Public Record", "ViewPublicRecord", "LandLords", new { id = item.PublicRecordId }, new { @class = "btn btn-primary" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <br />
+            @if (Model.AreThereMoreThan5Ratings)
+            {
+                @Html.ActionLink("View All Public Records", "ViewLandLordPublicRecords", "LandLords", new { id = Model.LandLord.LandLordId }, new { @class = "btn btn-primary btn-lg", @style = "font-size: 16px;" })
+            }
+
+        </div>
+    </div>
 </div>
 
 <hr />
@@ -169,7 +230,7 @@ else if (!Model.LandLord.IsClaimed)
     <p>This LandLord page has not been claimed. If you are the owner or individual referenced in this page, please @Html.ActionLink("Claim this page", "ClaimLandLord", "LandLords", new {id = Model.LandLord.LandLordId}, null)</p>
 }
 
-@Html.ActionLink("Flag for Abuse", "FlagLandLord", "LandLords", new { id = Model.LandLord.LandLordId }, null)
+@Html.ActionLink("Flag for Abuse", "FlagLandLord", "LandLords", new { id = Model.LandLord.LandLordId }, new {@style="text-align: right;"})
 
 <br />
 
