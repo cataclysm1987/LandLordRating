@@ -743,5 +743,113 @@ namespace LandLordRating.Controllers
         {
             return View();
         }
+
+        [Authorize]
+        public async Task<ActionResult> ViewLandLordPublicRecords(int? id, string sortOrder, string currentFilter,
+            string searchString, int? page)
+        {
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            LandLord landLord = await db.LandLords.FindAsync(id);
+
+            if (landLord == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+            var recordlist = db.PublicRecords.Where(u => u.LandLord.LandLordId == id && u.IsApproved);
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                recordlist = recordlist.Where(s => s.CaseName.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    recordlist = recordlist.OrderByDescending(s => s.CaseName);
+                    break;
+                case "Date":
+                    recordlist = recordlist.OrderBy(s => s.DateFiled);
+                    break;
+                case "date_desc":
+                    recordlist = recordlist.OrderByDescending(s => s.DateFiled);
+                    break;
+                default: // Name ascending 
+                    recordlist = recordlist.OrderBy(s => s.CaseName);
+                    break;
+            }
+
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+
+            ViewBag.Message = "Viewing Public Records for " + landLord.FullName;
+            LandLordViewModel vm = new LandLordViewModel();
+            vm.PublicRecords = recordlist.ToPagedList(pageNumber, pageSize);
+            vm.LandLord = landLord;
+            var userid = GetCurrentUser().Id;
+            vm.IsClaimingUser = db.Users.Any(u => u.ClaimedLandLordId == landLord.LandLordId && u.Id == userid);
+            return View(vm);
+
+        }
+
+        public ActionResult ViewPublicRecord(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            PublicRecord record = db.PublicRecords.Find(id);
+
+            if (record == null || !record.IsApproved)
+            {
+                return HttpNotFound();
+            }
+            return View(record);
+        }
+
+        public ActionResult SubmitPublicRecord()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SubmitPublicRecord(PublicRecord record)
+        {
+            string userResponse = HttpContext.Request.Params["g-recaptcha-response"];
+            bool validCaptcha = ReCaptcha.ValidateCaptcha(userResponse);
+            if (!validCaptcha)
+            {
+                // A bot, not validated !
+                return RedirectToAction("Unauthorized", "Account");
+            }
+
+            if (ModelState.IsValid)
+            {
+                db.PublicRecords.Add(record);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Index", "LandLords");
+        }
     }
 }

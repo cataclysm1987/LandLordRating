@@ -125,6 +125,9 @@ namespace LandLordRating.Models
         [Display(Name = "Plaintiff Or Defendant")]
         public PlaintiffOrDefendant PlaintiffOrDefendant { get; set; }
 
+        public bool IsApproved { get; set; }
+        public bool IsDeclined { get; set; }
+
         public virtual LandLord LandLord { get; set; }
 
     }

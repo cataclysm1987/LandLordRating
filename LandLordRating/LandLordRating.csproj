@@ -261,6 +261,10 @@
     <Compile Include="Migrations\201705121555441_plaintiffordefendant.Designer.cs">
       <DependentUpon>201705121555441_plaintiffordefendant.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705161255055_isapproved.cs" />
+    <Compile Include="Migrations\201705161255055_isapproved.Designer.cs">
+      <DependentUpon>201705161255055_isapproved.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminPanelViewModel.cs" />
@@ -486,6 +490,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705121555441_plaintiffordefendant.resx">
       <DependentUpon>201705121555441_plaintiffordefendant.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705161255055_isapproved.resx">
+      <DependentUpon>201705161255055_isapproved.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
