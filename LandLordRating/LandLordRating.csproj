@@ -265,6 +265,10 @@
     <Compile Include="Migrations\201705161255055_isapproved.Designer.cs">
       <DependentUpon>201705161255055_isapproved.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705181741048_updatedataforpublicrecords.cs" />
+    <Compile Include="Migrations\201705181741048_updatedataforpublicrecords.Designer.cs">
+      <DependentUpon>201705181741048_updatedataforpublicrecords.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminPanelViewModel.cs" />
@@ -454,6 +458,9 @@
     <Content Include="Views\LandLords\ViewLandLordPublicRecords.cshtml" />
     <Content Include="Views\Admin\PendingPublicRecords.cshtml" />
     <Content Include="Views\Admin\ViewPublicRecord.cshtml" />
+    <Content Include="Views\Admin\DeclinedPublicRecords.cshtml" />
+    <Content Include="Views\LandLords\SubmitPublicRecord.cshtml" />
+    <Content Include="Views\LandLords\ViewPublicRecord.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -496,6 +503,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705161255055_isapproved.resx">
       <DependentUpon>201705161255055_isapproved.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705181741048_updatedataforpublicrecords.resx">
+      <DependentUpon>201705181741048_updatedataforpublicrecords.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

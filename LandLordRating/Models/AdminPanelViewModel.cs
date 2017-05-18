@@ -18,5 +18,6 @@ namespace LandLordRating.Models
         public int PendingRatings { get; set; }
         public int PendingFlags { get; set; }
         public int PendingPublicRecords { get; set; }
+        public int DeclinedPublicRecords { get; set; }
     }
 }

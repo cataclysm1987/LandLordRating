@@ -205,7 +205,7 @@
                 </tbody>
             </table>
             <br />
-            @if (Model.AreThereMoreThan5Ratings)
+            @if (Model.AreThereMoreThan5PublicRecords)
             {
                 @Html.ActionLink("View All Public Records", "ViewLandLordPublicRecords", "LandLords", new { id = Model.LandLord.LandLordId }, new { @class = "btn btn-primary btn-lg", @style = "font-size: 16px;" })
             }

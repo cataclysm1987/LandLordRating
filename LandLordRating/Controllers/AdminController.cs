@@ -17,7 +17,7 @@ using PagedList;
 
 namespace LandLordRating.Controllers
 {
-
+    [Authorize]
     public class AdminController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -39,6 +39,7 @@ namespace LandLordRating.Controllers
                 vm.PendingRatingReplies = db.RatingReplies.Count(u => !u.IsApproved);
                 vm.PendingFlags = db.Flags.Count(u => u.IsReviewed == false);
                 vm.PendingPublicRecords = db.PublicRecords.Count(u => u.IsApproved == false);
+                vm.DeclinedPublicRecords = db.PublicRecords.Count(u => u.IsDeclined);
                 return View(vm);
             }
             return RedirectToAction("Index", "Home");
@@ -994,8 +995,61 @@ namespace LandLordRating.Controllers
             return View(recordlist.ToPagedList(pageNumber, pageSize));
         }
 
+        public ActionResult DeclinedPublicRecords(string sortOrder, string currentFilter, string searchString,
+            int? page)
+        {
+            if (!IsAdminUser())
+                return RedirectToAction("Unauthorized", "Account");
+
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var recordlist = db.PublicRecords.Where(u => u.IsDeclined);
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                recordlist = recordlist.Where(s => s.CaseName.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    recordlist = recordlist.OrderByDescending(s => s.CaseName);
+                    break;
+                case "Date":
+                    //Should be a date here, will add later and update the model as well.
+                    recordlist = recordlist.OrderBy(s => s.DateFiled);
+                    break;
+                case "date_desc":
+                    recordlist = recordlist.OrderByDescending(s => s.DateFiled);
+                    break;
+                default: // Name ascending 
+                    recordlist = recordlist.OrderBy(s => s.CaseName);
+                    break;
+            }
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(recordlist.ToPagedList(pageNumber, pageSize));
+        }
+
+
         public ActionResult ViewPublicRecord(int? id)
         {
+            if (!IsAdminUser())
+                return RedirectToAction("Unauthorized", "Account");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -1011,6 +1065,8 @@ namespace LandLordRating.Controllers
 
         public ActionResult ApprovePublicRecord(int? id)
         {
+            if (!IsAdminUser())
+                return RedirectToAction("Unauthorized", "Account");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -1026,6 +1082,8 @@ namespace LandLordRating.Controllers
 
         public ActionResult DeclinePublicRecord(int? id)
         {
+            if (!IsAdminUser())
+                return RedirectToAction("Unauthorized", "Account");
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -1037,6 +1095,52 @@ namespace LandLordRating.Controllers
                 return HttpNotFound();
             }
             return View(record);
+        }
+
+        public async Task<ActionResult> ApprovePublicRecordFinal(int? id)
+        {
+            if (!IsAdminUser())
+                return RedirectToAction("Unauthorized", "Account");
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            PublicRecord record = await db.PublicRecords.FindAsync(id);
+
+            if (record == null || !record.IsApproved)
+            {
+                return HttpNotFound();
+            }
+
+            record.IsApproved = true;
+            record.IsDeclined = false;
+            db.Entry(record).State = EntityState.Modified;
+            await db.SaveChangesAsync();
+            ViewBag.Message = "The public record " + record.CaseName + " was approved and is now live.";
+            return RedirectToAction("PendingPublicRecords");
+
+        }
+
+        public async Task<ActionResult> DeclinePublicRecordFinal(int? id)
+        {
+            if (!IsAdminUser())
+                return RedirectToAction("Unauthorized", "Account");
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            PublicRecord record = db.PublicRecords.Find(id);
+
+            if (record == null || !record.IsApproved)
+            {
+                return HttpNotFound();
+            }
+            record.IsApproved = false;
+            record.IsDeclined = true;
+            db.Entry(record).State = EntityState.Modified;
+            await db.SaveChangesAsync();
+            ViewBag.Message = "The public record " + record.CaseName + " was declined. You can view this under declined public records.";
+            return RedirectToAction("PendingPublicRecords");
         }
     }
 }

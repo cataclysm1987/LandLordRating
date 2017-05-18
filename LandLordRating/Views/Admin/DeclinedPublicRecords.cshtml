@@ -1,0 +1,69 @@
+﻿@model PagedList.IPagedList<LandLordRating.Models.PublicRecord>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Declined Public Records";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (ViewBag.Message != null)
+{
+    <p class="alert-success">@ViewBag.Message</p>
+}
+
+<h2>Declined Public Records</h2>
+<br />
+<p>Here is a list of public records submitted by users that have been declined for approval by an administrator.</p>
+
+
+
+@using (Html.BeginForm())
+{
+    <p>
+        Find by Record Name: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" class="btn btn-primary"/>
+    </p>
+}
+<table class="table table-striped" id="landlordsTable">
+    <thead>
+    <tr>
+        <th>
+            @Html.ActionLink("Case Name", "PendingPublicRecords", new { sortOrder = ViewBag.NameSortParm })
+        </th>
+        <th>
+            Case Type
+        </th>
+        
+        <th>
+            Plaintiff or Defendant
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.ActionLink(@Html.DisplayFor(modelItem => item.CaseName).ToString(), "ViewPublicRecord", new { id = item.PublicRecordId }, null)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RecordType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RecordType)
+            </td>
+            <td>
+                @Html.ActionLink("View Public Record", "ViewPublicRecord", new { id = item.PublicRecordId }, new { @class = "btn btn-primary" })
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("PendingFlags",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+@Html.ActionLink("Return to Admin Area", "Index", "Admin")

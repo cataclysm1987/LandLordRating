@@ -1,0 +1,99 @@
+﻿@model LandLordRating.Models.PublicRecord
+
+@{
+    ViewBag.Title = "ViewPublicRecord";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ViewPublicRecord</h2>
+
+<div>
+    <h4>PublicRecord</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.RecordType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RecordType)
+        </dd>
+        @if (Model.CriminalType != null)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.CriminalType)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CriminalType)
+            </dd>
+        }
+        
+        @if (Model.CivilType != null)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.CivilType)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CivilType)
+            </dd>
+        }
+        
+        @if (Model.DomesticType != null)
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.DomesticType)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DomesticType)
+            </dd>
+        }
+        
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CaseName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CaseName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CaseNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CaseNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateFiled)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateFiled)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CaseURL)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CaseURL)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PlaintiffOrDefendant)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PlaintiffOrDefendant)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Details", "LandLords", new {@id = Model.LandLord.LandLordId}, null)
+</p>

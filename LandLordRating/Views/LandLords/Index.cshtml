@@ -60,6 +60,9 @@
                 @Html.DisplayFor(modelItem => item.State)
             </td>
             <td>
+                @Html.ActionLink("View LandLord", "Details", new { id = item.LandLordId }, new { @class = "btn btn-primary" })
+            </td>
+            <td>
                 @Html.ActionLink("Write Rating", "CreateRating", new { id = item.LandLordId }, new { @class = "btn btn-primary" })
             </td>
         </tr>

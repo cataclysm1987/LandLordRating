@@ -9,81 +9,81 @@ namespace LandLordRating.Models
 {
     public enum RecordTypes
     {
-        [Description("Criminal")]
+        [Display(Name = "Criminal")]
         Criminal,
-        [Description("Civil")]
+        [Display(Name = "Civil")]
         Civil,
-        [Description("Domestic")]
+        [Display(Name = "Domestic")]
         Domestic
     }
 
     public enum CriminalTypes
     {
-        [Description("Petty Theft")]
+        [Display(Name = "Petty Theft")]
         PettyTheft,
-        [Description("Prostitution")]
+        [Display(Name = "Prostitution")]
         Prostitution,
-        [Description("Vandalism")]
+        [Display(Name = "Vandalism")]
         Vandalism,
-        [Description("Drunk Driving")]
+        [Display(Name = "Drunk Driving")]
         DrunkDriving,
-        [Description("Murder")]
+        [Display(Name = "Murder")]
         Murder,
-        [Description("Robbery")]
+        [Display(Name = "Robbery")]
         Robbery,
-        [Description("Rape")]
+        [Display(Name = "Rape")]
         Rape,
-        [Description("Drug Possession")]
+        [Display(Name = "Drug Possession")]
         DrugPossession,
-        [Description("Drug Trafficking/Distribution")]
+        [Display(Name = "Drug Trafficking/Distribution")]
         DrugTraffickingDistribution,
-        [Description("Other Crime")]
+        [Display(Name = "Other Crime")]
         OtherCrime
     }
 
     public enum CivilTypes
     {
-        [Description("Small Claims")]
+        [Display(Name = "Small Claims")]
         SmallClaims,
-        [Description("Delinquent Tax")]
+        [Display(Name = "Delinquent Tax")]
         DelinquentTax,
-        [Description("Eviction")]
+        [Display(Name = "Eviction")]
         Eviction,
-        [Description("Unlawful Detainer")]
+        [Display(Name = "Unlawful Detainer")]
         UnlawfulDetainer,
-        [Description("Breach Of Contract")]
+        [Display(Name = "Breach Of Contract")]
         BreachOfContract,
-        [Description("Foreclosure")]
+        [Display(Name = "Foreclosure")]
         Foreclosure,
-        [Description("LandLord Complaint")]
+        [Display(Name = "LandLord Complaint")]
         LandLordComplaint,
-        [Description("Will")]
+        [Display(Name = "Will")]
         Will,
-        [Description("Guardianship")]
+        [Display(Name = "Guardianship")]
         Guardianship,
-        [Description("Traffic Violation")]
+        [Display(Name = "Traffic Violation")]
         TrafficViolation,
-        [Description("Employment Discrimination")]
+        [Display(Name = "Employment Discrimination")]
         EmploymentDiscrimination,
-        [Description("Other Civil Case")]
+        [Display(Name = "Other Civil Case")]
         OtherCivilCase
     }
 
     public enum DomesticTypes
     {
-        [Description("Divorce")]
+        [Display(Name = "Divorce")]
         Divorce,
-        [Description("Custody Hearing")]
+        [Display(Name = "Custody Hearing")]
         CustodyHearing,
-        [Description("Adopton")]
+        [Display(Name = "Adopton")]
         Adoption,
-        [Description("Protection Orders")]
+        [Display(Name = "Protection Orders")]
         ProtectionOrders,
-        [Description("Abuse and Neglect")]
+        [Display(Name = "Abuse and Neglect")]
         AbuseAndNeglect,
-        [Description("Child Support")]
+        [Display(Name = "Child Support")]
         ChildSupport,
-        [Description("Other Domestic Case")]
+        [Display(Name = "Other Domestic Case")]
         OtherDomesticCase
     }
 
@@ -115,11 +115,13 @@ namespace LandLordRating.Models
         [StringLength(25, ErrorMessage = "Case Number cannot be longer than 25 characters.")]
         public string CaseNumber { get; set; }
         [Required]
+        [DataType(DataType.Date)]
         [Display(Name = "Date Filed")]
         public DateTime DateFiled { get; set; }
         [Required]
         [Display(Name = "Case URL")]
-        [StringLength(100, ErrorMessage = "Case URL cannot be longer than 100 characters.")]
+        [Url(ErrorMessage = "Please enter a valid url")]
+        [StringLength(120, ErrorMessage = "Case URL cannot be longer than 120 characters.")]
         public string CaseURL { get; set; }
         [Required]
         [Display(Name = "Plaintiff Or Defendant")]

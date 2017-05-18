@@ -365,7 +365,7 @@ namespace LandLordRating.Controllers
                 return RedirectToAction("Index");
             }
 
-            return RedirectToAction("Index", "LandLords");
+            return View(rating);
         }
 
         public async Task<ActionResult> ViewRatingsForLandLord(int? id, string sortOrder, string currentFilter,
@@ -833,14 +833,30 @@ namespace LandLordRating.Controllers
             return View(record);
         }
 
-        public ActionResult SubmitPublicRecord()
+        [Authorize]
+        public ActionResult SubmitPublicRecord(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            LandLord landlord = db.LandLords.Find(id);
+
+            if (landlord == null || !landlord.IsApproved)
+            {
+                return HttpNotFound();
+            }
+
+            PublicRecord record = new PublicRecord();
+            record.LandLord = landlord;
+            TempData["landlordid"] = landlord.LandLordId;
+            return View(record);
         }
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SubmitPublicRecord(PublicRecord record)
+        public async Task<ActionResult> SubmitPublicRecord([Bind(Include = "RecordType,CriminalType,CivilType,DomesticType,CaseName,CaseNumber,DateFiled,CaseURL,LandLord_LandLordId,PlaintiffOrDefendant")]PublicRecord record)
         {
             string userResponse = HttpContext.Request.Params["g-recaptcha-response"];
             bool validCaptcha = ReCaptcha.ValidateCaptcha(userResponse);
@@ -849,7 +865,11 @@ namespace LandLordRating.Controllers
                 // A bot, not validated !
                 return RedirectToAction("Unauthorized", "Account");
             }
-
+            if (IsAdminUser())
+                record.IsApproved = true;
+            var landlordid = TempData["landlordid"];
+            var landlord = db.LandLords.Find(landlordid);
+            record.LandLord = landlord;
             if (ModelState.IsValid)
             {
                 db.PublicRecords.Add(record);
@@ -857,7 +877,9 @@ namespace LandLordRating.Controllers
                 return RedirectToAction("Index");
             }
 
-            return RedirectToAction("Index", "LandLords");
+            IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
+
+            return View(record);
         }
     }
 }

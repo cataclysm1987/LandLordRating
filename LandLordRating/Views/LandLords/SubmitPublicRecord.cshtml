@@ -1,0 +1,153 @@
+﻿@using hbehr.recaptcha
+@using LandLordRating.Models
+@model LandLordRating.Models.PublicRecord
+
+@{
+    ViewBag.Title = "Submit Public Record";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+
+        var docreadyselect = $("#RecordType option:selected").text();
+        if (docreadyselect == "Criminal") {
+            $("#criminal-form").show();
+            $("#civil-form").hide();
+            $("#domestic-form").hide();
+        }
+        if (docreadyselect == "Civil") {
+            $("#criminal-form").hide();
+            $("#civil-form").show();
+            $("#domestic-form").hide();
+        }
+        if (docreadyselect == "Domestic") {
+            $("#criminal-form").hide();
+            $("#civil-form").hide();
+            $("#domestic-form").show();
+        }
+        $("#RecordType").change(function () {
+            var selection = $("#RecordType option:selected").text();
+            if (selection == "Criminal") {
+                $("#criminal-form").show();
+                $("#civil-form").hide();
+                $("#domestic-form").hide();
+            }
+            if (selection == "Civil") {
+                $("#criminal-form").hide();
+                $("#civil-form").show();
+                $("#domestic-form").hide();
+            }
+            if (selection == "Domestic") {
+                $("#criminal-form").hide();
+                $("#civil-form").hide();
+                $("#domestic-form").show();
+            }
+        });
+    });
+    
+</script>
+<h2>Submit Public Record</h2>
+<p>Use this page to submit a public record of a court case about a particular landlord. This can include evictions, breach of contract or any other legal proceedings in the landlord's name.</p>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Public Record Details</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.IsApproved)
+        @Html.HiddenFor(model => model.IsDeclined)
+        @Html.HiddenFor(model => model.LandLord.LandLordId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RecordType, htmlAttributes: new { @class = "control-label col-md-3", @style="padding-left: 0px;"})
+            <div class="col-md-9">
+                @Html.EnumDropDownListFor(model => model.RecordType, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.RecordType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group" id="criminal-form">
+            @Html.LabelFor(model => model.CriminalType, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left: 0px;" })
+            <div class="col-md-9">
+                @Html.EnumDropDownListFor(model => model.CriminalType, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CriminalType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group" id="civil-form">
+            @Html.LabelFor(model => model.CivilType, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left: 0px;" })
+            <div class="col-md-9">
+                @Html.EnumDropDownListFor(model => model.CivilType, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CivilType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group" id="domestic-form">
+            @Html.LabelFor(model => model.DomesticType, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left: 0px;" })
+            <div class="col-md-9">
+                @Html.EnumDropDownListFor(model => model.DomesticType, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DomesticType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CaseName, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left: 0px;" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.CaseName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CaseName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CaseNumber, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left: 0px;" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.CaseNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CaseNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DateFiled, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left: 0px;" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.DateFiled, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DateFiled, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CaseURL, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left: 0px;" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.CaseURL, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CaseURL, "", new { @class = "text-danger url-warning-text" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PlaintiffOrDefendant, htmlAttributes: new { @class = "control-label col-md-3", @style = "padding-left: 0px;" })
+            <div class="col-md-9">
+                @Html.EnumDropDownListFor(model => model.PlaintiffOrDefendant, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PlaintiffOrDefendant, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        <br/>
+        
+        @ReCaptcha.GetCaptcha()
+        
+        <br/>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Submit Public Record" class="btn btn-default btn-lg" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
