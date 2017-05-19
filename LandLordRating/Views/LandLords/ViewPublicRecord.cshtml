@@ -3,14 +3,14 @@
 @model LandLordRating.Models.PublicRecord
 
 @{
-    ViewBag.Title = "ViewPublicRecord";
+    ViewBag.Title = "View Public Record";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>ViewPublicRecord</h2>
+<h2>View Public Record</h2>
 
 <div>
-    <h4>PublicRecord</h4>
+    <h4>Public Record Details</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -97,5 +97,5 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Back to List", "Details", "LandLords", new {@id = Model.LandLord.LandLordId}, null)
+    @Html.ActionLink("Back to LandLord Details", "Details", "LandLords", new {@id = Model.LandLord.LandLordId}, null)
 </p>
