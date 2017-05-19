@@ -1056,7 +1056,7 @@ namespace LandLordRating.Controllers
             }
             PublicRecord record = db.PublicRecords.Find(id);
 
-            if (record == null || !record.IsApproved)
+            if (record == null)
             {
                 return HttpNotFound();
             }
