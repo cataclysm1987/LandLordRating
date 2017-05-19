@@ -225,6 +225,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HelperClasses\EnumHelper.cs" />
     <Compile Include="Migrations\201705021906400_init.cs" />
     <Compile Include="Migrations\201705021906400_init.Designer.cs">
       <DependentUpon>201705021906400_init.cs</DependentUpon>
@@ -461,6 +462,8 @@
     <Content Include="Views\Admin\DeclinedPublicRecords.cshtml" />
     <Content Include="Views\LandLords\SubmitPublicRecord.cshtml" />
     <Content Include="Views\LandLords\ViewPublicRecord.cshtml" />
+    <Content Include="Views\Admin\ApprovePublicRecord.cshtml" />
+    <Content Include="Views\Admin\DeclinePublicRecord.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1073,7 +1073,7 @@ namespace LandLordRating.Controllers
             }
             PublicRecord record = db.PublicRecords.Find(id);
 
-            if (record == null || !record.IsApproved)
+            if (record == null || record.IsApproved)
             {
                 return HttpNotFound();
             }
@@ -1090,7 +1090,7 @@ namespace LandLordRating.Controllers
             }
             PublicRecord record = db.PublicRecords.Find(id);
 
-            if (record == null || !record.IsApproved)
+            if (record == null || record.IsApproved)
             {
                 return HttpNotFound();
             }
@@ -1107,7 +1107,7 @@ namespace LandLordRating.Controllers
             }
             PublicRecord record = await db.PublicRecords.FindAsync(id);
 
-            if (record == null || !record.IsApproved)
+            if (record == null || record.IsApproved)
             {
                 return HttpNotFound();
             }

@@ -1,16 +1,15 @@
-﻿@using LandLordRating.HelperClasses
-@using LandLordRating.Models
+﻿@using LandLordRating.Models
 @model LandLordRating.Models.PublicRecord
 
 @{
-    ViewBag.Title = "ViewPublicRecord";
+    ViewBag.Title = "Decline Public Record";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>ViewPublicRecord</h2>
+<h2>Decline Public Record</h2>
 
 <div>
-    <h4>PublicRecord</h4>
+    <h4>Are You Sure You Want to Decline This Public Record?</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -18,9 +17,9 @@
         </dt>
 
         <dd>
-                @Html.DisplayFor(model => model.RecordType)
+            @Html.DisplayFor(model => model.RecordType)
         </dd>
-        @if (Model.CriminalType != null)
+        @if (Model.RecordType == RecordTypes.Criminal)
         {
             <dt>
                 @Html.DisplayNameFor(model => model.CriminalType)
@@ -31,7 +30,7 @@
             </dd>
         }
         
-        @if (Model.CivilType != null)
+        @if (Model.RecordType == RecordTypes.Civil)
         {
             <dt>
                 @Html.DisplayNameFor(model => model.CivilType)
@@ -42,7 +41,7 @@
             </dd>
         }
         
-        @if (Model.DomesticType != null)
+        @if (Model.RecordType == RecordTypes.Domestic)
         {
             <dt>
                 @Html.DisplayNameFor(model => model.DomesticType)
@@ -52,8 +51,6 @@
                 @Html.DisplayFor(model => model.DomesticType)
             </dd>
         }
-        
-
         <dt>
             @Html.DisplayNameFor(model => model.CaseName)
         </dt>
@@ -93,9 +90,9 @@
         <dd>
             @Html.DisplayFor(model => model.PlaintiffOrDefendant)
         </dd>
-
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Back to List", "Details", "LandLords", new {@id = Model.LandLord.LandLordId}, null)
+    @Html.ActionLink("Decline Public Record", "DeclinePublicRecordFinal", new { id = Model.PublicRecordId }) |
+    @Html.ActionLink("Back to List", "PendingPublicRecords")
 </p>
