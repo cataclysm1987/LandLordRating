@@ -97,6 +97,10 @@
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="SendGrid, Version=9.4.1.0, Culture=neutral, PublicKeyToken=4f047e93159395ca, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sendgrid.9.4.1\lib\net452\SendGrid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -464,6 +468,7 @@
     <Content Include="Views\LandLords\ViewPublicRecord.cshtml" />
     <Content Include="Views\Admin\ApprovePublicRecord.cshtml" />
     <Content Include="Views\Admin\DeclinePublicRecord.cshtml" />
+    <Content Include="Views\Account\ConfirmationEmailSent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
