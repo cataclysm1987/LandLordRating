@@ -316,6 +316,7 @@
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="FuckAdBlock\fuckadblock.js" />
     <Content Include="GoogleMaps.LocationServices.readme.txt" />
     <Content Include="img\fonts\fontawesome-webfont.svg" />
     <Content Include="img\fonts\glyphicons-halflings-regular.svg" />
