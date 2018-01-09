@@ -6,17 +6,19 @@
     ViewBag.Title = "LandLords";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>Search for Land Lord</h2>
+<h1>All Ratings Submitted by @Context.User.Identity.Name</h1>
 <br />
-<p>Below is a list of your ratings</p>
+<h3>Below is a list of your ratings</h3>
 
 @using (Html.BeginForm())
 {
     <p>
-        Find by LandLord Name: @Html.TextBox("SearchString")
+        Search Your Ratings: @Html.TextBox("SearchString")
         <input type="submit" value="Search" class="btn btn-primary"/>
     </p>
 }
+
+<hr/>
 <table class="table table-striped" id="landlordsTable">
     <thead>
     <tr>
