@@ -15,7 +15,7 @@
     <script>
         // Function called if AdBlock is not detected
         function adBlockNotDetected() {
-            alert('AdBlock is not enabled');
+            //Do some stuff?
         }
         // Function called if AdBlock is detected
         function adBlockDetected() {
@@ -65,8 +65,38 @@
         </footer>
     </div>
 </div>
-
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBE0BwiPhc62BsK7HIMNjP60ooYkxbNaOI&libraries=places"></script>
+<script>
+    var input = document.getElementById("locationsearch");
+    if (typeof input != undefined) {
+        var defaultBounds = new google.maps.LatLngBounds(
+            new google.maps.LatLng(-33.8902, 151.1759),
+            new google.maps.LatLng(-33.8474, 151.2631));
+        var options = {
+            bounds: defaultBounds,
+            types: ['city']
+        };
+        autocomplete = new google.maps.places.Autocomplete(input, options);
+
+        function geolocate() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var geolocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    var circle = new google.maps.Circle({
+                        center: geolocation,
+                        radius: position.coords.accuracy
+                    });
+                    autocomplete.setBounds(circle.getBounds());
+                });
+            }
+        }
+</script>
+
+
 </body>
 </html>

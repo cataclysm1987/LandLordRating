@@ -55,6 +55,8 @@ namespace LandLordRating.Models
         public bool IsClaimedDuringCreation { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime DateClaimed { get; set; }
 
 
         public LandLord()

@@ -27,7 +27,7 @@ namespace LandLordRating.Controllers
 
 
         // GET: LandLords
-        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page, string locationsearch, int? distance)
+        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page, string locationsearch, int? distance, string sortby)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
